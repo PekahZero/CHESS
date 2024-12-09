@@ -4,12 +4,14 @@ import os
 import time
 from typing import List
 import argparse
+from tqdm import tqdm
 
 from eval.spider.preprocess.get_tables import dump_db_json_schema
 from eval.spider_exact_match import compute_exact_match_metric
 from eval.spider_test_suite import compute_test_suite_metric
 from eval.spider import evaluation as spider_evaluation
 from eval.test_suite import evaluation as test_suite_evaluation
+
 # from eval.spider.evaluation import print_scores as spider_score
 from eval.test_suite.evaluation import print_scores as test_suite_score
 
@@ -28,97 +30,101 @@ class EvaluateTool(object):
 
     @staticmethod
     def _human_fix(sample):
-        if 'query' not in sample:
+        if "query" not in sample:
             return
         if (
-                sample['query']
-                == 'SELECT T1.company_name FROM Third_Party_Companies AS T1 JOIN Maintenance_Contracts AS T2 '
-                   'ON T1.company_id  =  T2.maintenance_contract_company_id JOIN Ref_Company_Types AS T3 ON '
-                   'T1.company_type_code  =  T3.company_type_code ORDER BY T2.contract_end_date DESC LIMIT 1'
+            sample["query"]
+            == "SELECT T1.company_name FROM Third_Party_Companies AS T1 JOIN Maintenance_Contracts AS T2 "
+            "ON T1.company_id  =  T2.maintenance_contract_company_id JOIN Ref_Company_Types AS T3 ON "
+            "T1.company_type_code  =  T3.company_type_code ORDER BY T2.contract_end_date DESC LIMIT 1"
         ):
-            sample[
-                'query'
-            ] = 'SELECT T1.company_type FROM Third_Party_Companies AS T1 JOIN Maintenance_Contracts AS T2 ON ' \
-                'T1.company_id  =  T2.maintenance_contract_company_id ORDER BY T2.contract_end_date DESC LIMIT 1'
-            sample['query_toks'] = [
-                'SELECT',
-                'T1.company_type',
-                'FROM',
-                'Third_Party_Companies',
-                'AS',
-                'T1',
-                'JOIN',
-                'Maintenance_Contracts',
-                'AS',
-                'T2',
-                'ON',
-                'T1.company_id',
-                '=',
-                'T2.maintenance_contract_company_id',
-                'ORDER',
-                'BY',
-                'T2.contract_end_date',
-                'DESC',
-                'LIMIT',
-                '1',
+            sample["query"] = (
+                "SELECT T1.company_type FROM Third_Party_Companies AS T1 JOIN Maintenance_Contracts AS T2 ON "
+                "T1.company_id  =  T2.maintenance_contract_company_id ORDER BY T2.contract_end_date DESC LIMIT 1"
+            )
+            sample["query_toks"] = [
+                "SELECT",
+                "T1.company_type",
+                "FROM",
+                "Third_Party_Companies",
+                "AS",
+                "T1",
+                "JOIN",
+                "Maintenance_Contracts",
+                "AS",
+                "T2",
+                "ON",
+                "T1.company_id",
+                "=",
+                "T2.maintenance_contract_company_id",
+                "ORDER",
+                "BY",
+                "T2.contract_end_date",
+                "DESC",
+                "LIMIT",
+                "1",
             ]
-            sample['query_toks_no_value'] = [
-                'select',
-                't1',
-                '.',
-                'company_type',
-                'from',
-                'third_party_companies',
-                'as',
-                't1',
-                'join',
-                'maintenance_contracts',
-                'as',
-                't2',
-                'on',
-                't1',
-                '.',
-                'company_id',
-                '=',
-                't2',
-                '.',
-                'maintenance_contract_company_id',
-                'order',
-                'by',
-                't2',
-                '.',
-                'contract_end_date',
-                'desc',
-                'limit',
-                'value',
+            sample["query_toks_no_value"] = [
+                "select",
+                "t1",
+                ".",
+                "company_type",
+                "from",
+                "third_party_companies",
+                "as",
+                "t1",
+                "join",
+                "maintenance_contracts",
+                "as",
+                "t2",
+                "on",
+                "t1",
+                ".",
+                "company_id",
+                "=",
+                "t2",
+                ".",
+                "maintenance_contract_company_id",
+                "order",
+                "by",
+                "t2",
+                ".",
+                "contract_end_date",
+                "desc",
+                "limit",
+                "value",
             ]
-            sample['question'] = 'What is the type of the company who concluded its contracts most recently?'
-            sample['question_toks'] = [
-                'What',
-                'is',
-                'the',
-                'type',
-                'of',
-                'the',
-                'company',
-                'who',
-                'concluded',
-                'its',
-                'contracts',
-                'most',
-                'recently',
-                '?',
+            sample["question"] = (
+                "What is the type of the company who concluded its contracts most recently?"
+            )
+            sample["question_toks"] = [
+                "What",
+                "is",
+                "the",
+                "type",
+                "of",
+                "the",
+                "company",
+                "who",
+                "concluded",
+                "its",
+                "contracts",
+                "most",
+                "recently",
+                "?",
             ]
-        if sample['query'].startswith(
-                'SELECT T1.fname FROM student AS T1 JOIN lives_in AS T2 ON T1.stuid  =  T2.stuid WHERE T2.dormid IN'
+        if sample["query"].startswith(
+            "SELECT T1.fname FROM student AS T1 JOIN lives_in AS T2 ON T1.stuid  =  T2.stuid WHERE T2.dormid IN"
         ):
-            sample['query'] = sample['query'].replace('IN (SELECT T2.dormid)', 'IN (SELECT T3.dormid)')
-            index = sample['query_toks'].index('(') + 2
-            assert sample['query_toks'][index] == 'T2.dormid'
-            sample['query_toks'][index] = 'T3.dormid'
-            index = sample['query_toks_no_value'].index('(') + 2
-            assert sample['query_toks_no_value'][index] == 't2'
-            sample['query_toks_no_value'][index] = 't3'
+            sample["query"] = sample["query"].replace(
+                "IN (SELECT T2.dormid)", "IN (SELECT T3.dormid)"
+            )
+            index = sample["query_toks"].index("(") + 2
+            assert sample["query_toks"][index] == "T2.dormid"
+            sample["query_toks"][index] = "T3.dormid"
+            index = sample["query_toks_no_value"].index("(") + 2
+            assert sample["query_toks_no_value"][index] == "t2"
+            sample["query_toks_no_value"][index] = "t3"
 
     def register_golds(self, dataset, db_path, sample_db_path: str = ""):
         for idx, sample in enumerate(dataset):
@@ -142,44 +148,99 @@ class EvaluateTool(object):
                     "sample_db_path": self.sample_db_path,
                     "db_table_names": schema["table_names_original"],
                     "db_column_names": {
-                        "table_id": [table_id for table_id, _ in schema["column_names_original"]],
-                        "column_name": [column_name for _, column_name in schema["column_names_original"]],
+                        "table_id": [
+                            table_id for table_id, _ in schema["column_names_original"]
+                        ],
+                        "column_name": [
+                            column_name
+                            for _, column_name in schema["column_names_original"]
+                        ],
                     },
                     "db_column_types": schema["column_types"],
-                    "db_primary_keys": [{"column_id": column_id} for column_id in schema["primary_keys"]],
+                    "db_primary_keys": [
+                        {"column_id": column_id} for column_id in schema["primary_keys"]
+                    ],
                     "db_foreign_keys": {
-                        "column_id": [column_id for column_id, _ in schema["foreign_keys"]],
-                        "other_column_id": [other_column_id for _, other_column_id in schema["foreign_keys"]],
+                        "column_id": [
+                            column_id for column_id, _ in schema["foreign_keys"]
+                        ],
+                        "other_column_id": [
+                            other_column_id
+                            for _, other_column_id in schema["foreign_keys"]
+                        ],
                     },
                 }
             )
 
     def evaluate(self, preds):
         if self.verbose:
-            print("################################################ Spider Evaluation "
-                  "################################################")
+            print(
+                "################################################ Spider Evaluation "
+                "################################################"
+            )
         # exact_match = compute_exact_match_metric(preds, self.golds, verbose=self.verbose)
         # if self.verbose:
         #     print("\n\n")
         #     print("################################################  Exec Evaluation  "
         #           "################################################")
-        exec_match = compute_test_suite_metric(preds, self.golds, db_dir=None, verbose=self.verbose)
+        exec_match = compute_test_suite_metric(
+            preds, self.golds, db_dir=None, verbose=self.verbose
+        )
 
         test_suite = {}
         if self.sample_db_path:
             if self.verbose:
                 print("\n\n")
-                print("############################################## Test Suite Evaluation "
-                      "##############################################")
+                print(
+                    "############################################## Test Suite Evaluation "
+                    "##############################################"
+                )
             start = time.time()
             test_suite = compute_test_suite_metric(
-                preds, self.golds, db_dir=self.sample_db_path,
-                verbose=self.verbose, progress_bar_for_each_datapoint=False
+                preds,
+                self.golds,
+                db_dir=self.sample_db_path,
+                verbose=self.verbose,
+                progress_bar_for_each_datapoint=False,
             )
             print(f"Test suite on sample dbs time cost: {time.time() - start}")
 
-
         return {**exec_match, **test_suite}
+
+    def evaluate_k(self, preds_list):
+        res = []
+        acc_list = []
+        recall_list = []
+        process = tqdm(preds_list, ncols=78)
+        for idx, preds in enumerate(process):
+            one_res = []
+            recall = 0
+            for pred in preds:
+                if not pred:
+                    continue
+                one_res.append(self.evaluate_one(idx, pred))
+                if len(acc_list) <= idx:
+                    acc_list.append(one_res[-1]["exec_match"])
+                if one_res[-1]["exec_match"]:
+                    recall = 1
+            recall_list.append(recall)
+            process.desc = (
+                f"ACC: {sum(acc_list) / len(acc_list) * 100:.2f}%    "
+                f"RECALL: {sum(recall_list) / len(recall_list) * 100:.2f}%   "
+            )
+            if self.verbose and idx % 77 == 0:
+                process.desc = (
+                    f"ACC: {sum(acc_list) / len(acc_list) * 100:.2f}%   "
+                    f"RECALL: {sum(recall_list) / len(recall_list) * 100:.2f}%   "
+                )
+                time.sleep(0.1)
+                print()
+        self.print_score()
+        print()
+        print(f"ACC: {sum(acc_list) / len(acc_list) * 100:.2f}%   ")
+        print(f"RECALL: {sum(recall_list) / len(recall_list) * 100:.2f}%   ")
+        return res
+        # pass
 
     def evaluate_one(self, idx, prediction):
         if not self.exec_evaluator:
@@ -204,9 +265,7 @@ class EvaluateTool(object):
 
         turn_scores = {"exec": [], "exact": []}
         turn_idx = reference.get("turn_idx", 0)
-        ts_score = {
-            "exec": 0
-        }
+        ts_score = {"exec": 0}
         if self.test_suite_evaluator:
             ts_score = self.test_suite_evaluator.evaluate_one(
                 reference["db_id"],
@@ -228,44 +287,48 @@ class EvaluateTool(object):
         foreign_key_maps = dict()
         for reference in self.golds:
             if reference["db_id"] not in foreign_key_maps:
-                foreign_key_maps[reference["db_id"]] = spider_evaluation.build_foreign_key_map(
-                    {
-                        "table_names_original": reference["db_table_names"],
-                        "column_names_original": list(
-                            zip(
-                                reference["db_column_names"]["table_id"],
-                                reference["db_column_names"]["column_name"],
-                            )
-                        ),
-                        "foreign_keys": list(
-                            zip(
-                                reference["db_foreign_keys"]["column_id"],
-                                reference["db_foreign_keys"]["other_column_id"],
-                            )
-                        ),
-                    }
+                foreign_key_maps[reference["db_id"]] = (
+                    spider_evaluation.build_foreign_key_map(
+                        {
+                            "table_names_original": reference["db_table_names"],
+                            "column_names_original": list(
+                                zip(
+                                    reference["db_column_names"]["table_id"],
+                                    reference["db_column_names"]["column_name"],
+                                )
+                            ),
+                            "foreign_keys": list(
+                                zip(
+                                    reference["db_foreign_keys"]["column_id"],
+                                    reference["db_foreign_keys"]["other_column_id"],
+                                )
+                            ),
+                        }
+                    )
                 )
         # self.spider_evaluator = spider_evaluation.Evaluator(self.golds[0]["db_path"], foreign_key_maps, "all")
-        
+
         foreign_key_maps = dict()
         for reference in self.golds:
             if reference["db_id"] not in foreign_key_maps:
-                foreign_key_maps[reference["db_id"]] = test_suite_evaluation.build_foreign_key_map(
-                    {
-                        "table_names_original": reference["db_table_names"],
-                        "column_names_original": list(
-                            zip(
-                                reference["db_column_names"]["table_id"],
-                                reference["db_column_names"]["column_name"],
-                            )
-                        ),
-                        "foreign_keys": list(
-                            zip(
-                                reference["db_foreign_keys"]["column_id"],
-                                reference["db_foreign_keys"]["other_column_id"],
-                            )
-                        ),
-                    }
+                foreign_key_maps[reference["db_id"]] = (
+                    test_suite_evaluation.build_foreign_key_map(
+                        {
+                            "table_names_original": reference["db_table_names"],
+                            "column_names_original": list(
+                                zip(
+                                    reference["db_column_names"]["table_id"],
+                                    reference["db_column_names"]["column_name"],
+                                )
+                            ),
+                            "foreign_keys": list(
+                                zip(
+                                    reference["db_foreign_keys"]["column_id"],
+                                    reference["db_foreign_keys"]["other_column_id"],
+                                )
+                            ),
+                        }
+                    )
                 )
 
         self.exec_evaluator = test_suite_evaluation.Evaluator(
@@ -276,7 +339,6 @@ class EvaluateTool(object):
             keep_distinct=False,
             progress_bar_for_each_datapoint=False,
         )
-
 
         if self.sample_db_path:
             self.test_suite_evaluator = test_suite_evaluation.Evaluator(
@@ -289,8 +351,10 @@ class EvaluateTool(object):
             )
 
     def print_score(self, include_turn_acc=False):
-        print("################################################ Spider Evaluation "
-              "################################################")
+        print(
+            "################################################ Spider Evaluation "
+            "################################################"
+        )
         # self.spider_evaluator.finalize()
         # spider_score(self.spider_evaluator.scores, self.spider_evaluator.etype)
         # print("\n\n")
@@ -301,21 +365,22 @@ class EvaluateTool(object):
         test_suite_score(
             self.exec_evaluator.scores,
             self.exec_evaluator.etype,
-            include_turn_acc=include_turn_acc
+            include_turn_acc=include_turn_acc,
         )
         print("\n\n")
 
         if self.test_suite_evaluator:
-            print("############################################## Test Suite Evaluation "
-                  "##############################################")
+            print(
+                "############################################## Test Suite Evaluation "
+                "##############################################"
+            )
             self.test_suite_evaluator.finalize()
             test_suite_score(
                 self.test_suite_evaluator.scores,
                 self.test_suite_evaluator.etype,
-                include_turn_acc=include_turn_acc
+                include_turn_acc=include_turn_acc,
             )
             print("\n\n")
-
 
     #     if self.sample_ts_res:
     #         self.print_sample_ts_score()
