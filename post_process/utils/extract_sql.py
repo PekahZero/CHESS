@@ -111,6 +111,15 @@ def candidates_to_file(json_paths, output_file_path="candidates.txt"):
                         print(
                             file_path, " is not 20 candidates, is ", len(sql_dict_list)
                         )
+                        # 补全
+                        if len(sql_dict_list) == 0:
+                            for _ in range(20):
+                                sql_dict_list.append({"SQL": "SELECT * FROM table"})
+                        else:
+                            i = 0
+                            while len(sql_dict_list) < 20:
+                                sql_dict_list.append(sql_dict_list[i])
+                                i += 1
 
                     # SQL写入文件
                     with open(output_file_path, "a") as output_file:
@@ -140,6 +149,9 @@ def main(directory_path, output_file_path, type):
 # command
 # python -m post_process.utils.extract_sql --directory_path /home/jyw/Projects/CHESS/results/dev/CHESS_IR_CG_UT/dev/2024-11-17T14:45:29.370506/ --output_file_path post_process/refined_query_with_info.txt --type refined
 
+# python -m post_process.utils.extract_sql --directory_path /home/jyw/Projects/CHESS/results/dev/CHESS_IR_CG_UT/dev/2024-12-06T09:34:31.669070 --output_file_path post_process/data/chess/spider/20_candidates.txt --type candidates
+# python -m post_process.utils.extract_sql --directory_path /home/jyw/Projects/CHESS/results/dev/CHESS_IR_CG_UT/dev/2024-12-06T09:34:31.669070 --output_file_path post_process/data/chess/spider/20_candidates.txt --type candidates
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--directory_path", type=str)
@@ -149,3 +161,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(args.directory_path, args.output_file_path, args.type)
+
+
+# python -m post_process.utils.extract_sql --directory_path /home/jyw/Projects/CHESS/results/dev/CHESS_IR_CG_UT/dev/Spider --output_file_path post_process/data/chess/spider/new_20_candidates.txt --type candidates
+
+# python -m post_process.utils.extract_sql --directory_path /home/jyw/Projects/CHESS/results/dev/CHESS_IR_CG_UT/dev/Science --output_file_path post_process/data/chess/science/20_candidates.txt --type candidates
