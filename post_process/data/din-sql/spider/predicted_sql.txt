@@ -1,0 +1,200 @@
+SELECT ```sql SELECT COUNT(*) FROM singer
+SELECT ```sql SELECT COUNT(*) FROM singer ```
+SELECT ```sql SELECT Name, Country, Age FROM singer ORDER BY Age DESC ```
+SELECT ```sql SELECT DISTINCT Name, Country, Age FROM singer ORDER BY Age DESC ```
+SELECT ```sql SELECT AVG(Age) AS average_age, MIN(Age) AS minimum_age, MAX(Age) AS maximum_age  FROM singer  WHERE Country = 'France'
+SELECT ```sql SELECT AVG(Age) AS average_age, MIN(Age) AS minimum_age, MAX(Age) AS maximum_age  FROM singer  WHERE Country = 'France' GROUP BY Country ``` 
+SELECT ```sql SELECT DISTINCT Song_Name, Song_release_year  FROM singer  WHERE Age = (SELECT MIN(Age) FROM singer) ```
+SELECT ```sql SELECT DISTINCT Song_Name, Song_release_year  FROM singer  WHERE Age = (SELECT MIN(Age) FROM singer)
+SELECT ```sql SELECT DISTINCT Country FROM singer WHERE Age > 20 ```
+SELECT ```sql SELECT DISTINCT Country FROM singer WHERE Age > 20 ```
+SELECT ```sql SELECT Country, COUNT(DISTINCT Singer_ID) AS number_of_singers FROM singer GROUP BY Country ```
+SELECT ```sql SELECT Country, COUNT(DISTINCT Singer_ID) AS number_of_singers FROM singer GROUP BY Country ```
+SELECT ```sql SELECT DISTINCT Song_Name FROM singer WHERE Age > (SELECT AVG(Age) FROM singer) ```
+SELECT ```sql SELECT DISTINCT Song_Name  FROM singer  WHERE Age > (SELECT AVG(Age) FROM singer) ```
+SELECT ```sql SELECT Location, Name FROM stadium WHERE Capacity BETWEEN 5000 AND 10000 ```
+SELECT ```sql SELECT Location, Name FROM stadium WHERE Capacity BETWEEN 5000 AND 10000 ```
+SELECT ```sql SELECT MAX(Capacity) AS max_capacity, AVG(Capacity) AS avg_capacity FROM stadium
+SELECT ```sql SELECT AVG(Capacity) AS average_capacity, MAX(Capacity) AS maximum_capacity FROM stadium
+SELECT ```sql SELECT Name, Capacity FROM stadium ORDER BY Average DESC LIMIT 1 ```
+SELECT ```sql SELECT Name, Capacity  FROM stadium  WHERE Average = (SELECT MAX(Average) FROM stadium)
+SELECT ```sql SELECT COUNT(*) FROM concert WHERE Year IN (2014, 2015) ```
+SELECT ```sql SELECT COUNT(*) FROM concert WHERE Year IN (2014, 2015) ```
+SELECT ```sql SELECT stadium.Name, COUNT(concert.concert_ID)  FROM stadium  JOIN concert ON concert.Stadium_ID = stadium.Stadium_ID  GROUP BY stadium.Name ```
+SELECT ```sql SELECT T1.Stadium_ID, COUNT(DISTINCT T2.concert_ID)  FROM stadium AS T1  LEFT JOIN concert AS T2 ON T2.Stadium_ID = T1.Stadium_ID  GROUP BY T1.Stadium_ID ```
+SELECT ```sql SELECT T1.Name, T1.Capacity  FROM stadium AS T1  JOIN concert AS T2 ON T2.Stadium_ID = T1.Stadium_ID  WHERE T2.Year >= 2014  GROUP BY T1.Stadium_ID  ORDER BY COUNT(T2.concert_ID) DESC  LIMIT 1 ```
+SELECT ```sql SELECT DISTINCT stadium.Name, stadium.Capacity FROM concert JOIN stadium ON concert.Stadium_ID = stadium.Stadium_ID WHERE concert.Year > 2013 GROUP BY stadium.Stadium_ID ORDER BY COUNT(concert.concert_ID) DESC LIMIT 1
+SELECT ```sql SELECT Year FROM concert GROUP BY Year ORDER BY COUNT(*) DESC LIMIT 1 ```
+SELECT ```sql SELECT Year FROM concert GROUP BY Year ORDER BY COUNT(concert_ID) DESC LIMIT 1 ```
+SELECT ```sql SELECT DISTINCT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT Stadium_ID FROM concert) ```
+SELECT ```sql SELECT DISTINCT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT Stadium_ID FROM concert) ```
+SELECT ```sql SELECT DISTINCT Country FROM singer WHERE Age > 40 OR Age < 30
+SELECT ```sql SELECT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT Stadium_ID FROM concert WHERE Year = 2014) ```
+SELECT ```sql SELECT Name FROM stadium WHERE Stadium_ID NOT IN (SELECT DISTINCT Stadium_ID FROM concert WHERE Year = 2014) ```
+SELECT ```sql SELECT T1.concert_Name, T1.Theme, COUNT(DISTINCT T2.Singer_ID) AS number_of_singers  FROM concert AS T1  LEFT JOIN singer_in_concert AS T2 ON T1.concert_ID = T2.concert_ID  GROUP BY T1.concert_ID
+SELECT ```sql SELECT T1.concert_Name, T1.Theme, COUNT(T2.Singer_ID) AS number_of_singers  FROM concert AS T1  JOIN singer_in_concert AS T3 ON T1.concert_ID = T3.concert_ID  JOIN singer AS T2 ON T3.Singer_ID = T2.Singer_ID  GROUP BY T1.concert_ID ```
+SELECT ```sql SELECT T1.Name, COUNT(T2.concert_ID)  FROM singer AS T1  JOIN singer_in_concert AS T2 ON T1.Singer_ID = T2.Singer_ID  GROUP BY T1.Name ```
+SELECT ```sql SELECT T1.Name, COUNT(DISTINCT T2.concert_ID)  FROM singer AS T1  JOIN singer_in_concert AS T2 ON T1.Singer_ID = T2.Singer_ID  GROUP BY T1.Name ```
+SELECT ```sql SELECT DISTINCT T1.Name  FROM singer AS T1  JOIN singer_in_concert AS T2 ON T1.Singer_ID = T2.Singer_ID  JOIN concert AS T3 ON T2.concert_ID = T3.concert_ID  WHERE T3.Year = 2014 ```
+SELECT ```sql SELECT DISTINCT T1.Name  FROM singer AS T1  JOIN singer_in_concert AS T2 ON T1.Singer_ID = T2.Singer_ID  JOIN concert AS T3 ON T3.concert_ID = T2.concert_ID  WHERE T3.Year = 2014 ```
+SELECT ```sql SELECT DISTINCT Name, Country  FROM singer  WHERE Song_Name LIKE '%Hey%' ```
+SELECT ```sql SELECT DISTINCT Name, Country  FROM singer  WHERE Song_Name LIKE '%Hey%' ```
+SELECT ```sql SELECT s.Name, s.Location  FROM stadium AS s  WHERE s.Stadium_ID IN (     SELECT c.Stadium_ID      FROM concert AS c      WHERE c.Year IN (2014, 2015)      GROUP BY c.Stadium_ID      HAVING COUNT(DISTINCT c.Year) = 2 ) ```
+SELECT ```sql SELECT DISTINCT stadium.Name, stadium.Location FROM concert JOIN stadium ON concert.Stadium_ID = stadium.Stadium_ID WHERE concert.Year IN (2014, 2015) GROUP BY stadium.Name, stadium.Location HAVING COUNT(DISTINCT concert.Year) = 2
+SELECT ```sql SELECT COUNT(DISTINCT concert_ID) FROM concert  WHERE Stadium_ID = (SELECT Stadium_ID FROM stadium WHERE Capacity = (SELECT max(Capacity) FROM stadium)) ```
+SELECT ```sql SELECT COUNT(DISTINCT concert_ID) FROM concert WHERE Stadium_ID = (SELECT Stadium_ID FROM stadium WHERE Capacity = (SELECT max(Capacity) FROM stadium)) ```
+SELECT ```sql SELECT COUNT(*) FROM Pets WHERE weight > 10 ```
+SELECT ```sql SELECT COUNT(*) FROM Pets WHERE weight > 10 ```
+SELECT ```sql SELECT weight FROM Pets WHERE pet_age = (SELECT MIN(pet_age) FROM Pets WHERE PetType = 'dog') AND PetType = 'dog' ```
+SELECT ```sql SELECT weight FROM Pets WHERE PetType = 'dog' ORDER BY pet_age ASC LIMIT 1 ```
+SELECT ```sql SELECT PetType, MAX(weight) FROM Pets GROUP BY PetType ```
+SELECT ```sql SELECT PetType, MAX(weight) FROM Pets GROUP BY PetType ```
+SELECT ```sql SELECT COUNT(DISTINCT Has_Pet.PetID)  FROM Has_Pet  JOIN Student ON Has_Pet.StuID = Student.StuID  WHERE Student.Age > 20 ```
+SELECT ```sql SELECT COUNT(*)  FROM Pets AS P  JOIN Has_Pet AS HP ON P.PetID = HP.PetID  JOIN Student AS S ON HP.StuID = S.StuID  WHERE S.Age > 20
+SELECT ```sql SELECT COUNT(*)  FROM Pets AS T1  JOIN Has_Pet AS T2 ON T1.PetID = T2.PetID  JOIN Student AS T3 ON T2.StuID = T3.StuID  WHERE T1.PetType = 'dog' AND T3.Sex = 'F' ```
+SELECT To answer the question "How many dog pets are raised by female students?", we need to join the `Has_Pet`, `Pets`, and `Student` tables based on the foreign keys provided. We will filter for female students and count the number of dog pets. 
+SELECT ```sql SELECT COUNT(DISTINCT PetType) FROM Pets
+SELECT The provided SQLite SQL QUERY is already correct and does not require any changes. It accurately counts the distinct types of pets from the `Pets` table. 
+SELECT ```sql SELECT DISTINCT S.Fname  FROM Student AS S  JOIN Has_Pet AS HP ON S.StuID = HP.StuID  JOIN Pets AS P ON HP.PetID = P.PetID  WHERE P.PetType IN ('cat', 'dog')
+SELECT ```sql SELECT DISTINCT S.Fname  FROM Student AS S  JOIN Has_Pet AS HP ON HP.StuID = S.StuID  JOIN Pets AS P ON HP.PetID = P.PetID  WHERE P.PetType IN ('cat', 'dog') ```
+SELECT ```sql SELECT S.Fname  FROM Student AS S  WHERE S.StuID IN (     SELECT HP.StuID      FROM Has_Pet AS HP      JOIN Pets AS P ON HP.PetID = P.PetID      WHERE P.PetType IN ('cat', 'dog')      GROUP BY HP.StuID      HAVING COUNT(DISTINCT P.PetType) = 2 )
+SELECT To find the students' first names who have both cats and dogs as pets, we need to join the `Has_Pet`, `Pets`, and `Student` tables appropriately. We will group by the student's first name and ensure that we only select distinct first names. The query should also filter for students who have both types of pets.
+SELECT ```sql SELECT DISTINCT Major, Age FROM Student WHERE StuID NOT IN (SELECT HP.StuID FROM Has_Pet AS HP JOIN Pets AS P ON HP.PetID = P.PetID WHERE P.PetType = 'cat') ```
+SELECT ```sql SELECT DISTINCT Major, Age  FROM Student  WHERE StuID NOT IN (     SELECT Has_Pet.StuID      FROM Has_Pet      JOIN Pets ON Has_Pet.PetID = Pets.PetID      WHERE Pets.PetType = 'cat' ) ```
+SELECT ```sql SELECT StuID FROM Student WHERE StuID NOT IN (SELECT Has_Pet.StuID FROM Has_Pet JOIN Pets ON Has_Pet.PetID = Pets.PetID WHERE Pets.PetType = 'cat') ```
+SELECT ```sql SELECT StuID FROM Student  WHERE StuID NOT IN (SELECT Has_Pet.StuID FROM Has_Pet                      JOIN Pets ON Has_Pet.PetID = Pets.PetID                      WHERE Pets.PetType = 'cat') ```
+SELECT ```sql SELECT Student.Fname, Student.Age  FROM Student  WHERE Student.StuID IN (SELECT Has_Pet.StuID                           FROM Has_Pet                           JOIN Pets ON Has_Pet.PetID = Pets.PetID                           WHERE Pets.PetType = 'dog')  AND Student.StuID NOT IN (SELECT Has_Pet.StuID                            FROM Has_Pet                            JOIN Pets ON Has_Pet.PetID = Pets.PetID                            WHERE Pets.PetType = 'cat') ```
+SELECT To retrieve the first name of every student who has a dog but does not have a cat, we need to join the `Student`, `Has_Pet`, and `Pets` tables appropriately. We will filter the results to include only those students who have a dog and exclude those who have a cat. 
+SELECT ```sql SELECT DISTINCT PetType, weight FROM Pets WHERE pet_age = (SELECT MIN(pet_age) FROM Pets) ```
+SELECT ```sql SELECT PetType, pet_age, weight FROM Pets ORDER BY pet_age ASC LIMIT 1 ```
+SELECT ```sql SELECT DISTINCT PetID, weight FROM Pets WHERE pet_age > 1 ```
+SELECT ```sql SELECT DISTINCT PetID, weight FROM Pets WHERE pet_age > 1 ```
+SELECT ```sql SELECT PetType, AVG(pet_age) AS average_age, MAX(pet_age) AS maximum_age  FROM Pets  GROUP BY PetType ```
+SELECT ```sql SELECT PetType, AVG(pet_age) AS average_age, MAX(pet_age) AS maximum_age  FROM Pets  GROUP BY PetType ```
+SELECT ```sql SELECT PetType, AVG(weight) FROM Pets GROUP BY PetType ```
+SELECT ```sql SELECT PetType, AVG(weight) FROM Pets GROUP BY PetType ```
+SELECT ```sql SELECT DISTINCT S.Fname, S.Age  FROM Student AS S  JOIN Has_Pet AS HP ON S.StuID = HP.StuID ```
+SELECT ```sql SELECT DISTINCT S.Fname, S.Age  FROM Student AS S  JOIN Has_Pet AS HP ON HP.StuID = S.StuID ```
+SELECT ```sql SELECT DISTINCT T1.PetID  FROM Pets AS T1  JOIN Has_Pet AS T2 ON T1.PetID = T2.PetID  JOIN Student AS T3 ON T2.StuID = T3.StuID  WHERE T3.LName = 'Smith' ```
+SELECT ```sql SELECT DISTINCT Pets.PetID FROM Has_Pet  JOIN Student ON Has_Pet.StuID = Student.StuID  WHERE Student.LName = 'Smith' ```
+SELECT ```sql SELECT     Has_Pet.StuID,     COUNT(Has_Pet.PetID) AS NumberOfPets FROM     Has_Pet GROUP BY     Has_Pet.StuID ORDER BY     Has_Pet.StuID DESC
+SELECT ```sql SELECT     Has_Pet.StuID,     COUNT(Has_Pet.PetID) AS PetCount FROM     Has_Pet GROUP BY     Has_Pet.StuID ORDER BY     Has_Pet.StuID DESC
+SELECT ```sql SELECT DISTINCT S.Fname, S.Sex  FROM Student AS S  WHERE S.StuID IN (     SELECT HP.StuID      FROM Has_Pet AS HP      GROUP BY HP.StuID      HAVING COUNT(*) > 1 ) ```
+SELECT ```sql SELECT DISTINCT Student.Fname, Student.Sex FROM Student JOIN Has_Pet ON Student.StuID = Has_Pet.StuID GROUP BY Student.StuID HAVING COUNT(Has_Pet.PetID) > 1
+SELECT ```sql SELECT DISTINCT S.LName  FROM Student AS S  JOIN Has_Pet AS HP ON S.StuID = HP.StuID  JOIN Pets AS P ON HP.PetID = P.PetID  WHERE P.PetType = 'cat' AND P.pet_age = 3 ```
+SELECT ```sql SELECT DISTINCT S.LName  FROM Student AS S  JOIN Has_Pet AS HP ON S.StuID = HP.StuID  JOIN Pets AS P ON HP.PetID = P.PetID  WHERE P.PetType = 'cat' AND P.pet_age = 3 ```
+SELECT ```sql SELECT AVG(Age) FROM Student WHERE StuID NOT IN (SELECT StuID FROM Has_Pet)
+SELECT ```sql SELECT AVG(Age) FROM Student WHERE StuID NOT IN (SELECT StuID FROM Has_Pet)
+SELECT ```sql SELECT COUNT(*) FROM continents
+SELECT ```sql SELECT COUNT(*) FROM continents ```
+SELECT ```sql SELECT continents.ContId, continents.Continent, COUNT(countries.CountryId)  FROM continents  JOIN countries ON countries.Continent = continents.ContId  GROUP BY continents.ContId ```
+SELECT ```sql SELECT C.ContId, C.Continent, COUNT(CN.CountryId)  FROM continents AS C  LEFT JOIN countries AS CN ON CN.Continent = C.ContId  GROUP BY C.ContId ```
+SELECT ```sql SELECT COUNT(*) FROM countries ```
+SELECT ```sql SELECT COUNT(*) FROM countries ```
+SELECT ```sql SELECT car_makers.FullName, car_makers.Id, COUNT(DISTINCT car_names.Model) AS model_count  FROM car_makers  JOIN model_list ON model_list.Maker = car_makers.Id  JOIN car_names ON car_names.Model = model_list.Model  GROUP BY car_makers.FullName, car_makers.Id ```
+SELECT ```sql SELECT car_makers.FullName, car_makers.Id, COUNT(car_names.Model) AS model_count  FROM car_makers  JOIN car_names ON car_makers.Id = car_names.MakeId  GROUP BY car_makers.Id ```
+SELECT ```sql SELECT DISTINCT car_names.Model  FROM car_names  JOIN cars_data ON car_names.MakeId = cars_data.Id  WHERE cars_data.Horsepower = (SELECT MIN(Horsepower) FROM cars_data)
+SELECT ```sql SELECT T1.Model  FROM car_names AS T1  JOIN cars_data AS T2 ON T1.MakeId = T2.Id  ORDER BY T2.Horsepower ASC  LIMIT 1 ```
+SELECT ```sql SELECT DISTINCT car_names.Model  FROM car_names  JOIN cars_data ON car_names.MakeId = cars_data.Id  WHERE cars_data.Weight < (SELECT AVG(Weight) FROM cars_data) ```
+SELECT ```sql SELECT DISTINCT car_names.Model  FROM car_names  JOIN cars_data ON car_names.MakeId = cars_data.Id  WHERE cars_data.Weight < (SELECT AVG(Weight) FROM cars_data) ```
+SELECT ```sql SELECT DISTINCT     car_makers.FullName FROM     car_makers JOIN     car_names ON car_makers.Id = car_names.MakeId JOIN     cars_data ON car_names.Model = cars_data.Id WHERE     cars_data.Year = 1970
+SELECT ```sql SELECT DISTINCT     car_makers.Maker FROM     cars_data JOIN     car_names ON cars_data.Id = car_names.MakeId JOIN     model_list ON car_names.Model = model_list.Model JOIN     car_makers ON model_list.Maker = car_makers.Id WHERE     cars_data.Year = 1970
+SELECT ```sql SELECT DISTINCT car_names.Make, cars_data.Year  FROM car_names  JOIN cars_data ON car_names.MakeId = cars_data.Id  WHERE cars_data.Year = (SELECT MIN(Year) FROM cars_data) ```
+SELECT ```sql SELECT car_makers.Maker, cars_data.Year  FROM cars_data  JOIN car_names ON cars_data.Id = car_names.MakeId  JOIN car_makers ON car_names.Make = car_makers.Id  WHERE cars_data.Year = (SELECT MIN(Year) FROM cars_data)
+SELECT ```sql SELECT DISTINCT T1.Model  FROM car_names AS T1  JOIN cars_data AS T2 ON T1.MakeId = T2.Id  WHERE T2.Year > 1980 ```
+SELECT ```sql SELECT DISTINCT T1.Model  FROM car_names AS T1  JOIN cars_data AS T2 ON T1.MakeId = T2.Id  WHERE T2.Year > 1980 ```
+SELECT ```sql SELECT continents.Continent, COUNT(DISTINCT car_makers.Id)  FROM car_makers  JOIN countries ON car_makers.Country = countries.CountryId  JOIN continents ON countries.Continent = continents.ContId  GROUP BY continents.Continent ```
+SELECT ```sql SELECT continents.Continent, COUNT(DISTINCT car_makers.Id)  FROM continents  JOIN countries ON countries.Continent = continents.ContId  JOIN car_makers ON car_makers.Country = countries.CountryId  GROUP BY continents.Continent ```
+SELECT ```sql SELECT countries.CountryName  FROM car_makers  JOIN countries ON car_makers.Country = countries.CountryId  GROUP BY countries.CountryName  ORDER BY COUNT(car_makers.Id) DESC  LIMIT 1
+SELECT ```sql SELECT     countries.CountryName FROM     car_makers JOIN     countries ON car_makers.Country = countries.CountryId GROUP BY     countries.CountryName ORDER BY     COUNT(car_makers.Id) DESC LIMIT 1
+SELECT ```sql SELECT COUNT(DISTINCT car_names.Model) AS model_count, car_makers.FullName  FROM car_names  JOIN model_list ON car_names.Model = model_list.Model  JOIN car_makers ON model_list.Maker = car_makers.Id  GROUP BY car_makers.FullName ```
+SELECT ```sql SELECT car_makers.Id, car_makers.FullName, COUNT(DISTINCT car_names.Model) AS model_count  FROM car_makers  JOIN model_list ON car_makers.Id = model_list.Maker  JOIN car_names ON model_list.ModelId = car_names.MakeId  GROUP BY car_makers.Id ```
+SELECT ```sql SELECT DISTINCT T1.Accelerate  FROM cars_data AS T1  JOIN car_names AS T2 ON T2.MakeId = T1.Id  JOIN model_list AS T3 ON T3.Model = T2.Model  JOIN car_makers AS T4 ON T4.Id = T3.Maker  WHERE T2.Model = 'amc hornet sportabout (sw)' ```
+SELECT To fix the provided SQLite SQL QUERY based on the question, we need to ensure that we are correctly joining the relevant tables and selecting the appropriate columns. The question asks for the acceleration of the "amc hornet sportabout (sw)", which is a specific model.
+SELECT ```sql SELECT COUNT(*)  FROM car_makers  WHERE Country = (SELECT CountryId FROM countries WHERE CountryName = 'France') ```
+SELECT ```sql SELECT COUNT(DISTINCT Id)  FROM car_makers  WHERE Country = (SELECT CountryId FROM countries WHERE CountryName = 'France') ```
+SELECT To answer the question "How many car models are produced in the USA?", we need to ensure that the SQL query correctly counts the distinct car models associated with car makers from the USA. 
+SELECT ```sql SELECT COUNT(DISTINCT car_names.Model)  FROM car_names  JOIN model_list ON car_names.Model = model_list.Model  JOIN car_makers ON model_list.Maker = car_makers.Id  JOIN countries ON car_makers.Country = countries.CountryId  WHERE countries.CountryName = 'United States' ```
+SELECT ```sql SELECT AVG(MPG) FROM cars_data WHERE Cylinders = 4 ```
+SELECT ```sql SELECT AVG(MPG) FROM cars_data WHERE Cylinders = 4 ```
+SELECT ```sql SELECT MIN(Weight) FROM cars_data WHERE Cylinders = 8 AND Year = 1974 ```
+SELECT ```sql SELECT MIN(Weight) FROM cars_data WHERE Cylinders = 8 AND Year = 1974 ```
+SELECT ```sql SELECT DISTINCT car_makers.Maker, car_names.Model  FROM car_makers  JOIN car_names ON car_names.Make = car_makers.Id ```
+SELECT ```sql SELECT DISTINCT T1.Maker, T2.Model  FROM car_makers AS T1  JOIN car_names AS T2 ON T2.Make = T1.Id ```
+SELECT ```sql SELECT DISTINCT T1.CountryName, T1.CountryId  FROM countries AS T1  JOIN car_makers AS T2 ON T2.Country = T1.CountryId ```
+SELECT ```sql SELECT DISTINCT countries.CountryId, countries.CountryName  FROM countries  JOIN car_makers ON car_makers.Country = countries.CountryId ```
+SELECT ```sql SELECT COUNT(*) FROM cars_data WHERE Horsepower > 150 ```
+SELECT ```sql SELECT COUNT(*) FROM cars_data WHERE Horsepower > 150 ```
+SELECT ```sql SELECT Year, AVG(Weight) AS average_weight FROM cars_data GROUP BY Year ```
+SELECT ```sql SELECT AVG(Weight) AS average_weight, Year FROM cars_data GROUP BY Year ```
+SELECT ```sql SELECT countries.CountryName  FROM countries  JOIN car_makers ON car_makers.Country = countries.CountryId  WHERE countries.Continent = 'Europe'  GROUP BY countries.CountryName  HAVING COUNT(car_makers.Id) >= 3 ```
+SELECT ```sql SELECT DISTINCT countries.CountryName  FROM countries  JOIN car_makers ON car_makers.Country = countries.CountryId  WHERE countries.Continent = 'Europe'  GROUP BY countries.CountryName  HAVING COUNT(car_makers.Id) >= 3
+SELECT ```sql SELECT MAX(cars_data.Horsepower) AS max_horsepower, car_names.Make  FROM cars_data  JOIN car_names ON car_names.MakeId = cars_data.Id  WHERE cars_data.Cylinders = 3 GROUP BY car_names.Make ``` 
+SELECT ```sql SELECT      MAX(cars_data.Horsepower) AS MaxHorsepower,      car_makers.FullName AS Maker FROM      cars_data JOIN      car_names ON cars_data.Id = car_names.MakeId JOIN      model_list ON car_names.Model = model_list.Model JOIN      car_makers ON model_list.Maker = car_makers.Id WHERE      cars_data.Cylinders = 3 GROUP BY      car_makers.FullName ORDER BY      MaxHorsepower DESC LIMIT 1
+SELECT ```sql SELECT T1.Model  FROM car_names AS T1  JOIN cars_data AS T2 ON T1.MakeId = T2.Id  ORDER BY T2.MPG DESC  LIMIT 1 ```
+SELECT ```sql SELECT T1.Model  FROM car_names AS T1  JOIN cars_data AS T2 ON T1.MakeId = T2.Id  ORDER BY T2.MPG DESC  LIMIT 1 ```
+SELECT ```sql SELECT AVG(Horsepower) FROM cars_data WHERE Year < 1980 ```
+SELECT ```sql SELECT AVG(Horsepower) FROM cars_data WHERE Year < 1980 ```
+SELECT ```sql SELECT AVG(cars_data.Edispl)  FROM cars_data  JOIN car_names ON car_names.MakeId = cars_data.Id  WHERE car_names.Model = 'volvo' GROUP BY car_names.Model ```
+SELECT ```sql SELECT AVG(cars_data.Edispl)  FROM cars_data  JOIN car_names ON car_names.MakeId = cars_data.Id  JOIN model_list ON car_names.Model = model_list.Model  JOIN car_makers ON car_makers.Id = model_list.Maker  WHERE car_makers.FullName = 'Volvo' ```
+SELECT ```sql SELECT Cylinders, MAX(Accelerate) FROM cars_data GROUP BY Cylinders ```
+SELECT ```sql SELECT Cylinders, MAX(Accelerate) FROM cars_data GROUP BY Cylinders ```
+SELECT ```sql SELECT Model, COUNT(DISTINCT Make) AS MakeCount  FROM car_names  GROUP BY Model  ORDER BY MakeCount DESC  LIMIT 1 ```
+SELECT ```sql SELECT Model, COUNT(DISTINCT T2.Id) AS version_count  FROM car_names AS T1  JOIN cars_data AS T2 ON T1.MakeId = T2.Id  GROUP BY T1.Model  ORDER BY version_count DESC  LIMIT 1
+SELECT ```sql SELECT COUNT(*) FROM cars_data WHERE Cylinders > 4 ```
+SELECT ```sql SELECT COUNT(*) FROM cars_data WHERE Cylinders > 4 ```
+SELECT ```sql SELECT COUNT(*) FROM cars_data WHERE Year = 1980 ```
+SELECT ```sql SELECT COUNT(*) FROM cars_data WHERE Year = 1980 ```
+SELECT ```sql SELECT COUNT(DISTINCT Model) FROM car_names WHERE MakeId = (SELECT Id FROM car_makers WHERE FullName = 'American Motor Company') ```
+SELECT ```sql SELECT COUNT(DISTINCT T1.Model)  FROM car_names AS T1  JOIN car_makers AS T2 ON T2.Id = T1.MakeId  WHERE T2.Maker = 'American Motor Company' ```
+SELECT ```sql SELECT FullName, Id  FROM car_makers  WHERE Id IN (     SELECT Maker      FROM model_list      GROUP BY Maker      HAVING COUNT(ModelId) > 3 ) ```
+SELECT ```sql SELECT car_makers.Id, car_makers.Maker  FROM car_makers  WHERE car_makers.Id IN (     SELECT Maker      FROM model_list      GROUP BY Maker      HAVING COUNT(*) > 3 ) ```
+SELECT ```sql SELECT DISTINCT car_names.Model  FROM car_names  JOIN car_makers ON car_names.MakeId = car_makers.Id  JOIN cars_data ON car_names.MakeId = cars_data.Id  WHERE car_makers.FullName = 'General Motors' OR cars_data.Weight > 3500 ```
+SELECT ```sql SELECT DISTINCT     car_names.Model FROM     car_names JOIN     model_list ON car_names.Model = model_list.Model JOIN     car_makers ON model_list.Maker = car_makers.Id JOIN     cars_data ON car_names.MakeId = cars_data.Id WHERE     car_makers.FullName = 'General Motors' OR cars_data.Weight > 3500
+SELECT ```sql SELECT DISTINCT Year FROM cars_data WHERE Weight BETWEEN 3000 AND 4000 ```
+SELECT ```sql SELECT DISTINCT Year  FROM cars_data  WHERE Weight < 4000  AND Year IN (SELECT Year FROM cars_data WHERE Weight > 3000)
+SELECT ```sql SELECT DISTINCT Horsepower FROM cars_data ORDER BY Accelerate DESC LIMIT 1 ```
+SELECT ```sql SELECT DISTINCT Horsepower FROM cars_data ORDER BY Accelerate DESC LIMIT 1 ```
+SELECT ```sql SELECT T1.Cylinders FROM cars_data AS T1  JOIN car_names AS T2 ON T1.Id = T2.MakeId  WHERE T2.Model = 'volvo'  AND T1.Accelerate = (SELECT MIN(T3.Accelerate) FROM cars_data AS T3                       JOIN car_names AS T4 ON T3.Id = T4.MakeId                       WHERE T4.Model = 'volvo') ```
+SELECT ```sql SELECT DISTINCT Cylinders FROM cars_data AS T1  WHERE Accelerate = (SELECT MIN(Accelerate) FROM cars_data AS T2                      JOIN car_names AS T3 ON T2.Id = T3.MakeId                      JOIN model_list AS T4 ON T3.Model = T4.Model                      JOIN car_makers AS T5 ON T4.Maker = T5.Id                      WHERE T5.Maker = 'Volvo')
+SELECT ```sql SELECT COUNT(*) FROM cars_data WHERE Accelerate > (SELECT MAX(Horsepower) FROM cars_data) ```
+SELECT ```sql SELECT count(*) FROM cars_data WHERE Accelerate > (SELECT max(Horsepower) FROM cars_data) ```
+SELECT ```sql SELECT COUNT(*) FROM countries WHERE CountryId IN (SELECT CountryId FROM car_makers GROUP BY CountryId HAVING COUNT(*) > 2) ```
+SELECT ```sql SELECT COUNT(*) FROM countries WHERE CountryId IN (SELECT Country FROM car_makers GROUP BY Country HAVING COUNT(*) > 2) ```
+SELECT ```sql SELECT COUNT(*) FROM cars_data WHERE Cylinders > 6 ```
+SELECT ```sql SELECT COUNT(*) FROM cars_data WHERE Cylinders > 6 ```
+SELECT ```sql SELECT car_names.Model  FROM car_names  JOIN cars_data ON car_names.MakeId = cars_data.Id  WHERE cars_data.Cylinders = 4  ORDER BY cars_data.Horsepower DESC  LIMIT 1 ```
+SELECT ```sql SELECT DISTINCT car_names.Model  FROM cars_data  JOIN car_names ON cars_data.Id = car_names.MakeId  WHERE cars_data.Cylinders = 4  ORDER BY cars_data.Horsepower DESC  LIMIT 1 ```
+SELECT ```sql SELECT DISTINCT car_names.MakeId, car_names.Make  FROM cars_data  JOIN car_names ON cars_data.Id = car_names.MakeId  WHERE cars_data.Horsepower > (SELECT MIN(Horsepower) FROM cars_data)  AND cars_data.Cylinders <= 3 ```
+SELECT ```sql SELECT DISTINCT car_makers.Id, car_names.Make  FROM car_names  JOIN car_makers ON car_names.MakeId = car_makers.Id  JOIN cars_data ON car_names.MakeId = cars_data.Id  WHERE cars_data.Cylinders < 4  AND cars_data.Horsepower < (SELECT MIN(Horsepower) FROM cars_data) ```
+SELECT ```sql SELECT MAX(MPG)  FROM cars_data  WHERE Cylinders = 8 OR Year < 1980
+SELECT ```sql SELECT MAX(MPG)  FROM cars_data  WHERE Cylinders = 8 OR Year < 1980
+SELECT ```sql SELECT DISTINCT     car_names.Model FROM     car_names JOIN     model_list ON car_names.Model = model_list.Model JOIN     car_makers ON model_list.Maker = car_makers.Id JOIN     cars_data ON car_names.MakeId = cars_data.Id WHERE     cars_data.Weight < 3500     AND car_makers.FullName != 'Ford Motor Company' GROUP BY     car_names.Model ORDER BY     car_names.Model DESC
+SELECT ```sql SELECT DISTINCT     car_names.Model FROM     cars_data JOIN     car_names ON cars_data.Id = car_names.MakeId JOIN     model_list ON car_names.Model = model_list.Model JOIN     car_makers ON model_list.Maker = car_makers.Id WHERE     cars_data.Weight < 3500     AND car_makers.FullName != 'Ford Motor Company' ORDER BY     car_names.Model DESC
+SELECT ```sql SELECT CountryName FROM countries WHERE CountryId NOT IN (SELECT CountryId FROM car_makers) ```
+SELECT ```sql SELECT CountryName FROM countries WHERE CountryId NOT IN (SELECT CountryId FROM car_makers) ```
+SELECT ```sql SELECT DISTINCT cm.Id, cm.Maker FROM car_makers cm JOIN model_list ml ON cm.Id = ml.Maker GROUP BY cm.Id HAVING COUNT(ml.Model) >= 2 ORDER BY cm.Id DESC
+SELECT ```sql SELECT cm.Id, cm.Maker  FROM car_makers AS cm  WHERE cm.Id IN (SELECT MakeId FROM car_names GROUP BY MakeId HAVING COUNT(*) >= 2)  AND cm.Id IN (SELECT MakeId FROM cars_data GROUP BY MakeId HAVING COUNT(*) > 3)
+SELECT ```sql SELECT DISTINCT countries.CountryId, countries.CountryName FROM countries JOIN car_makers ON countries.CountryId = car_makers.Country JOIN car_names ON car_makers.Id = car_names.MakeId WHERE car_names.Model = 'fiat' GROUP BY countries.CountryId HAVING COUNT(car_makers.Id) > 3 OR COUNT(car_names.MakeId) > 0
+SELECT ```sql SELECT DISTINCT countries.CountryId, countries.CountryName FROM countries LEFT JOIN car_makers ON countries.CountryId = car_makers.Country LEFT JOIN car_names ON car_makers.Id = car_names.Make WHERE (SELECT COUNT(*) FROM car_makers WHERE countries.CountryId = car_makers.Country) > 3    OR car_names.Model = 'fiat'
+SELECT ```sql SELECT Country FROM airlines WHERE Airline = 'JetBlue Airways' ```
+SELECT ```sql SELECT Country FROM airlines WHERE Airline = 'Jetblue Airways' ```
+SELECT ```sql SELECT Abbreviation FROM airlines WHERE Airline = 'JetBlue Airways' ```
+SELECT ```sql SELECT Abbreviation FROM airlines WHERE Airline = 'Jetblue Airways' ```
+SELECT ```sql SELECT DISTINCT Airline, Abbreviation FROM airlines WHERE Country = 'USA' ```
+SELECT ```sql SELECT DISTINCT Airline, Abbreviation FROM airlines WHERE Country = 'USA' ```
+SELECT ```sql SELECT DISTINCT AirportCode, AirportName FROM airports WHERE City = 'Anthony' ```
+SELECT ```sql SELECT DISTINCT AirportCode, AirportName FROM airports WHERE City = 'Anthony' ```
+SELECT ```sql SELECT COUNT(DISTINCT uid) FROM airlines
+SELECT ```sql SELECT COUNT(DISTINCT uid) FROM airlines
+SELECT ```sql SELECT COUNT(DISTINCT AirportCode) FROM airports
+SELECT ```sql SELECT COUNT(DISTINCT AirportCode) FROM airports
+SELECT ```sql SELECT COUNT(*) FROM flights
+SELECT ```sql SELECT COUNT(*) FROM flights
+SELECT ```sql SELECT Airline FROM airlines WHERE Abbreviation = 'UAL' ```
+SELECT ```sql SELECT Airline FROM airlines WHERE Abbreviation = 'UAL' ```
+SELECT ```sql SELECT COUNT(*) FROM airlines WHERE Country = 'USA' ```
+SELECT ```sql SELECT COUNT(*) FROM airlines WHERE Country = 'USA' ```
+SELECT ```sql SELECT City, Country FROM airports WHERE AirportName = 'Alton' ```
+SELECT ```sql SELECT City, Country FROM airports WHERE AirportName = 'Alton' ```
+SELECT ```sql SELECT AirportName FROM airports WHERE AirportCode = 'AKO' ```

@@ -1,0 +1,1178 @@
+[
+  [
+    "Find the total cost of the project Theseus",
+    "SELECT total_cost FROM projects WHERE title = 'Theseus';\t-----science-----\tcordis"
+  ],
+  [
+    "Show total cost of project with title Theseus",
+    "SELECT total_cost FROM projects WHERE title = 'Theseus'\t-----science-----\tcordis"
+  ],
+  [
+    "Show me the acronyms of projects that started in 2018",
+    "SELECT acronym FROM projects WHERE start_year = 2018\t-----science-----\tcordis"
+  ],
+  [
+    "Get acronyms of projects beginning in 2018",
+    "SELECT acronym FROM projects WHERE start_year = 2018\t-----science-----\tcordis"
+  ],
+  [
+    "Show me the titles of projects that started before 2016",
+    "SELECT title FROM projects WHERE start_date < '2016-01-01'\t-----science-----\tcordis"
+  ],
+  [
+    "Find titles of projects which started earlier than 2016",
+    "SELECT title FROM projects WHERE start_date < '2016-01-01'\t-----science-----\tcordis"
+  ],
+  [
+    "Find institutions from the region of Nordjylland",
+    "SELECT institutions.institutions_name FROM institutions JOIN eu_territorial_units ON institutions.geocode_regions_3 = eu_territorial_units.geocode_regions WHERE eu_territorial_units.description = 'Nordjylland';\t-----science-----\tcordis"
+  ],
+  [
+    "Show the name of institutions based in Nordjylland",
+    "SELECT institutions.institutions_name FROM institutions JOIN eu_territorial_units ON institutions.geocode_regions_3 = eu_territorial_units.geocode_regions WHERE eu_territorial_units.description = 'Nordjylland';\t-----science-----\tcordis"
+  ],
+  [
+    "Find the name of principal investigators in projects that started in 2014",
+    "SELECT p.full_name FROM people AS p JOIN projects AS pr ON p.unics_id = pr.principal_investigator WHERE pr.start_year = 2014;\t-----science-----\tcordis"
+  ],
+  [
+    "Show the full name of people being investigators in projects that began in 2014",
+    "SELECT p.full_name FROM people AS p JOIN projects AS pr ON p.unics_id = pr.principal_investigator WHERE pr.start_year = 2014;\t-----science-----\tcordis"
+  ],
+  [
+    "Find projects whose subject area is “Mathematics and Statistics”",
+    "SELECT p.unics_id, p.acronym, p.title FROM projects AS p JOIN project_subject_areas AS psa ON p.unics_id = psa.project JOIN subject_areas AS sa ON psa.subject_area = sa.code WHERE sa.title = 'Mathematics and Statistics' AND psa.subject_area IS NOT NULL AND p.unics_id IS NOT NULL;\t-----science-----\tcordis"
+  ],
+  [
+    "Show the acronym and subject area description of projects with subject area “Mathematics and Statistics”",
+    "SELECT p.acronym, sa.description FROM projects AS p JOIN project_subject_areas AS psa ON p.unics_id = psa.project JOIN subject_areas AS sa ON psa.subject_area = sa.code WHERE sa.title = 'Mathematics and Statistics';\t-----science-----\tcordis"
+  ],
+  [
+    "Find all different topics of projects that ended in 2014",
+    "SELECT DISTINCT T2.topic FROM projects AS T1 JOIN project_topics AS T2 ON T1.unics_id = T2.project WHERE T1.end_year = 2014;\t-----science-----\tcordis"
+  ],
+  [
+    "Find distinct titles of topics of projects that with end year 2014",
+    "SELECT DISTINCT t.title FROM topics AS t JOIN project_topics AS pt ON t.code = pt.topic JOIN projects AS p ON pt.project = p.unics_id WHERE p.end_year = 2014;\t-----science-----\tcordis"
+  ],
+  [
+    "Show the acronym of projects with a member from Greece",
+    "SELECT DISTINCT p.acronym FROM projects AS p JOIN project_members AS pm ON p.unics_id = pm.project WHERE pm.country = 'GR';\t-----science-----\tcordis"
+  ],
+  [
+    "Show names of institutions from France or Germany",
+    "SELECT institutions_name FROM institutions JOIN countries ON institutions.country_id = countries.unics_id WHERE countries.country_name IN ('France', 'Germany');\t-----science-----\tcordis"
+  ],
+  [
+    "Show names of institutions which are not from France",
+    "SELECT institutions_name FROM institutions WHERE country_id != (SELECT unics_id FROM countries WHERE country_name = 'France');\t-----science-----\tcordis"
+  ],
+  [
+    "Count the projects that started in 2016",
+    "SELECT COUNT(*) FROM projects WHERE start_year = 2016\t-----science-----\tcordis"
+  ],
+  [
+    "Show the title of the project with the highest total cost",
+    "SELECT title FROM projects ORDER BY total_cost DESC LIMIT 1\t-----science-----\tcordis"
+  ],
+  [
+    "Show the name of members in projects costing less than the average project cost.",
+    "SELECT pm.member_name FROM project_members AS pm JOIN projects AS p ON pm.project = p.unics_id WHERE p.total_cost < (SELECT AVG(total_cost) FROM projects);\t-----science-----\tcordis"
+  ],
+  [
+    "Find the id of projects with at least 100 members",
+    "SELECT project, COUNT(*) AS member_count FROM project_members GROUP BY project HAVING member_count >= 100;\t-----science-----\tcordis"
+  ],
+  [
+    "Find the code and title of the funding scheme which funded the highest number of projects.",
+    "SELECT fs.code, fs.title FROM funding_schemes AS fs JOIN projects AS p ON fs.code = p.ec_fund_scheme GROUP BY fs.code, fs.title ORDER BY COUNT(p.unics_id) DESC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Show the total costs of all projects",
+    "SELECT SUM(total_cost) AS total_costs FROM projects;\t-----science-----\tcordis"
+  ],
+  [
+    "Show me the title of projects which have an end year and a start year after 2006",
+    "SELECT title FROM projects WHERE start_year > 2006 AND end_year IS NOT NULL;\t-----science-----\tcordis"
+  ],
+  [
+    "Find the projects which lasted the longest and have an end year and a start year",
+    "-- SQL Type: SELECT SELECT unics_id, title, start_year, end_year FROM projects WHERE start_year IS NOT NULL AND end_year IS NOT NULL ORDER BY (end_year - start_year) DESC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Show me topic titles which starts with 'Raw materials'",
+    "SELECT title FROM topics WHERE title LIKE 'Raw materials%'\t-----science-----\tcordis"
+  ],
+  [
+    "Show me topic titles which contain the word 'climate'",
+    "SELECT title FROM topics WHERE title LIKE '%climate%'\t-----science-----\tcordis"
+  ],
+  [
+    "Show me the number of projects where Thomas Bell was principal investigator",
+    "SELECT COUNT(*) FROM projects WHERE principal_investigator = (SELECT unics_id FROM people WHERE full_name = 'Thomas Bell');\t-----science-----\tcordis"
+  ],
+  [
+    "Show me the all different names of people",
+    "SELECT DISTINCT full_name FROM people;\t-----science-----\tcordis"
+  ],
+  [
+    "Find the acronym of projects which have total costs between 100000 and 200000",
+    "SELECT acronym FROM projects WHERE total_cost BETWEEN 100000 AND 200000\t-----science-----\tcordis"
+  ],
+  [
+    "Show the title of projects with costs higher than 1000000",
+    "SELECT title FROM projects WHERE total_cost > 1000000\t-----science-----\tcordis"
+  ],
+  [
+    "Show the title of projects with costs higher than a million",
+    "SELECT title FROM projects WHERE total_cost > 1000000\t-----science-----\tcordis"
+  ],
+  [
+    "Show the project title and member name where the member has a partner role ",
+    "SELECT projects.title, project_members.member_name FROM projects JOIN project_members ON projects.unics_id = project_members.project WHERE project_members.member_role = 'Partner' AND project_members.member_name IS NOT NULL;\t-----science-----\tcordis"
+  ],
+  [
+    "What different research domains do exist?",
+    "SELECT DISTINCT description FROM erc_research_domains;\t-----science-----\tcordis"
+  ],
+  [
+    "Show me the country name of all institutes.",
+    "SELECT country_name FROM countries JOIN institutions ON countries.unics_id = institutions.country_id;\t-----science-----\tcordis"
+  ],
+  [
+    "Show me the country of all institutes.",
+    "SELECT DISTINCT countries.country_name FROM institutions JOIN countries ON institutions.country_id = countries.unics_id;\t-----science-----\tcordis"
+  ],
+  [
+    "What is the country code 2 and country code 3 for Andorra?",
+    "SELECT country_code2, country_code3 FROM countries WHERE country_name = 'Andorra'\t-----science-----\tcordis"
+  ],
+  [
+    "Find the code of the funding scheme for Framework Partnership Agreement",
+    "SELECT code FROM funding_schemes WHERE title = 'Framework Partnership Agreement'\t-----science-----\tcordis"
+  ],
+  [
+    "Show me the full title of the program which is called 'Transport' in short.",
+    "SELECT title FROM programmes WHERE short_name = 'Transport';\t-----science-----\tcordis"
+  ],
+  [
+    "Find member name and role code of project members in project with acronym GTBB",
+    "SELECT pm.member_name, pm.member_role FROM project_members AS pm JOIN projects AS p ON pm.project = p.unics_id WHERE p.acronym = 'GTBB';\t-----science-----\tcordis"
+  ],
+  [
+    "Find member name and role code of project members in project GTBB",
+    "SELECT pm.member_name, pm.member_role FROM project_members AS pm JOIN projects AS p ON pm.project = p.unics_id WHERE p.acronym = 'GTBB';\t-----science-----\tcordis"
+  ],
+  [
+    "Show titles of programmes which have FP7 as parent program",
+    "SELECT title FROM programmes WHERE parent = 'FP7'\t-----science-----\tcordis"
+  ],
+  [
+    "Show titles of programmes which have program with code FP7 as parent program",
+    "SELECT title FROM programmes WHERE parent = 'FP7';\t-----science-----\tcordis"
+  ],
+  [
+    "Get panel descriptions from research domain Life Sciences",
+    "SELECT ep.description FROM erc_panels AS ep JOIN erc_research_domains AS erd ON ep.part_of = erd.code WHERE erd.description = 'Life Sciences';\t-----science-----\tcordis"
+  ],
+  [
+    "Get panel descriptions from research domain life sciences",
+    "SELECT ep.description FROM erc_panels AS ep JOIN erc_research_domains AS erd ON ep.part_of = erd.code WHERE erd.description = 'Life Sciences';\t-----science-----\tcordis"
+  ],
+  [
+    "Find project members of type Research Organisations",
+    "-- SQL Type: SELECT SELECT pm.unics_id, pm.member_name, pm.activity_type, pm.institution_id FROM project_members AS pm JOIN project_member_roles AS pmr ON pm.member_role = pmr.code WHERE pmr.description = 'Participant' AND pm.unics_id IS NOT NULL AND pm.member_name IS NOT NULL AND pm.activity_type IS NOT NULL AND pm.institution_id IS NOT NULL;\t-----science-----\tcordis"
+  ],
+  [
+    "Get names of project members who's activity type description is Research Organisations",
+    "SELECT pm.member_name FROM project_members AS pm JOIN activity_types AS at ON pm.activity_type = at.code WHERE at.description = 'Research Organisations';\t-----science-----\tcordis"
+  ],
+  [
+    "What is the objective of DEEPCARBON?",
+    "-- SQL to retrieve the objective of the project titled 'DEEPCARBON' SELECT objective FROM projects WHERE title = 'DEEPCARBON';\t-----science-----\tcordis"
+  ],
+  [
+    "What is the objective of the project with acronym DEEPCARBON?",
+    "SELECT objective FROM projects WHERE acronym = 'DEEPCARBON';\t-----science-----\tcordis"
+  ],
+  [
+    "Get the title of projects having the term 'carbon capturing' in it's objective.",
+    "SELECT title FROM projects WHERE objective LIKE '%carbon capturing%'\t-----science-----\tcordis"
+  ],
+  [
+    "How many projects have an objective which contains 'carbon capturing'?",
+    "SELECT COUNT(*) FROM projects WHERE objective LIKE '%carbon capturing%'\t-----science-----\tcordis"
+  ],
+  [
+    "Show all names of institutions from France except institutions from the territorial region of Paris",
+    "SELECT institutions_name FROM institutions WHERE country_id = (SELECT unics_id FROM countries WHERE country_name = 'France') AND geocode_regions_3 <> (SELECT geocode_regions FROM eu_territorial_units WHERE description = 'Paris');\t-----science-----\tcordis"
+  ],
+  [
+    "Show institutions from France except the ones from Paris",
+    "SELECT DISTINCT i.institutions_name FROM institutions i JOIN countries c ON i.country_id = c.unics_id JOIN project_members pm ON i.unics_id = pm.institution_id WHERE c.country_name = 'France' AND pm.city <> 'PARIS';\t-----science-----\tcordis"
+  ],
+  [
+    "Which institutions have never been project coordinators",
+    "SELECT i.institutions_name FROM institutions AS i LEFT JOIN project_members AS pm ON i.unics_id = pm.institution_id AND pm.member_role = 'Coordinator' WHERE pm.institution_id IS NULL;\t-----science-----\tcordis"
+  ],
+  [
+    "Show all of the instituions that have never coordinated a project",
+    "SELECT i.institutions_name FROM institutions AS i LEFT JOIN project_members AS pm ON i.unics_id = pm.institution_id AND pm.member_role = (SELECT code FROM project_member_roles WHERE description = 'Coordinator') WHERE pm.project IS NULL;\t-----science-----\tcordis"
+  ],
+  [
+    "Show all of the names of people who have worked on multiple projects",
+    "-- SQL Type: SELECT SELECT p.full_name FROM project_members pm JOIN people p ON pm.unics_id = p.unics_id WHERE pm.project IS NOT NULL GROUP BY p.unics_id HAVING COUNT(DISTINCT pm.project) > 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Which people have worked on more than one project",
+    "-- SQL Type: SELECT SELECT pm.unics_id, p.full_name FROM project_members pm JOIN people p ON pm.unics_id = p.unics_id WHERE pm.project IS NOT NULL GROUP BY pm.unics_id, p.full_name HAVING COUNT(DISTINCT pm.project) > 1;\t-----science-----\tcordis"
+  ],
+  [
+    "What is the title of the subject area that has been granted the most funding",
+    "SELECT sa.title FROM subject_areas AS sa JOIN project_subject_areas AS psa ON sa.code = psa.subject_area JOIN projects AS p ON psa.project = p.unics_id GROUP BY sa.code ORDER BY SUM(p.ec_max_contribution) DESC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Which subject area has recieved the highest funding contribution?",
+    "SELECT sa.title, SUM(p.ec_max_contribution) AS total_funding FROM project_subject_areas AS psa JOIN subject_areas AS sa ON psa.subject_area = sa.code JOIN projects AS p ON psa.project = p.unics_id GROUP BY sa.title ORDER BY total_funding DESC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Which subject area has recieved the least funding contribution",
+    "SELECT sa.title, SUM(p.ec_max_contribution) AS total_funding FROM project_subject_areas AS psa JOIN subject_areas AS sa ON psa.subject_area = sa.code JOIN projects AS p ON psa.project = p.unics_id GROUP BY sa.title ORDER BY total_funding ASC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "What is the title of the subject area that has been granted the least amount of funding",
+    "SELECT sa.title FROM subject_areas AS sa JOIN project_subject_areas AS psa ON sa.code = psa.subject_area JOIN projects AS p ON psa.project = p.unics_id GROUP BY sa.code ORDER BY SUM(p.ec_max_contribution) ASC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Which institution has participated in the most projects",
+    "SELECT institutions.institutions_name, COUNT(project_members.project) AS project_count FROM institutions JOIN project_members ON institutions.unics_id = project_members.institution_id GROUP BY institutions.unics_id ORDER BY project_count DESC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Show the institution that has been involved in the highest number of projects",
+    "SELECT institutions.institutions_name, COUNT(projects.unics_id) AS project_count FROM institutions JOIN project_members ON institutions.unics_id = project_members.institution_id JOIN projects ON project_members.project = projects.unics_id GROUP BY institutions.unics_id ORDER BY project_count DESC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Which institution has participated in the fewest projects",
+    "SELECT institutions.institutions_name, COUNT(project_members.project) AS project_count FROM institutions LEFT JOIN project_members ON institutions.unics_id = project_members.institution_id GROUP BY institutions.unics_id ORDER BY project_count ASC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Show the institution that has been involved in the least amount of projects",
+    "SELECT institutions.institutions_name, COUNT(project_members.project) AS project_count FROM institutions LEFT JOIN project_members ON institutions.unics_id = project_members.institution_id GROUP BY institutions.unics_id ORDER BY project_count ASC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Which funding scheme provided the most funding",
+    "SELECT ec_fund_scheme, SUM(ec_max_contribution) AS total_funding FROM projects GROUP BY ec_fund_scheme ORDER BY total_funding DESC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Which funding scheme provided the least funding",
+    "SELECT fs.title, MIN(p.ec_max_contribution) AS least_funding FROM projects AS p JOIN funding_schemes AS fs ON p.ec_fund_scheme = fs.code GROUP BY fs.title ORDER BY least_funding ASC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Show the industrial partners that have worked on projects and the amount of funding they have recieved in order from most to least",
+    "-- SQL Script Type: SELECT SELECT i.institutions_name AS industrial_partner, SUM(pm.ec_contribution) AS total_funding FROM project_members AS pm JOIN institutions AS i ON pm.institution_id = i.unics_id WHERE pm.member_role = 'Partner' -- Assuming 'Partner' indicates industrial partners AND pm.ec_contribution IS NOT NULL -- Exclude NULL contributions GROUP BY i.institutions_name HAVING SUM(pm.ec_contribution) > 0 -- Ensure we only include partners with funding ORDER BY total_funding DESC;\t-----science-----\tcordis"
+  ],
+  [
+    "Show the amount of funding and corresponding list of industrial partners that have worked on projects in order from the most funding to the least funding",
+    "SELECT p.total_cost AS funding_amount, GROUP_CONCAT(i.institutions_name) AS industrial_partners FROM projects AS p JOIN project_members AS pm ON p.unics_id = pm.project JOIN institutions AS i ON pm.institution_id = i.unics_id GROUP BY p.total_cost ORDER BY p.total_cost DESC;\t-----science-----\tcordis"
+  ],
+  [
+    "Show the title and the start year of the most recent projects",
+    "SELECT title, start_year FROM projects ORDER BY start_year DESC LIMIT 1\t-----science-----\tcordis"
+  ],
+  [
+    "Which projects have started most recently?",
+    "-- SQL Type: SELECT SELECT unics_id, title, start_date FROM projects WHERE start_date IS NOT NULL AND start_date = (SELECT MAX(start_date) FROM projects WHERE start_date IS NOT NULL);\t-----science-----\tcordis"
+  ],
+  [
+    "Show title and the starting year of the least recent projects",
+    "SELECT title, start_year FROM projects WHERE start_year = (SELECT MAX(start_year) FROM projects);\t-----science-----\tcordis"
+  ],
+  [
+    "Which projects have started the least recently?",
+    "-- SQL Type: SELECT SELECT unics_id, title, start_date FROM projects WHERE start_date IS NOT NULL ORDER BY start_date ASC LIMIT 5;\t-----science-----\tcordis"
+  ],
+  [
+    "What is the starting date of the first recorded project",
+    "SELECT MIN(start_date) AS first_start_date FROM projects WHERE start_date IS NOT NULL;\t-----science-----\tcordis"
+  ],
+  [
+    "On which date did the first project start?",
+    "SELECT MIN(start_date) FROM projects WHERE start_date IS NOT NULL;\t-----science-----\tcordis"
+  ],
+  [
+    "Show the titles of all of the projects in the subject area of Climate change and Carbon cycle research",
+    "SELECT p.title FROM projects AS p JOIN project_subject_areas AS psa ON p.unics_id = psa.project JOIN subject_areas AS sa ON psa.subject_area = sa.code WHERE sa.title = 'Climate change and Carbon cycle research';\t-----science-----\tcordis"
+  ],
+  [
+    "Show the titles of all of the projects that share the subject area code 'CCC",
+    "SELECT p.title FROM projects AS p JOIN project_subject_areas AS psa ON p.unics_id = psa.project WHERE psa.subject_area = 'CCC';\t-----science-----\tcordis"
+  ],
+  [
+    "List all of the possible roles that project members can have in projects",
+    "SELECT DISTINCT description FROM project_member_roles;\t-----science-----\tcordis"
+  ],
+  [
+    "What are all of the ways that projects members can participate in projects?",
+    "SELECT DISTINCT description FROM project_member_roles;\t-----science-----\tcordis"
+  ],
+  [
+    "How many erc panels are dedicated to Life Sciences",
+    "SELECT COUNT(*) FROM erc_panels AS EP JOIN erc_research_domains AS ERD ON EP.part_of = ERD.code WHERE ERD.description = 'Life Sciences';\t-----science-----\tcordis"
+  ],
+  [
+    "Count the number of erc panels that are part of Life Sciences",
+    "SELECT COUNT(*) FROM erc_panels AS EP JOIN erc_research_domains AS ERD ON EP.part_of = ERD.code WHERE ERD.description = 'Life Sciences';\t-----science-----\tcordis"
+  ],
+  [
+    "List all of the european research council panels related to social sciences and humanities",
+    "SELECT erc_panels.code, erc_panels.description FROM erc_panels JOIN erc_research_domains ON erc_panels.part_of = erc_research_domains.code WHERE erc_research_domains.description = 'Social Sciences And Humanities';\t-----science-----\tcordis"
+  ],
+  [
+    "How many european research council panels are related to social sciences and humanities",
+    "SELECT COUNT(*) FROM erc_panels AS T1 JOIN erc_research_domains AS T2 ON T1.part_of = T2.code WHERE T2.description = 'Social Sciences And Humanities';\t-----science-----\tcordis"
+  ],
+  [
+    "Show all of the project members that are private for profit entities",
+    "SELECT -- SQL Type: SELECT pm.unics_id, pm.project, pm.member_name, pm.member_role FROM project_members pm JOIN institutions i ON pm.institution_id = i.unics_id WHERE pm.member_role = 'Partner' AND pm.institution_id IS NOT NULL AND i.institutions_name IS NOT NULL; -- Assuming we want to ensure the institution name is not null\t-----science-----\tcordis"
+  ],
+  [
+    "Which project members are businesses?",
+    "SELECT pm.member_name FROM project_members pm JOIN project_member_roles pmr ON pm.member_role = pmr.code WHERE pmr.description = 'Partner';\t-----science-----\tcordis"
+  ],
+  [
+    "How many project members are businesses?",
+    "SELECT COUNT(*) FROM project_members WHERE member_role = (SELECT code FROM project_member_roles WHERE description = 'Partner');\t-----science-----\tcordis"
+  ],
+  [
+    "How many project members are Higher or Secondary Education Establishments?",
+    "SELECT COUNT(*) FROM project_members WHERE member_role IN ( SELECT code FROM project_member_roles WHERE description IN ('Higher Education Establishment', 'Secondary Education Establishment') );\t-----science-----\tcordis"
+  ],
+  [
+    "Count the number of project members that are Educational Establishments",
+    "SELECT COUNT(*) FROM project_members WHERE member_role = 'Host institution' OR member_role = 'Partner';\t-----science-----\tcordis"
+  ],
+  [
+    "How many projects have been related to Robotics?",
+    "SELECT COUNT(*) FROM projects AS P JOIN project_topics AS PT ON P.unics_id = PT.project JOIN topics AS T ON PT.topic = T.code WHERE T.title LIKE '%Robotics%'\t-----science-----\tcordis"
+  ],
+  [
+    "What is the number of projects that have been carried out in the subject area of Robotics?",
+    "SELECT COUNT(DISTINCT ps.project) AS number_of_projects FROM project_subject_areas AS ps JOIN subject_areas AS sa ON ps.subject_area = sa.code WHERE sa.title = 'Robotics';\t-----science-----\tcordis"
+  ],
+  [
+    "Which non-EU entity has recieved the most funding through a project?",
+    "SELECT institutions.institutions_name, SUM(projects.ec_max_contribution) AS total_funding FROM project_members JOIN institutions ON project_members.institution_id = institutions.unics_id JOIN projects ON project_members.project = projects.unics_id WHERE institutions.country_id NOT IN (/* List of EU country IDs */) GROUP BY institutions.institutions_name ORDER BY total_funding DESC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Which entity located outside of the EU has received the most funding?",
+    "SELECT institutions.institutions_name, SUM(projects.ec_max_contribution) AS total_funding FROM institutions JOIN project_members ON institutions.unics_id = project_members.institution_id JOIN projects ON project_members.project = projects.unics_id WHERE institutions.country_id NOT IN (SELECT unics_id FROM countries WHERE country_code2 IN ('AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB')) GROUP BY institutions.institutions_name ORDER BY total_funding DESC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Which non-EU entity has recieved the least funding through a project?",
+    "-- SQL Type: SELECT SELECT institution_id, SUM(ec_contribution) AS total_funding FROM project_members WHERE country NOT IN ( SELECT country_code2 FROM countries WHERE country_name IN ( SELECT country_name FROM countries WHERE country_code2 IN ( 'AD', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB' ) ) ) AND country IS NOT NULL GROUP BY institution_id ORDER BY total_funding ASC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "Which entity located outside of the EU has received the least funding?",
+    "SELECT institutions.institutions_name, MIN(projects.ec_max_contribution) AS least_funding FROM project_members JOIN institutions ON project_members.institution_id = institutions.unics_id JOIN projects ON project_members.project = projects.unics_id WHERE institutions.country_id NOT IN (SELECT unics_id FROM countries WHERE country_code2 IN ('AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE')) GROUP BY institutions.institutions_name ORDER BY least_funding ASC LIMIT 1;\t-----science-----\tcordis"
+  ],
+  [
+    "How many non-EU entities have participated in projects?",
+    "SELECT COUNT(DISTINCT institution_id) FROM project_members WHERE country NOT IN ('AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB');\t-----science-----\tcordis"
+  ],
+  [
+    "Which entities that are located outside of the European Union have participated in projects?",
+    "SELECT DISTINCT institutions.institutions_name FROM project_members JOIN institutions ON project_members.institution_id = institutions.unics_id JOIN countries ON institutions.country_id = countries.unics_id WHERE countries.country_code2 NOT IN ( 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB' );\t-----science-----\tcordis"
+  ],
+  [
+    "Show all of the programmes with titles that are related to climate",
+    "SELECT * FROM programmes WHERE title LIKE '%climate%'\t-----science-----\tcordis"
+  ],
+  [
+    "List the programms that have the term climate in the title",
+    "SELECT * FROM programmes WHERE title LIKE '%climate%'\t-----science-----\tcordis"
+  ],
+  [
+    "Show the title and amount of funds that have been allocated per programme",
+    "SELECT p.title AS programme_title, SUM(pr.total_cost) AS total_funds_allocated FROM programmes AS p JOIN project_programmes AS pp ON p.code = pp.programme JOIN projects AS pr ON pp.project = pr.unics_id GROUP BY p.code, p.title;\t-----science-----\tcordis"
+  ],
+  [
+    "List all of the titles and the amount of funding that has been dispersed per programme",
+    "-- SQL Script Type: SELECT SELECT p.title AS Programme_Title, SUM(pr.ec_max_contribution) AS Total_Funding FROM programmes AS p JOIN project_programmes AS pp ON p.code = pp.programme JOIN projects AS pr ON pp.project = pr.unics_id WHERE pr.ec_max_contribution IS NOT NULL GROUP BY p.title;\t-----science-----\tcordis"
+  ],
+  [
+    "Show me all disease mutations with ref_aa E",
+    "SELECT * FROM disease_mutation WHERE ref_aa = 'E'\t-----science-----\toncomx"
+  ],
+  [
+    "In how many FDA tests was manufacturer 23andMe involved?",
+    "SELECT COUNT(*) FROM biomarker_fda_test WHERE test_manufacturer = '23andMe';\t-----science-----\toncomx"
+  ],
+  [
+    "What is the common name for species 'Mus'?",
+    "SELECT speciescommonname FROM species WHERE genus = 'Mus';\t-----science-----\toncomx"
+  ],
+  [
+    "What species are there?",
+    "SELECT DISTINCT speciescommonname FROM species;\t-----science-----\toncomx"
+  ],
+  [
+    "Show me all disease mutations",
+    "SELECT * FROM disease_mutation\t-----science-----\toncomx"
+  ],
+  [
+    "Get a list of all biomarker descriptions",
+    "SELECT biomarker_description FROM biomarker;\t-----science-----\toncomx"
+  ],
+  [
+    "In how many fda test trials was test manufacturer 'ABBOTT MOLECULAR INC' involved?",
+    "SELECT COUNT(DISTINCT test_trial_id) FROM biomarker_fda_test_trial WHERE test_trade_name IN ( SELECT test_trade_name FROM biomarker_fda_test WHERE test_manufacturer = 'ABBOTT MOLECULAR INC' );\t-----science-----\toncomx"
+  ],
+  [
+    "Show the gene symbol and the description of cancer biomarkers with panel = 'false'",
+    "SELECT biomarker.gene_symbol, biomarker.biomarker_description FROM biomarker WHERE biomarker.test_is_a_panel = 'false'\t-----science-----\toncomx"
+  ],
+  [
+    "Show all information about diseases where the name contains 'cancer'",
+    "SELECT * FROM disease WHERE name LIKE '%cancer%'\t-----science-----\toncomx"
+  ],
+  [
+    "Show me all biomarker titles and QA states for biomarker on EDRN in phase Two",
+    "SELECT biomarker_title, qa_state FROM biomarker_edrn WHERE phase = 'Two';\t-----science-----\toncomx"
+  ],
+  [
+    "Show me biomarker titles and qa states for biomarker in phase Two",
+    "SELECT biomarker_title, qa_state FROM biomarker_edrn WHERE phase = 'Two';\t-----science-----\toncomx"
+  ],
+  [
+    "Show me all gene symbols of biomarkers",
+    "SELECT gene_symbol FROM biomarker\t-----science-----\toncomx"
+  ],
+  [
+    "Show me all biomarkers on the EDRN platform which are not of type protein.",
+    "-- SQL Type: SELECT SELECT id, biomarker_title, biomarker_type FROM biomarker_edrn WHERE biomarker_type IS NOT NULL AND biomarker_type != 'Protein';\t-----science-----\toncomx"
+  ],
+  [
+    "Show me the title of biomarkers on the EDRN platform with biomarker type different from Protein.",
+    "SELECT biomarker_title FROM biomarker_edrn WHERE biomarker_type != 'Protein';\t-----science-----\toncomx"
+  ],
+  [
+    "Identify a list of genes expressed in lung cancer",
+    "SELECT DISTINCT gene_symbol FROM differential_expression WHERE doid = (SELECT id FROM disease WHERE name = 'lung cancer');\t-----science-----\toncomx"
+  ],
+  [
+    "Show biomarker gene symbol and description for 'breast cancer'",
+    "SELECT biomarker.gene_symbol, biomarker.biomarker_description FROM biomarker JOIN biomarker_fda ON biomarker.id = biomarker_fda.id JOIN biomarker_fda_test ON biomarker_fda.test_trade_name = biomarker_fda_test.test_trade_name JOIN disease ON biomarker_fda_test.doid = disease.id WHERE disease.name = 'breast cancer';\t-----science-----\toncomx"
+  ],
+  [
+    "What are the different biomarker EDRN phases?",
+    "-- SQL Type: SELECT SELECT DISTINCT phase FROM biomarker_edrn WHERE phase IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "List the platform method an the test study design for FDA tests from test manufacturer Dako Denmark A/S",
+    "SELECT test_method.platform_method, test_method.test_study_design FROM biomarker_fda_test AS test_method WHERE test_method.test_manufacturer = 'Dako Denmark A/S' AND test_method.platform_method IS NOT NULL AND test_method.test_study_design IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "Get the p-value of differential expressions for the disease 'lung cancer'",
+    "SELECT de.pvalue FROM differential_expression AS de JOIN disease AS d ON de.doid = d.id WHERE d.name = 'lung cancer';\t-----science-----\toncomx"
+  ],
+  [
+    "Show disease mutation chromosome positions for skin cancer",
+    "SELECT chromosome_pos FROM disease_mutation WHERE doid = (SELECT id FROM disease WHERE name = 'skin cancer');\t-----science-----\toncomx"
+  ],
+  [
+    "List all disease mutation chromosome positions data for disease skin cancer",
+    "SELECT dm.chromosome_pos FROM disease_mutation AS dm JOIN disease AS d ON dm.doid = d.id WHERE d.name = 'skin cancer';\t-----science-----\toncomx"
+  ],
+  [
+    "Show me all information about disease mutations with amino acid residue (ref_aa) equal to E",
+    "SELECT * FROM disease_mutation WHERE ref_aa = 'E';\t-----science-----\toncomx"
+  ],
+  [
+    "How many FDA tests did manufacturer 23andMe?",
+    "SELECT COUNT(*) FROM biomarker_fda_test WHERE test_manufacturer = '23andMe';\t-----science-----\toncomx"
+  ],
+  [
+    "What are the name of cancer types where the A1BG gene expression is significantly increased (up regulated)",
+    "SELECT d.name FROM disease AS d JOIN differential_expression AS de ON d.id = de.doid WHERE de.gene_symbol = 'A1BG' AND de.statistical_significance = 'Yes' AND de.log2fc > 0;\t-----science-----\toncomx"
+  ],
+  [
+    "Show me all information about species",
+    "SELECT * FROM species;\t-----science-----\toncomx"
+  ],
+  [
+    "Return the symbol and p-value for the expression of EGFR in lung cancer ",
+    "SELECT de.gene_symbol, de.pvalue FROM differential_expression AS de JOIN disease AS d ON de.doid = d.id WHERE de.gene_symbol = 'EGFR' AND d.name = 'lung cancer';\t-----science-----\toncomx"
+  ],
+  [
+    "Return gen symbol and pvalue for the expression of gene with symbol 'EGFR' in lung cancer ",
+    "SELECT gene_symbol, pvalue FROM differential_expression WHERE doid = (SELECT id FROM disease WHERE name = 'lung cancer') AND gene_symbol = 'EGFR';\t-----science-----\toncomx"
+  ],
+  [
+    "Show all information about disease mutations",
+    "SELECT * FROM disease_mutation\t-----science-----\toncomx"
+  ],
+  [
+    "How many healthy expression are there for 'late adult stage'?",
+    "SELECT COUNT(*) FROM healthy_expression AS HE JOIN stage AS S ON HE.uberon_developmental_id = S.id WHERE S.name = 'late adult stage';\t-----science-----\toncomx"
+  ],
+  [
+    "Show name of diseases where the A1BG gene expression is statistically significant",
+    "SELECT d.name FROM differential_expression AS de JOIN disease AS d ON de.doid = d.id WHERE de.gene_symbol = 'A1BG' AND de.statistical_significance = 'Yes';\t-----science-----\toncomx"
+  ],
+  [
+    "Show name of diseases where the gene expression with symbol A1BG has a statistical significance of 'Yes'",
+    "SELECT d.name FROM differential_expression AS de JOIN disease AS d ON de.doid = d.id WHERE de.gene_symbol = 'A1BG' AND de.statistical_significance = 'Yes';\t-----science-----\toncomx"
+  ],
+  [
+    "Show me the description of all biomarkers",
+    "SELECT biomarker_description FROM biomarker;\t-----science-----\toncomx"
+  ],
+  [
+    "Show the gene symbol and the description of cancer biomarkers which are not in a panel",
+    "SELECT biomarker.gene_symbol, biomarker.biomarker_description FROM biomarker WHERE biomarker.test_is_a_panel = 'false';\t-----science-----\toncomx"
+  ],
+  [
+    "What is the test trade name for FDA tests which are actually used for predisposition?",
+    "SELECT test_trade_name FROM biomarker_fda_test_use WHERE actual_use = 'predisposition';\t-----science-----\toncomx"
+  ],
+  [
+    "Show me the gene symbol of biomarkers",
+    "SELECT gene_symbol FROM biomarker;\t-----science-----\toncomx"
+  ],
+  [
+    "Show me all biomarkers on the EDRN platform with type protein in phase two.",
+    "SELECT * FROM biomarker_edrn WHERE biomarker_type = 'Protein' AND phase = 'Two'\t-----science-----\toncomx"
+  ],
+  [
+    "Show me the title of all biomarkers on the EDRN platform with biomarker type Protein in phase Two.",
+    "SELECT biomarker_edrn.biomarker_title FROM biomarker_edrn WHERE biomarker_edrn.biomarker_type = 'Protein' AND biomarker_edrn.phase = 'Two';\t-----science-----\toncomx"
+  ],
+  [
+    "Get the biomarker gene symbol and biomarker description for disease with name 'breast cancer'",
+    "SELECT b.gene_symbol, b.biomarker_description FROM biomarker AS b JOIN biomarker_fda_test AS bf ON b.id = bf.doid JOIN disease AS d ON bf.doid = d.id WHERE d.name = 'breast cancer';\t-----science-----\toncomx"
+  ],
+  [
+    "Get all distinct biomarker EDRN phases",
+    "-- SQL Type: SELECT SELECT DISTINCT phase FROM biomarker_edrn WHERE phase IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "Show the pvalue of differential expression of lung cancer",
+    "SELECT pvalue FROM differential_expression WHERE doid = (SELECT id FROM disease WHERE name = 'lung cancer');\t-----science-----\toncomx"
+  ],
+  [
+    "How many genes are there for species Homo?",
+    "SELECT COUNT(DISTINCT xref_gene_ensembl.gene_symbol) FROM xref_gene_ensembl JOIN species ON xref_gene_ensembl.speciesid = species.speciesid WHERE species.genus = 'Homo';\t-----science-----\toncomx"
+  ],
+  [
+    "How many genes ensembles are there for species with genus Homo?",
+    "SELECT COUNT(DISTINCT xref_gene_ensembl.ensembl_gene_id) AS gene_ensemble_count FROM xref_gene_ensembl JOIN species ON xref_gene_ensembl.speciesid = species.speciesid WHERE species.genus = 'Homo';\t-----science-----\toncomx"
+  ],
+  [
+    "Show tests built by a manufacturer starting with 'Roche' ",
+    "SELECT DISTINCT test_trade_name FROM biomarker_fda_test WHERE test_manufacturer LIKE 'Roche%'\t-----science-----\toncomx"
+  ],
+  [
+    "Show submissions of biomarker FDA tests from test manufacturer starting with 'Roche' ",
+    "SELECT test_trade_name, test_submission FROM biomarker_fda_test WHERE test_manufacturer LIKE 'Roche%'\t-----science-----\toncomx"
+  ],
+  [
+    "Which diseases (name) have a mutation with a coding sequence position of 102997?",
+    "SELECT DISTINCT cds_pos FROM disease_mutation WHERE cds_pos IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "Show me all diseases having a mutation with a coding sequence position (cds_pos) of 102997?",
+    "SELECT COUNT(*) FROM disease_mutation WHERE cds_pos = 102997;\t-----science-----\toncomx"
+  ],
+  [
+    "Show me all gene symbols expressed with a pvalue between 0.39 and 0.41",
+    "SELECT gene_symbol FROM differential_expression WHERE pvalue BETWEEN 0.39 AND 0.41;\t-----science-----\toncomx"
+  ],
+  [
+    "Get all gene symbols from expressions with a p-value between 0.39 and 0.41",
+    "SELECT gene_symbol FROM differential_expression WHERE pvalue BETWEEN 0.39 AND 0.41;\t-----science-----\toncomx"
+  ],
+  [
+    "Show the distinct chromosome id's in mutations of breast cancer",
+    "SELECT DISTINCT dm.chromosome_id FROM disease_mutation AS dm JOIN disease AS d ON dm.doid = d.id WHERE d.name = 'breast cancer';\t-----science-----\toncomx"
+  ],
+  [
+    "Show the different chromosome id's in mutations of disease 'breast cancer'",
+    "SELECT DISTINCT dm.chromosome_id FROM disease AS d JOIN disease_mutation AS dm ON d.id = dm.doid WHERE d.name = 'breast cancer';\t-----science-----\toncomx"
+  ],
+  [
+    "Show me the names of all anatomical entities which have a healthy expression with relative gene expression level LOW and a relative anatomical expression level of HIGH",
+    "SELECT ae.name FROM anatomical_entity AS ae JOIN healthy_expression AS he ON ae.id = he.uberon_anatomical_id WHERE he.expression_level_gene_relative = 'LOW' AND he.expression_level_anatomical_relative = 'HIGH';\t-----science-----\toncomx"
+  ],
+  [
+    "List the names of anatomical entities having an expression with relative gene expression level LOW and a relative anatomical expression level of HIGH",
+    "SELECT name FROM anatomical_entity WHERE id IN ( SELECT uberon_anatomical_id FROM healthy_expression WHERE expression_level_gene_relative = 'LOW' AND expression_level_anatomical_relative = 'HIGH' );\t-----science-----\toncomx"
+  ],
+  [
+    "Get the name of all anatomical entities starting with 'bone'",
+    "SELECT name FROM anatomical_entity WHERE name LIKE 'bone%'\t-----science-----\toncomx"
+  ],
+  [
+    "What is the common name for species with genus Mus?",
+    "SELECT speciescommonname FROM species WHERE genus = 'Mus';\t-----science-----\toncomx"
+  ],
+  [
+    "What are the name of diseases where the expression of gene with symbol A1BG is up regulated (expression change direction)",
+    "SELECT d.name FROM differential_expression AS de JOIN disease AS d ON de.doid = d.id WHERE de.gene_symbol = 'A1BG' AND de.expression_change_direction = 'up';\t-----science-----\toncomx"
+  ],
+  [
+    "How many healthy expression are there for stage name starting with 'late adult'?",
+    "SELECT COUNT(*) FROM healthy_expression AS HE JOIN stage AS S ON HE.uberon_developmental_id = S.id WHERE S.name LIKE 'late adult%'\t-----science-----\toncomx"
+  ],
+  [
+    "Show number of fda test trials with test manufacturer 'ABBOTT MOLECULAR INC'",
+    "SELECT COUNT(*) FROM biomarker_fda_test_trial AS T1 JOIN biomarker_fda_test AS T2 ON T1.test_trade_name = T2.test_trade_name AND T1.test_submission = T2.test_submission WHERE T2.test_manufacturer = 'ABBOTT MOLECULAR INC';\t-----science-----\toncomx"
+  ],
+  [
+    "What is the test trade name for FDA tests where actual use is 'predisposition'?",
+    "SELECT test_trade_name FROM biomarker_fda_test_use WHERE actual_use = 'predisposition';\t-----science-----\toncomx"
+  ],
+  [
+    "Show all symbols of genes expressed in the disease 'lung cancer'",
+    "SELECT DISTINCT de.gene_symbol FROM differential_expression AS de JOIN disease AS d ON de.doid = d.id WHERE d.name = 'lung cancer';\t-----science-----\toncomx"
+  ],
+  [
+    "Show me the platform method an the study design for FDA tests from manufacturer 'Dako Denmark A/S'",
+    "SELECT platform_method, test_study_design FROM biomarker_fda_test WHERE test_manufacturer = 'Dako Denmark A/S' AND platform_method IS NOT NULL AND test_study_design IS NOT NULL\t-----science-----\toncomx"
+  ],
+  [
+    "Show me the description for FDA approved biomarkers with test approval status 'class II'",
+    "SELECT biomarker.biomarker_description FROM biomarker JOIN biomarker_fda_test ON biomarker.id = biomarker_fda_test.doid WHERE biomarker_fda_test.test_approval_status = 'class II';\t-----science-----\toncomx"
+  ],
+  [
+    "List the descriptions of biomarkers for fda tests with approval status 'class II'",
+    "SELECT b.biomarker_description FROM biomarker AS b JOIN biomarker_fda AS bf ON b.biomarker_id = bf.id JOIN biomarker_fda_test AS bft ON bf.test_trade_name = bft.test_trade_name AND bf.test_submission = bft.test_submission WHERE bft.test_approval_status = 'class II';\t-----science-----\toncomx"
+  ],
+  [
+    "Return all information from healthy expressions which have an expression score above the average.",
+    "SELECT * FROM healthy_expression WHERE expression_score > (SELECT AVG(expression_score) FROM healthy_expression);\t-----science-----\toncomx"
+  ],
+  [
+    "Return all expressions which have an expression score higher than the average expression score.",
+    "SELECT * FROM healthy_expression WHERE expression_score > (SELECT AVG(expression_score) FROM healthy_expression);\t-----science-----\toncomx"
+  ],
+  [
+    "What are the symbols for biomarkers with type genomic for anatomical entity breast?",
+    "SELECT b.gene_symbol FROM biomarker AS b JOIN biomarker_edrn AS e ON b.id = e.id JOIN anatomical_entity AS a ON e.uberon_anatomical_id = a.id WHERE e.biomarker_type = 'Genomic' AND a.name = 'breast';\t-----science-----\toncomx"
+  ],
+  [
+    "What are the symbols for biomarkers on the EDRN platform with biomarker type Genomic for anatomical entity 'breast'?",
+    "SELECT b.gene_symbol FROM biomarker_edrn AS edrn JOIN biomarker AS b ON edrn.id = b.id JOIN anatomical_entity AS ae ON edrn.uberon_anatomical_id = ae.id WHERE edrn.biomarker_type = 'Genomic' AND ae.name = 'breast';\t-----science-----\toncomx"
+  ],
+  [
+    "What disease can occur in the liver?",
+    "SELECT d.name FROM disease AS d JOIN disease_mutation AS dm ON d.id = dm.doid JOIN disease_mutation_tissue AS dmt ON dm.id = dmt.disease_mutation_id WHERE dmt.uberon_anatomical_id = (SELECT id FROM anatomical_entity WHERE name = 'liver');\t-----science-----\toncomx"
+  ],
+  [
+    "List the name of diseases that can occur in the anatomical entity 'liver'",
+    "SELECT DISTINCT d.name FROM disease AS d JOIN disease_mutation AS dm ON d.id = dm.doid JOIN disease_mutation_tissue AS dmt ON dm.id = dmt.disease_mutation_id JOIN anatomical_entity AS ae ON dmt.uberon_anatomical_id = ae.id WHERE ae.name = 'liver';\t-----science-----\toncomx"
+  ],
+  [
+    "Show distinct manufacturer of tests for gene BRAF ",
+    "SELECT DISTINCT bft.test_manufacturer FROM biomarker AS bm JOIN biomarker_fda AS bf ON bm.id = bf.id JOIN biomarker_fda_test AS bft ON bf.id = bft.biomarker_fda_id WHERE bm.gene_symbol = 'BRAF' AND bft.test_manufacturer IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "Show all FDA test manufacturer for biomarkers of gene BRAF ",
+    "SELECT DISTINCT bft.test_manufacturer FROM biomarker AS b JOIN biomarker_fda AS bf ON b.id = bf.id JOIN biomarker_fda_test AS bft ON bf.id = bft.test_submission WHERE b.gene_symbol = 'BRAF';\t-----science-----\toncomx"
+  ],
+  [
+    "Show me the name of anatomical entities and species for all species",
+    "SELECT anatomical_entity.name AS anatomical_entity_name, species.speciescommonname AS species_name FROM anatomical_entity CROSS JOIN species;\t-----science-----\toncomx"
+  ],
+  [
+    "What are the distinct healthy organs where the gene A1BG is expressed.",
+    "SELECT DISTINCT he.uberon_anatomical_id FROM healthy_expression AS he JOIN xref_gene_ensembl AS xg ON he.ensembl_gene_id = xg.ensembl_gene_id WHERE xg.gene_symbol = 'A1BG';\t-----science-----\toncomx"
+  ],
+  [
+    "Give me symbol and description of biomarkers related to breast at the EDRN phase one",
+    "SELECT b.gene_symbol, b.biomarker_description FROM biomarker AS b JOIN biomarker_edrn AS e ON b.id = e.id WHERE e.phase = 'One' AND (b.biomarker_description LIKE '%breast%' OR e.biomarker_title LIKE '%breast%');\t-----science-----\toncomx"
+  ],
+  [
+    "Show me the name of the anatomical entity and the expression score of where either gene ENSMUSG00000000037 or gene ENSMUSG00000000078 is expressed in.",
+    "SELECT ae.name, he.expression_score FROM healthy_expression AS he JOIN anatomical_entity AS ae ON he.uberon_anatomical_id = ae.id WHERE he.ensembl_gene_id IN ('ENSMUSG00000000037', 'ENSMUSG00000000078');\t-----science-----\toncomx"
+  ],
+  [
+    "What's the NCIt term for biomarker with symbol ALDH4A1?",
+    "SELECT bft.ncit_biomarker FROM biomarker AS b JOIN biomarker_fda AS bf ON b.id = bf.id JOIN biomarker_fda_ncit_term AS bft ON bf.id = bft.biomarker_fda_id WHERE b.gene_symbol = 'ALDH4A1';\t-----science-----\toncomx"
+  ],
+  [
+    "Show all information about disease mutations of the anatomical entity liver",
+    "SELECT dm.* FROM disease_mutation AS dm JOIN disease_mutation_tissue AS dmt ON dm.id = dmt.disease_mutation_id JOIN anatomical_entity AS ae ON dmt.uberon_anatomical_id = ae.id WHERE ae.name = 'liver';\t-----science-----\toncomx"
+  ],
+  [
+    "List all disease mutations which belong to anatomical entity liver.",
+    "SELECT dm.* FROM disease_mutation AS dm JOIN disease_mutation_tissue AS dmt ON dm.id = dmt.disease_mutation_id JOIN anatomical_entity AS ae ON dmt.uberon_anatomical_id = ae.id WHERE ae.name = 'liver';\t-----science-----\toncomx"
+  ],
+  [
+    "Show me the gene symbol of biomarkers that have an approval status of 'PMP' from the FDA",
+    "SELECT DISTINCT b.gene_symbol FROM biomarker b JOIN biomarker_fda bf ON b.id = bf.id JOIN biomarker_fda_test bft ON bf.test_trade_name = bft.test_trade_name AND bf.test_submission = bft.test_submission WHERE bft.test_approval_status = 'PMP';\t-----science-----\toncomx"
+  ],
+  [
+    "What are the desctiptions of biomarkers related to breast cancer?",
+    "SELECT b.biomarker_description FROM biomarker AS b JOIN biomarker_fda AS fda ON b.id = fda.id JOIN biomarker_fda_test AS fda_test ON fda.id = fda_test.doid JOIN biomarker_fda_test_use AS fda_test_use ON fda_test.test_trade_name = fda_test_use.test_trade_name JOIN biomarker_fda_ncit_term AS fda_ncit ON fda.id = fda_ncit.biomarker_fda_id JOIN disease AS d ON fda_ncit.ncit_biomarker = d.id WHERE d.name = 'breast cancer';\t-----science-----\toncomx"
+  ],
+  [
+    "How many biomarkers are associated with each anatomical entity?",
+    "SELECT ae.name AS Anatomical_Entity, COUNT(b.id) AS Biomarker_Count FROM anatomical_entity AS ae LEFT JOIN biomarker_edrn AS be ON ae.id = be.uberon_anatomical_id LEFT JOIN biomarker AS b ON be.id = b.id GROUP BY ae.id, ae.name;\t-----science-----\toncomx"
+  ],
+  [
+    "Show me all information about disease mutations with ref_aa equal to F",
+    "SELECT * FROM disease_mutation WHERE ref_aa = 'F'\t-----science-----\toncomx"
+  ],
+  [
+    "Show all information about diseases which contain cancer in the name",
+    "SELECT * FROM disease WHERE name LIKE '%cancer%'\t-----science-----\toncomx"
+  ],
+  [
+    "Show distinct manufacturer of diagnostic tests for gene BRAF ",
+    "SELECT DISTINCT bft.test_manufacturer FROM biomarker AS bm JOIN biomarker_fda AS bfa ON bm.id = bfa.id JOIN biomarker_fda_test AS bft ON bfa.id = bft.test_trade_name WHERE bm.gene_symbol = 'BRAF' AND bft.test_manufacturer IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "Show cancer biomarker panels ",
+    "SELECT b.gene_symbol, b.biomarker_description, b.biomarker_id FROM biomarker AS b JOIN biomarker_fda AS fda ON b.id = fda.id WHERE b.test_is_a_panel = 'true' AND b.biomarker_id IS NOT NULL AND b.biomarker_description IS NOT NULL\t-----science-----\toncomx"
+  ],
+  [
+    "Show name of biomarkers with tests from 23andMe",
+    "SELECT b.biomarker_description FROM biomarker AS b JOIN biomarker_fda AS fda ON b.id = fda.id JOIN biomarker_fda_test AS fda_test ON fda.test_trade_name = fda_test.test_trade_name WHERE fda_test.test_manufacturer = '23andMe' AND b.biomarker_description IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "Show the name of all manufacturer producing tests for breast cancer biomarkers",
+    "SELECT DISTINCT bft.test_manufacturer FROM biomarker_fda_test AS bft JOIN biomarker_fda AS bf ON bft.test_trade_name = bf.test_trade_name AND bft.test_submission = bf.test_submission JOIN biomarker AS b ON bf.id = b.biomarker_id JOIN disease AS d ON bft.doid = d.id WHERE d.name LIKE '%breast cancer%'\t-----science-----\toncomx"
+  ],
+  [
+    "Show all approved tests for breast cancer biomarkers",
+    "SELECT b.biomarker_description, b.biomarker_id, f.test_trade_name, f.test_submission FROM biomarker AS b JOIN biomarker_edrn AS edrn ON b.id = edrn.id JOIN biomarker_fda AS fda ON b.id = fda.id JOIN biomarker_fda_test AS f ON fda.test_trade_name = f.test_trade_name AND fda.test_submission = f.test_submission WHERE edrn.qa_state = 'Accepted' AND f.test_approval_status = 'Class II 510(k)' AND b.biomarker_description LIKE '%breast cancer%' AND b.biomarker_description IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "Return the anatomical entity associated with the most biomarkers",
+    "SELECT ae.name, COUNT(be.id) AS biomarker_count FROM anatomical_entity AS ae JOIN biomarker_edrn AS be ON ae.id = be.uberon_anatomical_id GROUP BY ae.id ORDER BY biomarker_count DESC LIMIT 1;\t-----science-----\toncomx"
+  ],
+  [
+    "top 3 cancer types with more differential expression entries ",
+    "SELECT d.name AS cancer_type, COUNT(de.gene_symbol) AS entry_count FROM differential_expression AS de JOIN disease AS d ON de.doid = d.id GROUP BY d.name ORDER BY entry_count DESC LIMIT 3;\t-----science-----\toncomx"
+  ],
+  [
+    "Find all of the edrn biomarkers that have never been approved by the FDA ",
+    "-- SQL Type: SELECT SELECT edrn.id, edrn.biomarker_title, edrn.qa_state, edrn.biomarker_type FROM biomarker_edrn AS edrn LEFT JOIN biomarker_fda AS fda ON edrn.id = fda.id WHERE fda.id IS NULL AND edrn.id IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "Show all of the edrn biomarkers that have been approved by the FDA ",
+    "SELECT edrn.biomarker_title, fda_test.test_trade_name, fda_test.test_submission FROM biomarker_edrn AS edrn JOIN biomarker AS bm ON edrn.id = bm.id JOIN biomarker_fda AS fda ON bm.id = fda.id JOIN biomarker_fda_test AS fda_test ON fda.test_trade_name = fda_test.test_trade_name AND fda.test_submission = fda_test.test_submission WHERE fda_test.test_approval_status IN ('Class II 510(k)', 'PMA', '513(f)(2)', 'PMP', 'class II') AND fda_test.test_approval_status IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "which cosmic data source reported the most mutations for each chromosome?",
+    "-- SQL Type: SELECT SELECT chromosome_id, data_source, COUNT(*) AS mutation_count FROM disease_mutation WHERE data_source = 'cosmic' GROUP BY chromosome_id, data_source HAVING COUNT(*) = ( SELECT MAX(mutation_count) FROM ( SELECT COUNT(*) AS mutation_count FROM disease_mutation WHERE data_source = 'cosmic' GROUP BY chromosome_id ) )\t-----science-----\toncomx"
+  ],
+  [
+    "show me all the genes that relate to biomarkers of prostate cancer.",
+    "SELECT DISTINCT xref_gene_ensembl.gene_symbol FROM disease JOIN disease_mutation ON disease.id = disease_mutation.doid JOIN biomarker ON disease_mutation.id = biomarker.id JOIN xref_gene_ensembl ON biomarker.gene_symbol = xref_gene_ensembl.gene_symbol WHERE disease.name = 'prostate cancer' AND xref_gene_ensembl.gene_symbol IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "How many fda test have been executed for each biomarker for each test use?",
+    "SELECT bftu.approved_indication, COUNT(DISTINCT bft.test_trade_name) AS test_count FROM biomarker_fda_test_use AS bftu JOIN biomarker_fda_test AS bft ON bftu.test_trade_name = bft.test_trade_name AND bftu.test_submission = bft.test_submission JOIN biomarker AS b ON bftu.id = b.id WHERE bftu.approved_indication IS NOT NULL GROUP BY bftu.approved_indication HAVING COUNT(DISTINCT bft.test_trade_name) > 0\t-----science-----\toncomx"
+  ],
+  [
+    "What are the test names that have been approved by the FDA for diagnosis",
+    "-- SQL Query to find FDA approved test names for diagnosis SELECT bft.test_trade_name FROM biomarker_fda_test bft JOIN biomarker_fda_test_use bftu ON bft.test_trade_name = bftu.test_trade_name AND bft.test_submission = bftu.test_submission WHERE (bft.test_approval_status = 'PMA' OR bft.test_approval_status = 'Class II 510(k)') AND bftu.approved_indication = 'diagnosis';\t-----science-----\toncomx"
+  ],
+  [
+    "Who manufactures lung cancer prognosis tests that are approved by the FDA?",
+    "SELECT DISTINCT bft.test_manufacturer FROM biomarker_fda_test AS bft JOIN biomarker_fda AS bf ON bft.test_trade_name = bf.test_trade_name AND bft.test_submission = bf.test_submission JOIN disease AS d ON bft.doid = d.id WHERE d.name = 'lung cancer' AND bft.test_approval_status IN ('Class II 510(k)', 'PMA', '513(f)(2)', 'PMP', 'class II') AND bft.test_trade_name IS NOT NULL; -- Ensuring we only get tests that have a name\t-----science-----\toncomx"
+  ],
+  [
+    "Which diseases can be diagnosed with a blood test?",
+    "SELECT DISTINCT d.name FROM disease AS d JOIN biomarker_fda_test AS bft ON d.id = bft.doid JOIN biomarker_fda_test_use AS bftu ON bft.test_trade_name = bftu.test_trade_name AND bft.test_submission = bftu.test_submission WHERE bft.specimen_type = 'blood';\t-----science-----\toncomx"
+  ],
+  [
+    "Show all the information about biomarkers and the species for which they are healthy expressed",
+    "-- SQL Type: SELECT SELECT DISTINCT biomarker.id AS biomarker_id, biomarker.gene_symbol, biomarker.biomarker_description, species.genus, species.species, species.speciescommonname FROM biomarker JOIN healthy_expression ON biomarker.id = healthy_expression.ensembl_gene_id JOIN xref_gene_ensembl ON biomarker.gene_symbol = xref_gene_ensembl.gene_symbol JOIN species ON xref_gene_ensembl.speciesid = species.speciesid WHERE healthy_expression.expression_level_gene_relative != 'ABSENT' AND healthy_expression.ensembl_gene_id IS NOT NULL;\t-----science-----\toncomx"
+  ],
+  [
+    "What is photometrically observed star",
+    "SELECT p.objid, p.run, p.field, pt.name AS photo_type_name FROM photoobj AS p JOIN photo_type AS pt ON p.type = pt.value WHERE pt.name = 'STAR';\t-----science-----\tsdss"
+  ],
+  [
+    "Show me all photometrically observable star",
+    "SELECT * FROM photoobj AS p JOIN photo_type AS pt ON p.type = pt.value WHERE pt.name = 'STAR';\t-----science-----\tsdss"
+  ],
+  [
+    "Find all photometrically observable star that have spectral observations. Retrieve the object id, right ascension, and declination. ",
+    "SELECT p.objid, p.ra, p.dec FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE p.type = (SELECT value FROM photo_type WHERE name = 'STAR');\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the object id, right ascension, and declination of photometrically observed star that have spectral observations.",
+    "SELECT p.objid, p.ra, p.dec FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE p.type = 'STAR' AND s.specobjid IS NOT NULL;\t-----science-----\tsdss"
+  ],
+  [
+    "What is photometrically observed Galaxy",
+    "-- SQL Query to find photometrically observed galaxies SELECT DISTINCT p.objid FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY';\t-----science-----\tsdss"
+  ],
+  [
+    "Find Galaxy that are photometrically observable",
+    "SELECT DISTINCT specobj.specobjid FROM specobj JOIN photoobj ON specobj.bestobjid = photoobj.objid WHERE specobj.class = 'GALAXY';\t-----science-----\tsdss"
+  ],
+  [
+    "Find all photometrically observable Galaxy that have spectral observations. Retrieve the object id, right ascension, and declination. ",
+    "SELECT p.objid, p.ra, p.dec FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE s.class = 'GALAXY' AND s.specobjid IN (SELECT specobjid FROM galspecline)\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the object id, right ascension and declination of photometrically observable Galaxy that have spectral observations.",
+    "SELECT p.objid, p.ra, p.dec FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY' AND p.clean = 1;\t-----science-----\tsdss"
+  ],
+  [
+    "Find the object ids, right ascensions and declinations of photometrically observable galaxy whose right ascension is greater than 185, right ascension is less than 186, declination is greater than 15, declination is less than 16.",
+    "SELECT p.objid, p.ra, p.dec FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY' AND p.ra > 185 AND p.ra < 186 AND p.dec > 15 AND p.dec < 16;\t-----science-----\tsdss"
+  ],
+  [
+    "Show me object id, right ascensions and declinations of photometrically observed galaxy in a certain area, of which the right ascension is between 185 and 186, declination is bertween 15 and 16.",
+    "SELECT p.objid, p.ra, p.dec FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY' AND p.ra BETWEEN 185 AND 186 AND p.dec BETWEEN 15 AND 16;\t-----science-----\tsdss"
+  ],
+  [
+    "Find the object ids, right ascensions and declinations of photometrically observable star whose right ascension is greater than 185, right ascension is less than 186, declination is greater than 15, declination is less than 16.",
+    "-- SQL Type: SELECT SELECT p.objid, p.ra, p.dec FROM photoobj p JOIN photo_type pt ON p.type = pt.value WHERE pt.name = 'STAR' AND p.ra > 185 AND p.ra < 186 AND p.dec > 15 AND p.dec < 16 AND p.clean = 1;\t-----science-----\tsdss"
+  ],
+  [
+    "Show me object id, right ascensions and declinations of photometrically observed star in a certain area, of which the right ascension is between 185 and 186, declination is bertween 15 and 16.",
+    "-- SQL Type: SELECT SELECT DISTINCT p.objid, p.ra, p.dec FROM photoobj p JOIN neighbors n ON p.objid = n.objid WHERE n.mode = 1 -- Assuming '1' corresponds to photometric observation AND p.ra BETWEEN 185 AND 186 AND p.dec BETWEEN 15 AND 16 AND p.ra IS NOT NULL AND p.dec IS NOT NULL;\t-----science-----\tsdss"
+  ],
+  [
+    "Find all spectroscopic observed star,  whose right ascension is greater than 185 and less than 186, declination is greater than 15 and less than 16. Retrieve their object id, right ascension, declination, and photometric object type",
+    "SELECT so.specobjid AS object_id, so.ra AS right_ascension, so.dec AS declination, po.type AS photometric_object_type FROM specobj AS so JOIN photoobj AS po ON so.bestobjid = po.objid WHERE so.class = 'STAR' AND so.ra > 185 AND so.ra < 186 AND so.dec > 15 AND so.dec < 16;\t-----science-----\tsdss"
+  ],
+  [
+    "Fetch me the object id, right ascension, declination, and redshift of spectroscopic observed star in a certain area, of which the right ascension is in an unbouded interval of 185 and 186, declination is in an unbouded interval of 15 and 16.",
+    "-- SQL Type: SELECT SELECT photoobj.objid, specobj.ra, specobj.dec, specobj.z FROM specobj JOIN photoobj ON specobj.bestobjid = photoobj.objid WHERE specobj.class = 'STAR' AND specobj.ra BETWEEN 185 AND 186 AND specobj.dec BETWEEN 15 AND 16;\t-----science-----\tsdss"
+  ],
+  [
+    "Find properties of all spectroscopic observed galaxy,  whose right ascension is greater than 185 and less than 186, declination is greater than 15 and less than 16.",
+    "SELECT * FROM specobj WHERE class = 'GALAXY' AND ra > 185 AND ra < 186 AND dec > 15 AND dec < 16;\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the object id, right ascension, declination, and redshift of spectroscopic observed galaxy in a certain area, of which the right ascension is in an unbouded interval of 185 and 186, declination is in an unbouded interval of 15 and 16.",
+    "SELECT so.specobjid AS object_id, so.ra AS right_ascension, so.dec AS declination, so.z AS redshift FROM specobj AS so WHERE so.class = 'GALAXY' AND so.ra > 185 AND so.ra < 186 AND so.dec > 15 AND so.dec < 16;\t-----science-----\tsdss"
+  ],
+  [
+    "Find all photometrically observable star with a difference of magnitude u and magnitude g is less than 0.4,  the difference between magnitude g and magnitude r is less than 0.7, the difference between magnitude r and magnitude i is greater than 0.4 and the difference between magnitude i and magnitude z is greater than 0.4",
+    "SELECT * FROM photoobj WHERE ABS(u - g) < 0.4 AND ABS(g - r) < 0.7 AND ABS(r - i) > 0.4 AND ABS(i - z) > 0.4 AND objid IN (SELECT objid FROM neighbors WHERE type = 3) -- Assuming type 3 corresponds to stars\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the photometrically observed star with the following constraints in its color bands, u - g < 0.4, g - r < 0.7, r - i > 0.4 and i - z > 0.4",
+    "SELECT p.* FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'STAR' AND (p.u - p.g) < 0.4 AND (p.g - p.r) < 0.7 AND (p.r - p.i) > 0.4 AND (p.i - p.z) > 0.4;\t-----science-----\tsdss"
+  ],
+  [
+    "Find all star in photometrically observable binary star system, of which the neighbor's distance less than 0.05,  the difference of magnitude u and magnitude g is lower than 0.4, the difference of magnitude g and magnitude r is lower than 0.7, the difference of magnitude r and magnitude i is higher than 0.4 and the difference of magnitude i and magnitude z is higher than 0.4",
+    "SELECT p.objid FROM photoobj AS p JOIN neighbors AS n ON p.objid = n.objid JOIN specobj AS s ON p.objid = s.bestobjid WHERE n.distance < 0.05 AND ABS(p.u - p.g) < 0.4 AND ABS(p.g - p.r) < 0.7 AND ABS(p.r - p.i) > 0.4 AND ABS(p.i - p.z) > 0.4 AND s.class = 'STAR';\t-----science-----\tsdss"
+  ],
+  [
+    "Find the number of photometrically observed GALAXY whose magnitude r is less than 17, extinction r is greater than 0.2.",
+    "SELECT COUNT(*) FROM specobj AS S JOIN photoobj AS P ON S.bestobjid = P.objid WHERE S.class = 'GALAXY' AND P.cmodelmag_r < 17 AND P.clean = 1; -- Assuming clean flag indicates valid photometry\t-----science-----\tsdss"
+  ],
+  [
+    "How many photometrically observable GALAXY of which magnitude r is lower than 17 and extinction r is higher than 0.2.",
+    "SELECT COUNT(*) FROM specobj AS S JOIN photoobj AS P ON S.bestobjid = P.objid WHERE S.class = 'GALAXY' AND P.cmodelmag_r < 17 AND P.clean = 1; -- Assuming clean = 1 indicates photometrically observable\t-----science-----\tsdss"
+  ],
+  [
+    "Find all photometric observable GALAXY whose magnitude g is brighter than 22, the difference of magnitude u and magnitude g is between -0.27 and 0.71, the difference of magnitude g and magnitude r is between -0.24 and 0.35, the difference of magnitude r and magnitude i is between -0.27 and 0.57 and the difference of magnitude i and magnitude z is between -0.35 and 0.7. Retrieve the object id and magnitude g with descent order by magnitude g. ",
+    "SELECT p.objid, p.g FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY' AND p.g < 22 AND (p.u - p.g) BETWEEN -0.27 AND 0.71 AND (p.g - p.r) BETWEEN -0.24 AND 0.35 AND (p.r - p.i) BETWEEN -0.27 AND 0.57 AND (p.i - p.z) BETWEEN -0.35 AND 0.7 ORDER BY p.g DESC;\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the photometric observed Galaxy of which the color band magnitude g is brighter than 22, and the other constraints as following, u - g >= -0.27 but < 0.71, g - r >= -0.24 but < 0.35, r - i >= -0.27 but < 0.57, and i - z >= -0.35 but < 0.7. Rerank the result with descent order by color band magnitude g ",
+    "-- SQL Type: SELECT SELECT p.objid, p.g FROM photoobj AS p WHERE p.g < 22 AND (p.u - p.g) >= -0.27 AND (p.u - p.g) < 0.71 AND (p.g - p.r) >= -0.24 AND (p.g - p.r) < 0.35 AND (p.r - p.i) >= -0.27 AND (p.r - p.i) < 0.57 AND (p.i - p.z) >= -0.35 AND (p.i - p.z) < 0.7 ORDER BY p.g DESC;\t-----science-----\tsdss"
+  ],
+  [
+    "Find object id, right ascension, declination of photometrically observed star whose magnitude i is brighter than 19 and fainter than 0, the difference of magnitude g and magnitude r is higher than 2.26, the difference of magnitude i and magnitude z is lower than 0.25, and either the difference of magnitude u and magnitude g is greater than 2.0 or magnitude u is fainter than 22.3",
+    "SELECT objid, ra, dec FROM photoobj WHERE i < 19 AND i > 0 AND (g - r) > 2.26 AND (i - z) < 0.25 AND ((u - g) > 2.0 OR u > 22.3);\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the photometrically observable star with the color band magnitude i brighter than 19 but fainter than 0, the difference of magnitude g and r is greater than 2.26, the difference of magnitude i and z is less than 0.25, and either the difference of magnitude u and g is greater than 2.0 or the color band magnitude u is fainter than 22.3",
+    "-- SQL Type: SELECT SELECT p.objid FROM photoobj AS p JOIN neighbors AS n ON p.objid = n.objid JOIN photo_type AS pt ON p.type = pt.value WHERE pt.name = 'STAR' AND p.i < 19 AND p.i > 0 AND ABS(p.g - p.r) > 2.26 AND ABS(p.i - p.z) < 0.25 AND (ABS(p.u - p.g) > 2.0 OR p.u > 22.3);\t-----science-----\tsdss"
+  ],
+  [
+    "What are the photometrically observable Galaxy whose right ascension is between 140.9 and 141.1, magnitude g is brighter than 18.0 and the difference of magitude u and magnitude g is greater than 2.2. Retrieve the objecti id, right ascension and declination of these objects.",
+    "SELECT p.objid, p.ra, p.dec FROM photoobj AS p JOIN photo_type AS pt ON p.type = pt.value WHERE pt.name = 'GALAXY' AND p.ra BETWEEN 140.9 AND 141.1 AND p.g < 18.0 AND (p.u - p.g) > 2.2;\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the object id, right ascension and declination of photometrically observed Galaxy, of which the the right ascension in a range of from 140.9 to 141.1, the magnitude g is less than 18.0 and the difference of magnitude u and g is higher than 2.2",
+    "SELECT p.objid, p.ra, p.dec FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY' AND p.ra BETWEEN 140.9 AND 141.1 AND p.g < 18.0 AND (p.u - p.g) > 2.2\t-----science-----\tsdss"
+  ],
+  [
+    "Find the object id, right ascension and declination of spectroscopic Galaxy, which have value of magnitude g between 17 and 18 and redshift less than 0.05. ",
+    "SELECT p.objid, p.ra, p.dec FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE s.class = 'GALAXY' AND p.g BETWEEN 17 AND 18 AND s.z < 0.05;\t-----science-----\tsdss"
+  ],
+  [
+    "Fetch me the object id, right ascension and declination of spectroscopic Galaxy with the color band magnitude g brighter than 18.0 but fainter than 17 and redshift lower than 0.05",
+    "SELECT so.specobjid AS objid, so.ra, so.dec FROM specobj AS so JOIN photoobj AS po ON so.bestobjid = po.objid WHERE so.class = 'GALAXY' AND po.g < 18.0 AND po.g > 17 AND so.z < 0.05;\t-----science-----\tsdss"
+  ],
+  [
+    "Search for photometrically observed Star with the difference of magnitude u and magnitude g is less than 0.5. Retrieve each object id, right ascension and declination.",
+    "-- SQL Type: SELECT SELECT DISTINCT p.objid, p.ra, p.dec FROM photoobj AS p JOIN neighbors AS n ON p.objid = n.objid WHERE p.type = 'STAR' AND p.clean = 1 AND ABS(n.distance) < 0.5; -- Assuming distance represents the magnitude difference\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the object id, right ascension and declination of photometrically observable Star with the constraints: color band u - g < 0.5 ",
+    "SELECT p.objid, p.ra, p.dec FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'STAR' AND (p.u - p.g) < 0.5 AND p.clean = 1;\t-----science-----\tsdss"
+  ],
+  [
+    "Search for photometrically observed Star that has a difference of magnitude u and magnitude g less than 0.5. Retrieve all magnitude values (u, g, r, i and z) of these objects.",
+    "SELECT u, g, r, i, z FROM photoobj WHERE type = (SELECT value FROM photo_type WHERE name = 'STAR') AND ABS(u - g) < 0.5;\t-----science-----\tsdss"
+  ],
+  [
+    "Fetch all color bands (magnitude u, g, r, i, z) of photometrically observable Star where color band u - g < 0.5",
+    "SELECT p.u, p.g, p.r, p.i, p.z FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'STAR' AND (p.u - p.g) < 0.5;\t-----science-----\tsdss"
+  ],
+  [
+    "Find the object id, right ascension and declination from spectroscopically observed GALAXY whose value of magnitude g fainter than 17 but brighter than 18, and redshift less than 0.05. ",
+    "SELECT p.objid, p.ra, p.dec FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE p.g > 17 AND p.g < 18 AND s.z < 0.05 AND s.class = 'GALAXY';\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the spectroscopically observable Galaxy with magnitude g between 17 and 18, and redshift below 0.05. Retrieve the object id, right ascension and declination of them.",
+    "SELECT so.specobjid, po.ra, po.dec FROM specobj AS so JOIN photoobj AS po ON so.bestobjid = po.objid WHERE so.class = 'GALAXY' AND po.g BETWEEN 17 AND 18 AND so.z < 0.05;\t-----science-----\tsdss"
+  ],
+  [
+    "Find all magnitude values (u, g, r, i and z) from spectroscopically observable GALAXY whose value of magnitude g between 17 and 18,  and redshift less than 0.05. ",
+    "SELECT p.u, p.g, p.r, p.i, p.z FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY' AND p.g BETWEEN 17 AND 18 AND s.z < 0.05;\t-----science-----\tsdss"
+  ],
+  [
+    "Fetch all color bands (magnitude u, g, r, i, z) of spectroscopically observable Galaxy with color band g fainter than 17 but brighter than 18 and redshift lower than 0.05",
+    "SELECT p.u, p.g, p.r, p.i, p.z FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE s.class = 'GALAXY' AND p.g > 17 AND p.g < 18 AND s.z < 0.05;\t-----science-----\tsdss"
+  ],
+  [
+    "Find the photometric objects with object ids, nearst neighbor ids, distance of center-neighbors, center types.",
+    "SELECT p.objid AS Object_ID, n.neighborobjid AS Nearest_Neighbor_ID, n.distance AS Distance_to_Neighbor, p.type AS Center_Type FROM photoobj AS p JOIN neighbors AS n ON p.objid = n.objid;\t-----science-----\tsdss"
+  ],
+  [
+    "Fetch me the object id, nearst neighbor ids, distance of center to neighbors and center type from all of the nearst neighbors",
+    "SELECT n.objid AS Object_ID, n.neighborobjid AS Nearest_Neighbor_ID, n.distance AS Distance_To_Neighbor, n.type AS Center_Type FROM neighbors AS n\t-----science-----\tsdss"
+  ],
+  [
+    "Find the different object type classifications of photometric objects whose right ascension is greater than 100 and declination is less than 100.",
+    "SELECT DISTINCT type FROM photoobj WHERE ra > 100 AND dec < 100\t-----science-----\tsdss"
+  ],
+  [
+    "What is the unique object type classifications of photometrically observed objects with right ascension higher than 100 and declination lower than 100",
+    "SELECT DISTINCT po.type FROM photoobj AS po JOIN specobj AS so ON po.objid = so.bestobjid WHERE so.ra > 100 AND so.dec < 100;\t-----science-----\tsdss"
+  ],
+  [
+    "Find the number of photometrically observed STAR",
+    "SELECT COUNT(*) FROM photoobj AS p JOIN photo_type AS pt ON p.type = pt.value WHERE pt.name = 'STAR';\t-----science-----\tsdss"
+  ],
+  [
+    "Count the photometrically observable STAR",
+    "SELECT COUNT(*) FROM photoobj JOIN photo_type ON photoobj.type = photo_type.value WHERE photo_type.name = 'STAR';\t-----science-----\tsdss"
+  ],
+  [
+    "Find all photometrically observed object types. Return only unique records.",
+    "SELECT DISTINCT type FROM photoobj UNION SELECT DISTINCT neighbortype FROM neighbors;\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the all different photometrical observation types among all photometric objects.",
+    "SELECT DISTINCT mode FROM photoobj;\t-----science-----\tsdss"
+  ],
+  [
+    "Find everything about photometrically observable Galaxy.",
+    "SELECT * FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY';\t-----science-----\tsdss"
+  ],
+  [
+    "Fetch me all about photometrically observed Galaxy",
+    "SELECT * FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY';\t-----science-----\tsdss"
+  ],
+  [
+    "Find the object ids, right ascensions, declinations and observed types of photometrically observed Star.",
+    "SELECT p.objid, p.ra, p.dec, pt.name AS observed_type FROM photoobj AS p JOIN photo_type AS pt ON p.type = pt.value WHERE pt.name = 'STAR';\t-----science-----\tsdss"
+  ],
+  [
+    "What is the photometrically observable Star? Retrieve their right ascension, declinations and observed type as well.",
+    "SELECT p.ra, p.dec, pt.name AS observed_type FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid JOIN photo_type AS pt ON p.type = pt.value WHERE s.class = 'STAR';\t-----science-----\tsdss"
+  ],
+  [
+    "Find the photometric objects with object ids, spectroscopic object id whose spectroscopic class is 'GALAXY', with the difference of magnitude u and magnitude r greater trhan 2.22 and the difference of magnitude g and magnitude i greater than 1.",
+    "SELECT p.objid, s.specobjid FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY' AND (p.u - p.r) > 2.22 AND (p.g - p.i) > 1;\t-----science-----\tsdss"
+  ],
+  [
+    "What is the photometric objct id and corresponding spectroscopic object id of the spectroscopically observable Galaxy with the constraints in color bands, where u - r > 2.22 and g - i > 1",
+    "SELECT p.objid AS photometric_obj_id, s.specobjid AS spectroscopic_obj_id FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY' AND (u - r > 2.22) AND (g - i > 1);\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the photometric object id and modified julien date for all 'K' type Star",
+    "SELECT p.objid, p.mjd FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'STAR' AND s.subclass LIKE 'K%'\t-----science-----\tsdss"
+  ],
+  [
+    "What is the photometric object id and modified julien date of spectroscopic Star with spectral type 'K'",
+    "SELECT p.objid, p.mjd FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE s.class = 'STAR' AND s.subclass IS NOT NULL;\t-----science-----\tsdss"
+  ],
+  [
+    "Find redshift, right ascension and declination of all photometrically observed Starforming Galaxy",
+    "SELECT specobj.z AS redshift, photoobj.ra AS right_ascension, photoobj.dec AS declination FROM photoobj JOIN specobj ON photoobj.objid = specobj.bestobjid WHERE specobj.subclass = 'STARFORMING';\t-----science-----\tsdss"
+  ],
+  [
+    "What is the redshift of STARFORMING GALAXY, which can be observed photometrically? Retrieve their right ascension and declination as well.",
+    "SELECT s.z AS redshift, p.ra AS right_ascension, p.dec AS declination FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE s.class = 'GALAXY' AND s.subclass = 'STARFORMING';\t-----science-----\tsdss"
+  ],
+  [
+    "What are the mininum of the extinction r grouped by run number of photometric Galaxy?",
+    "SELECT p.run, MIN(p.extinction_r) AS min_extinction_r FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY' GROUP BY p.run\t-----science-----\tsdss"
+  ],
+  [
+    "Find the minimal value of the extinction r for each run number across the photometrically observed Galaxy",
+    "SELECT p.run, MIN(n.distance) AS min_extinction_r FROM photoobj AS p JOIN neighbors AS n ON p.objid = n.objid GROUP BY p.run;\t-----science-----\tsdss"
+  ],
+  [
+    "What are the galactic coordinates of all Quasi stellar object (QSO)",
+    "SELECT p.ra, p.dec FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE s.class = 'QSO';\t-----science-----\tsdss"
+  ],
+  [
+    "Find me the galactic latitude and longitude of all Quasi stellar object (QSO)",
+    "SELECT ra, dec FROM specobj WHERE class = 'QSO';\t-----science-----\tsdss"
+  ],
+  [
+    "How many photometrically observable Binary Star system we can find, in which it has a distance from cetner to nearest neighbor of under 0.05, a difference of magnitude u and g below 0.4, a difference of magnitude g and r below 0.7, a difference of magnitude r and i above 0.4, and a difference of magnitude i and z above 0.4.",
+    "SELECT COUNT(*) FROM neighbors AS n JOIN photoobj AS p ON n.objid = p.objid JOIN specobj AS s ON n.objid = s.bestobjid WHERE n.distance < 0.05 AND ABS(p.u - p.g) < 0.4 AND ABS(p.g - p.r) < 0.7 AND ABS(p.r - p.i) > 0.4 AND ABS(p.i - p.z) > 0.4 AND s.class = 'STAR' AND s.subclass = 'BINARY';\t-----science-----\tsdss"
+  ],
+  [
+    "Count the number of photometrically observed Binary Star system, where the distance between center and neighbor below 0.05 and with the following constraints, u - g < 0.4, g - r < 0.7, r - i > 0.4, i - z > 0.4",
+    "-- SQL Type: SELECT SELECT COUNT(*) FROM neighbors AS n JOIN photoobj AS p ON n.objid = p.objid WHERE n.distance < 0.05 AND n.type = 3 -- Assuming type 3 corresponds to Binary Star systems AND p.mode = 1; -- Assuming mode 1 corresponds to photometric observations\t-----science-----\tsdss"
+  ],
+  [
+    "How many photometrically observable Binary Star system were found, of which the distance to nearst neighbor below 0.05, the difference of magnitude u and g less than 0.4, the difference of magnitude g and r less than 0.7, the difference of magnitude r and i greater than 0.4, and the difference of magnitude i and z greater than 0.4.",
+    "SELECT COUNT(*) FROM photoobj AS p JOIN neighbors AS n ON p.objid = n.objid WHERE n.distance < 0.05 AND p.type = 'Binary Star' -- Assuming 'Binary Star' is the type for Binary Star systems AND (p.u - p.g) < 0.4 -- Assuming p.u and p.g are the magnitudes for u and g bands AND (p.g - p.r) < 0.7 -- Assuming p.g and p.r are the magnitudes for g and r bands AND (p.r - p.i) > 0.4 -- Assuming p.r and p.i are the magnitudes for r and i bands AND (p.i - p.z) > 0.4; -- Assuming p.i and p.z are the magnitudes for i and z bands\t-----science-----\tsdss"
+  ],
+  [
+    "Find all star observed both photometrically and spectroscopically whose subclass is 'Carbon'",
+    "SELECT DISTINCT p.objid FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.subclass = 'Carbon' AND p.type = (SELECT value FROM photo_type WHERE name = 'STAR');\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the photometrically observable Star with subclass of Carbon, which was spectroscopically observed as well",
+    "-- SQL Type: SELECT SELECT DISTINCT p.objid FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid JOIN galspecline AS g ON s.specobjid = g.specobjid JOIN spplines AS sp ON s.specobjid = sp.specobjid WHERE p.type = 'STAR' AND p.clean = 1 AND s.subclass = 'Carbon';\t-----science-----\tsdss"
+  ],
+  [
+    "Find the number of photometrically observed Galaxy",
+    "SELECT COUNT(*) FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid WHERE s.class = 'GALAXY';\t-----science-----\tsdss"
+  ],
+  [
+    "Count the number of photometrically observable Galaxy",
+    "SELECT COUNT(*) FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE s.class = 'GALAXY' AND p.clean = 1;\t-----science-----\tsdss"
+  ],
+  [
+    "Find the object ids, classes and subclasses of spectroscopically and photometrically observable Galaxy with AGN.",
+    "SELECT p.objid, s.class, s.subclass FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE s.class = 'GALAXY' AND s.subclass LIKE '%AGN%'\t-----science-----\tsdss"
+  ],
+  [
+    "Fetch me the spectroscopic object id, the spectroscopic class and subclass of Galaxy with AGN observed both spectroscopically and photometrically.",
+    "SELECT specobj.specobjid, specobj.class, specobj.subclass FROM specobj JOIN photoobj ON specobj.bestobjid = photoobj.objid WHERE specobj.class = 'GALAXY' AND specobj.subclass = 'AGN';\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the least distance of the nearst photometrically observable Star",
+    "-- SQL Type: SELECT SELECT MIN(n.distance) AS least_distance FROM neighbors AS n JOIN photoobj AS p ON n.objid = p.objid WHERE p.type = 'STAR' AND n.distance IS NOT NULL\t-----science-----\tsdss"
+  ],
+  [
+    "What is the minimal distance between the nearest photometrically observed Star?",
+    "SELECT MIN(n.distance) AS minimal_distance FROM neighbors AS n JOIN photoobj AS p ON n.objid = p.objid WHERE p.type = (SELECT value FROM photo_type WHERE name = 'STAR');\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the longest distance of the photometrically observable GALAXY neighbors",
+    "SELECT MAX(distance) AS longest_distance FROM neighbors WHERE type = 3;\t-----science-----\tsdss"
+  ],
+  [
+    "What is the maximal distance between the nearest photometrically observed Star?",
+    "SELECT MAX(n.distance) FROM neighbors AS n JOIN photoobj AS p ON n.objid = p.objid WHERE p.type = (SELECT value FROM photo_type WHERE name = 'STAR');\t-----science-----\tsdss"
+  ],
+  [
+    "What are the galactic coordinates of the center object with the least distance to its nearest neighbor. Please retrieve the distance also.",
+    "SELECT p.ra, p.dec, n.distance FROM neighbors AS n JOIN photoobj AS p ON n.objid = p.objid WHERE n.distance = (SELECT MIN(distance) FROM neighbors)\t-----science-----\tsdss"
+  ],
+  [
+    "Fetch the least distance of the nearst neighbors. Retrieve the corresponding galactic latitude, galactic longitude as well.",
+    "SELECT p.b AS Galactic_Latitude, p.l AS Galactic_Longitude, MIN(n.distance) AS Least_Distance FROM neighbors AS n JOIN photoobj AS p ON n.objid = p.objid GROUP BY p.objid ORDER BY Least_Distance ASC LIMIT 1;\t-----science-----\tsdss"
+  ],
+  [
+    "What are the galactic coordinates of the center object with the least distance to its nearest neighbor. Please retrieve the distance also.",
+    "SELECT P.ra, P.dec, N.distance FROM neighbors AS N JOIN photoobj AS P ON N.objid = P.objid WHERE N.distance = (SELECT MIN(distance) FROM neighbors)\t-----science-----\tsdss"
+  ],
+  [
+    "Show me the galactic coordinates of the center object with the least distance to the nearest neighbors. Return the distance as well.",
+    "SELECT p.ra, p.dec, n.distance FROM neighbors AS n JOIN photoobj AS p ON n.objid = p.objid WHERE n.distance = (SELECT MIN(distance) FROM neighbors)\t-----science-----\tsdss"
+  ],
+  [
+    "What is the redshift of the center object that has the minimal distance to the nearest neighbor",
+    "SELECT s.z FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE p.objid = ( SELECT n.objid FROM neighbors AS n ORDER BY n.distance LIMIT 1 );\t-----science-----\tsdss"
+  ],
+  [
+    "What is the redshift of the center object that has the minimal distance to the nearest neighbor",
+    "SELECT s.z FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE p.objid = ( SELECT n.objid FROM neighbors AS n ORDER BY n.distance LIMIT 1 );\t-----science-----\tsdss"
+  ],
+  [
+    "List all unique run numbers",
+    "SELECT DISTINCT run FROM photoobj;\t-----science-----\tsdss"
+  ],
+  [
+    "Find all run numbers without duplicates",
+    "SELECT DISTINCT run FROM photoobj;\t-----science-----\tsdss"
+  ],
+  [
+    "How many different run number are there",
+    "SELECT COUNT(DISTINCT run) AS different_run_numbers FROM photoobj;\t-----science-----\tsdss"
+  ],
+  [
+    "Count all unique run numbers",
+    "SELECT COUNT(DISTINCT run) AS unique_run_count FROM photoobj;\t-----science-----\tsdss"
+  ],
+  [
+    "Find the number of photometric objects grouped by their photometrically observed type name.",
+    "SELECT pt.name, COUNT(po.objid) AS object_count FROM photoobj AS po JOIN photo_type AS pt ON po.type = pt.value GROUP BY pt.name;\t-----science-----\tsdss"
+  ],
+  [
+    "How many photometric objects for each photometrically observation type are there?",
+    "SELECT type, COUNT(*) AS object_count FROM photoobj GROUP BY type;\t-----science-----\tsdss"
+  ],
+  [
+    "Find right ascension, declination and photometric type class of equivalent width estimates of galactic-stars from these spectroscopic objects.",
+    "SELECT p.ra, p.dec, pt.name AS photometric_type FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid JOIN photo_type AS pt ON p.type = pt.value WHERE s.class = 'GALAXY' OR s.class = 'STAR';\t-----science-----\tsdss"
+  ],
+  [
+    "Fetch the right ascension and declination of spectroscopic objects those have equivalent width estimates of galactic-stars",
+    "SELECT ra, dec FROM specobj WHERE class IN ('GALAXY', 'STAR');\t-----science-----\tsdss"
+  ],
+  [
+    "Find the object id and photometric observation type of photometric objects whose right ascension is greater than 100 and declination is less than 100.",
+    "SELECT objid, type FROM photoobj WHERE ra > 100 AND dec < 100\t-----science-----\tsdss"
+  ],
+  [
+    "Retrieve the photometric object id and type name of corresponding photometric observation from the objects with the right ascension over 100 and declination below 100.",
+    "SELECT photoobj.objid, photo_type.name FROM photoobj JOIN photo_type ON photoobj.type = photo_type.value WHERE photoobj.ra > 100 AND photoobj.dec < 100;\t-----science-----\tsdss"
+  ],
+  [
+    "Find the photometric object id, right ascension and declination of corresponding spectroscopic objects, from which it has emission line estimates of galaxies.",
+    "SELECT p.objid, p.ra, p.dec FROM photoobj AS p JOIN specobj AS s ON p.objid = s.bestobjid JOIN galspecline AS g ON s.specobjid = g.specobjid WHERE s.class = 'GALAXY';\t-----science-----\tsdss"
+  ],
+  [
+    "What is the best photometric object to the corresponding spectroscopic object that has emission line estimates of galaxies? Return me the object id, right ascension and declination of the best object.",
+    "SELECT p.objid, p.ra, p.dec FROM specobj AS s JOIN photoobj AS p ON s.bestobjid = p.objid WHERE s.class = 'GALAXY';\t-----science-----\tsdss"
+  ],
+  [
+    "Find spectroscopic objects of equivalent width estimates of galactic-stars from these spectroscopic objects.",
+    "SELECT DISTINCT so.specobjid FROM specobj AS so WHERE so.class IN ('GALAXY', 'STAR');\t-----science-----\tsdss"
+  ],
+  [
+    "What is the equivalent width estimates of galactic-stars of spectroscopic objects",
+    "SELECT specobj.specobjid, specobj.class, specobj.subclass FROM specobj WHERE specobj.class = 'STAR';\t-----science-----\tsdss"
+  ],
+  [
+    "How many spectroscopic objects of equivalent width estimates of galactic-stars from these spectroscopic objects are there?",
+    "SELECT COUNT(*) FROM specobj WHERE class IN ('GALAXY', 'STAR');\t-----science-----\tsdss"
+  ],
+  [
+    "Count the number of spectroscopic objects that has equivalent width estimates of galactic-stars.",
+    "SELECT COUNT(*) FROM specobj WHERE class IN ('GALAXY', 'STAR');\t-----science-----\tsdss"
+  ],
+  [
+    "Find everything about spectroscopic objects and everything about emission line estimates of galaxies from these spectroscopic objects.",
+    "SELECT * FROM specobj AS so JOIN galspecline AS g ON so.specobjid = g.specobjid WHERE so.class = 'GALAXY';\t-----science-----\tsdss"
+  ],
+  [
+    "Show me everything about emission line estimates of galaxies of corresponding spectroscopic objects",
+    "SELECT * FROM specobj AS so JOIN galspecline AS gsc ON so.specobjid = gsc.specobjid WHERE so.class = 'GALAXY';\t-----science-----\tsdss"
+  ]
+]

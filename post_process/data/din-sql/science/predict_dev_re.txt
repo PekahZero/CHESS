@@ -1,0 +1,299 @@
+SELECT total_cost FROM projects WHERE title = 'Theseus';
+SELECT total_cost FROM projects WHERE title = 'Theseus';
+SELECT acronym FROM projects WHERE start_year = 2018;
+SELECT acronym FROM projects WHERE start_year = 2018
+SELECT title FROM projects WHERE start_year < 2016;
+SELECT title FROM projects WHERE start_year < 2016
+SELECT T1.institutions_name FROM institutions AS T1 INNER JOIN eu_territorial_units AS T2 ON T1.geocode_regions_3 = T2.geocode_regions WHERE T2.description = 'Nordjylland'
+SELECT T1.institutions_name FROM institutions AS T1 INNER JOIN eu_territorial_units AS T2 ON T1.geocode_regions_3 = T2.geocode_regions WHERE T2.description = 'Nordjylland'
+SELECT P.full_name FROM projects AS T1 INNER JOIN people AS P ON T1.principal_investigator = P.unics_id WHERE T1.start_year = 2014
+SELECT P.full_name FROM projects AS PR INNER JOIN people AS P ON PR.principal_investigator = P.unics_id WHERE PR.start_year = 2014
+SELECT P.title FROM projects AS P INNER JOIN project_subject_areas AS PSA ON PSA.project = P.unics_id INNER JOIN subject_areas AS SA ON PSA.subject_area = SA.code WHERE SA.title = 'Mathematics and Statistics'
+SELECT projects.acronym, subject_areas.description FROM projects INNER JOIN project_subject_areas ON projects.unics_id = project_subject_areas.project INNER JOIN subject_areas ON project_subject_areas.subject_area = subject_areas.code WHERE subject_areas.title = 'Mathematics and Statistics'
+SELECT DISTINCT T2.title FROM projects AS T1 INNER JOIN project_topics AS T3 ON T1.unics_id = T3.project INNER JOIN topics AS T2 ON T3.topic = T2.code WHERE T1.end_year = 2014
+SELECT DISTINCT T3.title FROM projects AS T1 INNER JOIN project_topics AS T2 ON T1.unics_id = T2.project INNER JOIN topics AS T3 ON T2.topic = T3.code WHERE T1.end_year = 2014
+SELECT DISTINCT T1.acronym FROM projects AS T1 INNER JOIN project_members AS T2 ON T1.unics_id = T2.project WHERE T2.country = 'Greece'
+SELECT T1.institutions_name FROM institutions AS T1 INNER JOIN countries AS T2 ON T1.country_id = T2.unics_id WHERE T2.country_name IN ('France', 'Germany')
+SELECT T1.institutions_name FROM institutions AS T1 INNER JOIN countries AS T2 ON T1.country_id = T2.unics_id WHERE T2.country_name != 'France'
+SELECT COUNT(*) FROM projects WHERE start_year = 2016
+SELECT title FROM projects WHERE total_cost = (SELECT MAX(total_cost) FROM projects);
+SELECT pm.member_name FROM project_members AS pm INNER JOIN projects AS p ON pm.project = p.unics_id WHERE p.total_cost < (SELECT AVG(total_cost) FROM projects)
+SELECT T1.unics_id FROM projects AS T1 INNER JOIN project_members AS T2 ON T1.unics_id = T2.project GROUP BY T1.unics_id HAVING COUNT(T2.unics_id) >= 100
+SELECT fs.code, fs.titleFROM funding_schemes AS fsJOIN projects AS p ON p.ec_fund_scheme = fs.codeGROUP BY fs.code, fs.titleORDER BY COUNT(p.unics_id) DESCLIMIT 1
+SELECT SUM(total_cost) FROM projects
+SELECT title FROM projects WHERE start_year > 2006 AND end_year IS NOT NULL
+SELECT title, (end_year - start_year) AS duration FROM projects WHERE start_year IS NOT NULL AND end_year IS NOT NULL ORDER BY duration DESC LIMIT 1
+SELECT title FROM topics WHERE title LIKE 'Raw materials%'
+SELECT title FROM topics WHERE title LIKE '%climate%'
+SELECT COUNT(*) FROM projects AS P INNER JOIN people AS PE ON P.principal_investigator = PE.unics_id WHERE PE.full_name = 'Thomas Bell'
+SELECT DISTINCT full_name FROM people
+SELECT acronym FROM projects WHERE total_cost BETWEEN 100000 AND 200000
+SELECT title FROM projects WHERE total_cost > 1000000
+SELECT title FROM projects WHERE total_cost > 1000000
+SELECT projects.title, project_members.member_name FROM projects INNER JOIN project_members ON project_members.project = projects.unics_id WHERE project_members.member_role = 'partner role'
+SELECT code, description FROM erc_research_domains
+SELECT countries.country_name FROM institutions INNER JOIN countries ON institutions.country_id = countries.unics_id
+SELECT countries.country_name FROM institutions INNER JOIN countries ON institutions.country_id = countries.unics_id
+SELECT country_code2, country_code3 FROM countries WHERE country_name = 'Andorra';
+SELECT code FROM funding_schemes;
+SELECT title FROM programmes WHERE short_name = 'Transport';
+SELECT PM.member_name, PM.member_role FROM project_members AS PM INNER JOIN projects AS P ON PM.project = P.unics_id WHERE P.acronym = 'GTBB'
+SELECT T1.member_name, T1.member_role FROM project_members AS T1 INNER JOIN projects AS T2 ON T1.project = T2.unics_id WHERE T2.acronym = 'GTBB'
+SELECT title FROM programmes WHERE parent = 'FP7';
+SELECT title FROM programmes WHERE parent = 'FP7';
+SELECT T1.description FROM erc_panels AS T1 INNER JOIN erc_research_domains AS T2 ON T1.part_of = T2.code WHERE T2.description = 'Life Sciences'
+SELECT T1.description FROM erc_panels AS T1 INNER JOIN erc_research_domains AS T2 ON T1.part_of = T2.code WHERE T2.description = 'life sciences'
+SELECT PM.*FROM project_members AS PMINNER JOIN activity_types AS AT ON PM.activity_type = AT.codeWHERE AT.description = 'Research Organisations'
+SELECT PM.member_name FROM project_members AS PM INNER JOIN activity_types AS AT ON PM.activity_type = AT.code WHERE AT.description = 'Research Organisations'
+SELECT objective FROM projects WHERE title = 'DEEPCARBON';
+SELECT objective FROM projects WHERE acronym = 'DEEPCARBON';
+SELECT title FROM projects WHERE objective LIKE '%carbon capturing%'
+SELECT COUNT(*) FROM projects WHERE objective LIKE '%carbon capturing%';
+SELECT institutions.institutions_name FROM institutions INNER JOIN countries ON institutions.country_id = countries.unics_id INNER JOIN eu_territorial_units ON institutions.geocode_regions_3 = eu_territorial_units.geocode_regions WHERE countries.country_name = 'France' AND eu_territorial_units.description != 'Paris'
+SELECT institutions.institutions_name FROM institutions INNER JOIN countries ON institutions.country_id = countries.unics_id WHERE countries.country_name = 'France' AND institutions.city != 'Paris'
+SELECT institutions.institutions_name FROM institutions WHERE institutions.unics_id NOT IN (    SELECT projects.principal_investigator     FROM projects)
+SELECT institutions.unics_id, institutions.institutions_name FROM institutions LEFT JOIN projects ON institutions.unics_id = projects.principal_investigator WHERE projects.principal_investigator IS NULL
+SELECT P.full_name FROM people AS P INNER JOIN project_members AS PM ON P.unics_id = PM.unics_id GROUP BY P.unics_id HAVING COUNT(PM.project) > 1
+SELECT p.full_nameFROM people AS pJOIN project_members AS pm ON p.unics_id = pm.unics_idGROUP BY p.unics_idHAVING COUNT(DISTINCT pm.project) > 1
+SELECT sa.titleFROM subject_areas AS saWHERE sa.code = (    SELECT subject_area    FROM (        SELECT subject_area, SUM(ec_max_contribution + total_cost) AS total_funding        FROM project_subject_areas AS psa        INNER JOIN projects AS p ON psa.project = p.unics_id        GROUP BY subject_area    ) AS funding_totals    ORDER BY total_funding DESC    LIMIT 1)
+SELECT T3.title AS subject_area, SUM(T1.ec_max_contribution) AS total_fundingFROM projects AS T1INNER JOIN project_subject_areas AS T2 ON T1.unics_id = T2.projectINNER JOIN subject_areas AS T3 ON T2.subject_area = T3.codeGROUP BY T3.titleORDER BY total_funding DESCLIMIT 1
+SELECT T3.code, SUM(T1.ec_max_contribution) AS total_fundingFROM projects AS T1INNER JOIN project_subject_areas AS T2 ON T1.unics_id = T2.projectINNER JOIN subject_areas AS T3 ON T2.subject_area = T3.codeGROUP BY T3.codeORDER BY total_funding ASCLIMIT 1
+SELECT SA.title FROM subject_areas AS SA JOIN project_subject_areas AS PSA ON PSA.subject_area = SA.code JOIN projects AS P ON PSA.project = P.unics_id WHERE P.ec_max_contribution = (SELECT MIN(ec_max_contribution) FROM projects)
+SELECT T1.institutions_name, COUNT(T2.project) AS project_countFROM institutions AS T1INNER JOIN project_members AS T2 ON T1.unics_id = T2.institution_idINNER JOIN projects AS T3 ON T2.project = T3.unics_idGROUP BY T1.institutions_nameORDER BY project_count DESCLIMIT 1
+SELECT T1.institutions_name, COUNT(T2.project) AS project_countFROM institutions AS T1INNER JOIN project_members AS T2 ON T1.unics_id = T2.institution_idGROUP BY T1.unics_id, T1.institutions_nameORDER BY project_count DESCLIMIT 1
+SELECT T1.institutions_name FROM institutions AS T1 LEFT JOIN project_members AS T2 ON T1.unics_id = T2.institution_id GROUP BY T1.unics_id ORDER BY COUNT(T2.project) ASC LIMIT 1
+SELECT T1.institutions_name FROM institutions AS T1 LEFT JOIN project_members AS T2 ON T1.unics_id = T2.institution_id GROUP BY T1.unics_id, T1.institutions_name ORDER BY COUNT(T2.project) ASC LIMIT 1
+SELECT T1.title, SUM(T2.ec_max_contribution) AS total_fundingFROM funding_schemes AS T1INNER JOIN projects AS T2 ON T1.code = T2.ec_fund_schemeGROUP BY T1.titleORDER BY total_funding DESCLIMIT 1
+SELECT T1.title, SUM(T2.ec_max_contribution) AS total_fundingFROM funding_schemes AS T1INNER JOIN projects AS T2 ON T1.code = T2.ec_fund_schemeGROUP BY T1.titleORDER BY total_funding ASCLIMIT 1
+SELECT     institutions.institutions_name,     SUM(projects.ec_max_contribution) AS total_fundingFROM     project_members INNER JOIN     projects ON project_members.project = projects.unics_id INNER JOIN     institutions ON project_members.institution_id = institutions.unics_id GROUP BY     institutions.institutions_name ORDER BY     total_funding DESC
+SELECT projects.ec_max_contribution, project_members.member_name FROM projects INNER JOIN project_members ON project_members.project = projects.unics_id ORDER BY projects.ec_max_contribution DESC
+SELECT title, start_year FROM projects ORDER BY start_year DESC;
+SELECT unics_id, title, start_date FROM projects ORDER BY start_date DESC LIMIT 1;
+SELECT title, start_year FROM projects ORDER BY start_year ASC;
+SELECT unics_id, title, start_date FROM projects ORDER BY start_date ASC
+SELECT MIN(start_date) FROM projects
+SELECT MIN(start_date) FROM projects
+SELECT T1.title FROM projects AS T1 INNER JOIN project_subject_areas AS T2 ON T1.unics_id = T2.project INNER JOIN subject_areas AS T3 ON T2.subject_area = T3.code WHERE T3.title = 'Climate change and Carbon cycle research'
+SELECT projects.title FROM projects INNER JOIN project_subject_areas ON project_subject_areas.project = projects.unics_id INNER JOIN subject_areas ON project_subject_areas.subject_area = subject_areas.code WHERE subject_areas.code = 'CCC'
+SELECT DISTINCT code, description FROM project_member_roles ORDER BY code; This revised query maintains the original intent while improving the output's organization.
+SELECT DISTINCT T2.description FROM project_members AS T1 INNER JOIN project_member_roles AS T2 ON T1.member_role = T2.code
+SELECT COUNT(*) FROM erc_panels WHERE description LIKE '%Life Sciences%';
+SELECT COUNT(*) FROM erc_panels AS T1 INNER JOIN erc_research_domains AS T2 ON T1.part_of = T2.code WHERE T2.description = 'Life Sciences'
+SELECT code, description FROM erc_panels WHERE description LIKE '%social sciences%' OR description LIKE '%humanities%';
+SELECT COUNT(*) FROM erc_panels WHERE description LIKE '%social sciences%' OR description LIKE '%humanities%';
+SELECT PM.unics_id, PM.member_name FROM project_members AS PM INNER JOIN institutions AS I ON PM.institution_id = I.unics_id This query will return all project members along with their IDs, without filtering for a specific type of institution. If there is a specific way to identify "private for profit" entities in the `institutions` table, that information would need to be provided to refine the query further.
+SELECT pm.unics_id, pm.member_name, pm.member_role FROM project_members pmJOIN project_member_roles pmr ON pm.member_role = pmr.codeWHERE pmr.description LIKE '%business%'
+SELECT COUNT(*) FROM project_members WHERE member_role = 'BUSINESS';
+SELECT COUNT(*) FROM project_members pmJOIN project_member_roles pmr ON pm.member_role = pmr.codeWHERE pmr.description IN ('Higher', 'Secondary Education Establishments');
+SELECT COUNT(*) FROM project_members;If there is a specific criterion for Educational Establishments that is not provided in the schema, please provide that information for a more accurate query.
+SELECT COUNT(DISTINCT T1.unics_id) FROM projects AS T1 INNER JOIN project_subject_areas AS T2 ON T1.unics_id = T2.project INNER JOIN subject_areas AS T3 ON T2.subject_area = T3.code WHERE T3.title = 'Robotics'
+SELECT COUNT(DISTINCT T1.project) FROM project_subject_areas AS T1 INNER JOIN subject_areas AS T2 ON T1.subject_area = T2.code WHERE T2.title = 'Robotics'This query counts the distinct projects associated with the subject area of Robotics by joining the `project_subject_areas` table with the `subject_areas` table.
+SELECT T1.institutions_name, SUM(T2.total_cost) AS total_fundingFROM project_members AS T3INNER JOIN institutions AS T1 ON T3.institution_id = T1.unics_idINNER JOIN projects AS T2 ON T3.project = T2.unics_idWHERE T1.country_id NOT IN (SELECT unics_id FROM countries)  -- Assuming non-EU entities are not in the countries tableGROUP BY T1.institutions_nameORDER BY total_funding DESCLIMIT 1
+SELECT institutions.institutions_name, SUM(projects.ec_max_contribution) AS total_fundingFROM institutionsJOIN project_members ON institutions.unics_id = project_members.institution_idJOIN projects ON project_members.project = projects.unics_idWHERE institutions.country_id NOT IN (SELECT unics_id FROM countries) -- Assuming countries table contains EU countriesGROUP BY institutions.institutions_nameORDER BY total_funding DESCLIMIT 1
+SELECT     institutions.institutions_name,     SUM(projects.ec_max_contribution) AS total_fundingFROM     institutions INNER JOIN     projects ON institutions.unics_id = projects.principal_investigator INNER JOIN     countries ON institutions.country_id = countries.unics_id WHERE     countries.country_code2 NOT IN ('AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB') -- Replace with actual EU country codesGROUP BY     institutions.institutions_name ORDER BY     total_funding ASC LIMIT 1
+SELECT I.institutions_name, MIN(P.total_cost) AS least_fundingFROM institutions AS IJOIN project_members AS PM ON I.unics_id = PM.institution_idJOIN projects AS P ON PM.project = P.unics_idWHERE I.country_id NOT IN (SELECT unics_id FROM countries WHERE country_code2 IN ('FR', 'DE', 'IT', 'ES', 'PL', 'NL', 'BE', 'CZ', 'AT', 'DK', 'FI', 'SE', 'IE', 'PT', 'HU', 'RO', 'SK', 'BG', 'HR', 'LT', 'LV', 'EE', 'SI', 'CY', 'MT'))GROUP BY I.institutions_nameORDER BY least_funding ASCLIMIT 1
+SELECT COUNT(DISTINCT I.unics_id) FROM project_members AS PM INNER JOIN institutions AS I ON PM.institution_id = I.unics_id INNER JOIN countries AS C ON I.country_id = C.unics_id WHERE C.country_code2 NOT IN ('EU_COUNTRY_CODE_1', 'EU_COUNTRY_CODE_2', ...) -- Replace with actual EU country codesIn conclusion, the SQL query is structurally correct but requires actual EU country codes to be functional.
+SELECT DISTINCT T1.member_name, T1.country FROM project_members AS T1 LEFT JOIN countries AS T2 ON T1.country = T2.country_name WHERE T2.country_name IS NULL
+SELECT * FROM programmes WHERE title LIKE '%climate%';
+SELECT title FROM programmes WHERE title LIKE '%climate%';
+SELECT     P.title AS programme_title,     SUM(J.ec_max_contribution) AS total_funds_allocatedFROM     programmes AS PINNER JOIN     project_programmes AS JP ON P.code = JP.programmeINNER JOIN     projects AS J ON JP.project = J.unics_idGROUP BY     P.title
+SELECT P.title AS programme_title, SUM(J.ec_max_contribution) AS total_fundingFROM programmes AS PINNER JOIN project_programmes AS PP ON P.code = PP.programmeINNER JOIN projects AS J ON PP.project = J.unics_idGROUP BY P.title
+SELECT * FROM disease_mutation WHERE ref_aa = 'E';
+SELECT COUNT(*) FROM biomarker_fda_test WHERE test_manufacturer = '23andMe';
+SELECT speciescommonname FROM species WHERE genus = 'Mus';
+SELECT species, genus, speciescommonname FROM species
+SELECT * FROM disease_mutation
+SELECT biomarker_description FROM biomarker
+SELECT COUNT(T1.test_trial_id) FROM biomarker_fda_test_trial AS T1 INNER JOIN biomarker_fda_test AS T2 ON T1.test_submission = T2.test_submission AND T1.test_trade_name = T2.test_trade_name WHERE T2.test_manufacturer = 'ABBOTT MOLECULAR INC'
+SELECT gene_symbol, biomarker_description FROM biomarker WHERE test_is_a_panel = 'false';
+SELECT * FROM disease WHERE name LIKE '%cancer%';
+SELECT biomarker_edrn.biomarker_title, biomarker_edrn.qa_state FROM biomarker_edrn JOIN biomarker ON biomarker_edrn.id = biomarker.id WHERE biomarker_edrn.phase = 'Two'
+SELECT biomarker_title, qa_state FROM biomarker_edrn WHERE phase = 'Two';
+SELECT gene_symbol FROM biomarker
+SELECT T1.id, T1.gene_symbol, T1.biomarker_id FROM biomarker AS T1 INNER JOIN biomarker_edrn AS T2 ON T1.id = T2.id WHERE T2.biomarker_type != 'protein'
+SELECT biomarker_edrn.biomarker_title FROM biomarker_edrn JOIN biomarker ON biomarker_edrn.id = biomarker.id WHERE biomarker_edrn.biomarker_type != 'Protein'
+SELECT DISTINCT xref_gene_ensembl.gene_symbol FROM differential_expression INNER JOIN disease ON differential_expression.doid = disease.id INNER JOIN xref_gene_ensembl ON differential_expression.gene_symbol = xref_gene_ensembl.gene_symbol WHERE disease.name = 'lung cancer'
+SELECT B.gene_symbol, B.biomarker_description FROM biomarker AS B INNER JOIN biomarker_edrn AS E ON B.id = E.id INNER JOIN anatomical_entity AS A ON E.uberon_anatomical_id = A.id INNER JOIN disease AS D ON A.id = D.id WHERE D.name = 'breast cancer'
+SELECT DISTINCT phase FROM biomarker_edrn
+SELECT platform_method, test_study_design FROM biomarker_fda_test WHERE test_manufacturer = 'Dako Denmark A/S'
+SELECT pvalue FROM differential_expression WHERE doid = (SELECT id FROM disease WHERE name = 'lung cancer')
+SELECT DM.chromosome_id, DM.chromosome_pos FROM disease_mutation AS DM INNER JOIN disease AS D ON DM.doid = D.id WHERE D.name = 'skin cancer'
+SELECT chromosome_pos FROM disease_mutation WHERE doid = (SELECT id FROM disease WHERE name = 'skin cancer' LIMIT 1)
+SELECT * FROM disease_mutation WHERE ref_aa = 'E';
+SELECT COUNT(*) AS number_of_tests FROM biomarker_fda_test WHERE test_manufacturer = '23andMe';
+SELECT DISTINCT T3.name FROM differential_expression AS T1 INNER JOIN disease AS T2 ON T1.doid = T2.id INNER JOIN cancer_tissue AS T4 ON T2.id = T4.doid INNER JOIN anatomical_entity AS T3 ON T4.uberon_anatomical_id = T3.id WHERE T1.gene_symbol = 'A1BG' AND T1.expression_change_direction = 'up regulated'
+SELECT * FROM species
+SELECT xref_gene_ensembl.gene_symbol, differential_expression.pvalue FROM differential_expression INNER JOIN disease ON differential_expression.doid = disease.id INNER JOIN xref_gene_ensembl ON differential_expression.gene_symbol = xref_gene_ensembl.gene_symbol WHERE xref_gene_ensembl.gene_symbol = 'EGFR' AND disease.name = 'lung cancer'
+SELECT T1.gene_symbol, T2.pvalue FROM differential_expression AS T2 INNER JOIN xref_gene_ensembl AS T1 ON T1.gene_symbol = T2.gene_symbol WHERE T2.doid = (SELECT id FROM disease WHERE name = 'lung cancer') AND T1.gene_symbol = 'EGFR'
+SELECT * FROM disease_mutation
+SELECT COUNT(*) FROM healthy_expression AS HE INNER JOIN stage AS S ON HE.uberon_developmental_id = S.id WHERE S.name = 'late adult stage'
+SELECT D.name FROM disease AS D INNER JOIN differential_expression AS DE ON D.id = DE.doid WHERE DE.gene_symbol = 'A1BG' AND DE.statistical_significance = 'significant'
+SELECT D.name FROM disease AS D INNER JOIN differential_expression AS DE ON D.id = DE.doid WHERE DE.gene_symbol = 'A1BG' AND DE.statistical_significance = 'Yes'
+SELECT biomarker_description FROM biomarker
+SELECT gene_symbol, biomarker_description FROM biomarker WHERE test_is_a_panel = '0'
+SELECT DISTINCT T1.test_trade_name FROM biomarker_fda_test AS T1 INNER JOIN biomarker_fda_test_use AS T2 ON T1.test_trade_name = T2.test_trade_name AND T1.test_submission = T2.test_submission WHERE T2.approved_indication LIKE '%predisposition%'
+SELECT gene_symbol FROM biomarker
+SELECT T1.id, T2.biomarker_title FROM biomarker AS T1 INNER JOIN biomarker_edrn AS T2 ON T1.id = T2.id INNER JOIN biomarker_fda AS T3 ON T1.id = T3.id WHERE T2.biomarker_type = 'protein' AND T2.phase = 'two'
+SELECT biomarker_title FROM biomarker_edrn WHERE biomarker_type = 'Protein' AND phase = 'Two'
+SELECT B.gene_symbol, B.biomarker_description FROM disease AS D INNER JOIN disease_mutation AS DM ON D.id = DM.doid INNER JOIN biomarker_edrn AS BE ON DM.id = BE.id INNER JOIN biomarker AS B ON BE.id = B.id WHERE D.name = 'breast cancer'
+SELECT DISTINCT phase FROM biomarker_edrn
+SELECT T1.pvalue FROM differential_expression AS T1 INNER JOIN disease AS T2 ON T1.doid = T2.id WHERE T2.name = 'lung cancer'
+SELECT COUNT(DISTINCT T1.gene_symbol) FROM xref_gene_ensembl AS T1 INNER JOIN species AS T2 ON T1.speciesid = T2.speciesid WHERE T2.genus = 'Homo'
+SELECT COUNT(DISTINCT T1.ensembl_gene_id) FROM xref_gene_ensembl AS T1 INNER JOIN species AS T2 ON T1.speciesid = T2.speciesid WHERE T2.genus = 'Homo'
+SELECT * FROM biomarker_fda_test WHERE test_manufacturer LIKE 'Roche%';
+SELECT test_submission FROM biomarker_fda_test WHERE test_manufacturer LIKE 'Roche%';
+SELECT D.name FROM disease AS D INNER JOIN disease_mutation AS DM ON D.id = DM.doid WHERE DM.cds_pos = 102997
+SELECT D.name FROM disease AS D INNER JOIN disease_mutation AS DM ON D.id = DM.doid WHERE DM.cds_pos = 102997
+SELECT gene_symbol FROM differential_expression WHERE pvalue BETWEEN 0.39 AND 0.41
+SELECT gene_symbol FROM differential_expression WHERE pvalue BETWEEN 0.39 AND 0.41
+SELECT DISTINCT dm.chromosome_id FROM disease_mutation AS dm INNER JOIN disease AS d ON dm.doid = d.id WHERE d.name = 'breast cancer'
+SELECT DISTINCT T2.chromosome_id FROM disease AS T1 INNER JOIN disease_mutation AS T2 ON T1.id = T2.doid WHERE T1.name = 'breast cancer'
+SELECT T1.name FROM anatomical_entity AS T1 INNER JOIN healthy_expression AS T2 ON T1.id = T2.uberon_anatomical_id WHERE T2.expression_level_gene_relative = 'LOW' AND T2.expression_level_anatomical_relative = 'HIGH'
+SELECT T1.name FROM anatomical_entity AS T1 INNER JOIN healthy_expression AS T2 ON T1.id = T2.uberon_anatomical_id WHERE T2.expression_level_gene_relative = 'LOW' AND T2.expression_level_anatomical_relative = 'HIGH'
+SELECT name FROM anatomical_entity WHERE name LIKE 'bone%'
+SELECT speciescommonname FROM species WHERE genus = 'Mus';
+SELECT D.name FROM differential_expression AS DE INNER JOIN disease AS D ON DE.doid = D.id WHERE DE.gene_symbol = 'A1BG' AND DE.expression_change_direction = 'up'
+SELECT COUNT(*) FROM healthy_expression AS HE INNER JOIN stage AS S ON HE.uberon_developmental_id = S.id WHERE S.name LIKE 'late adult%'
+SELECT COUNT(*) FROM biomarker_fda_test_trial AS T1 INNER JOIN biomarker_fda_test AS T2 ON T1.test_submission = T2.test_submission AND T1.test_trade_name = T2.test_trade_name WHERE T2.test_manufacturer = 'ABBOTT MOLECULAR INC'
+SELECT T1.test_trade_name FROM biomarker_fda_test AS T1 INNER JOIN biomarker_fda_test_use AS T2 ON T1.test_trade_name = T2.test_trade_name AND T1.test_submission = T2.test_submission WHERE T2.actual_use = 'predisposition'
+SELECT xref_gene_ensembl.gene_symbol FROM healthy_expression JOIN xref_gene_ensembl ON healthy_expression.ensembl_gene_id = xref_gene_ensembl.ensembl_gene_id JOIN disease_mutation ON healthy_expression.disease_mutation_id = disease_mutation.id WHERE disease_mutation.doid = (SELECT id FROM disease WHERE name = 'lung cancer')
+SELECT T2.platform_method, T2.test_study_design FROM biomarker_fda AS T1 INNER JOIN biomarker_fda_test AS T2 ON T1.test_trade_name = T2.test_trade_name WHERE T2.test_manufacturer = 'Dako Denmark A/S'
+SELECT T1.biomarker_description FROM biomarker AS T1 INNER JOIN biomarker_fda AS T2 ON T1.id = T2.id WHERE T2.test_approval_status = 'class II'
+SELECT biomarker.biomarker_description FROM biomarker INNER JOIN biomarker_fda ON biomarker.id = biomarker_fda.id INNER JOIN biomarker_fda_test ON biomarker_fda.id = biomarker_fda_test.id WHERE biomarker_fda_test.test_approval_status = 'class II' However, since the `biomarker_fda_test` table requires both `test_trade_name` and `test_submission` for the join, we need to adjust the join condition accordingly. The final corrected SQL query is:Revised_SQL: SELECT biomarker.biomarker_description FROM biomarker INNER JOIN biomarker_fda ON biomarker.id = biomarker_fda.id INNER JOIN biomarker_fda_test ON biomarker_fda.id = biomarker_fda_test.biomarker_fda_id WHERE biomarker_fda_test.test_approval_status = 'class II' This ensures that the joins are correctly established based on the foreign key relationships.
+SELECT * FROM healthy_expression WHERE expression_score > (SELECT AVG(expression_score) FROM healthy_expression);
+SELECT ensembl_gene_id, uberon_anatomical_id, uberon_developmental_id, expression_score FROM healthy_expression WHERE expression_score > (SELECT AVG(expression_score) FROM healthy_expression)
+SELECT T1.gene_symbol FROM biomarker AS T1 INNER JOIN biomarker_edrn AS T2 ON T1.id = T2.id INNER JOIN anatomical_entity AS T3 ON T2.uberon_anatomical_id = T3.id WHERE T2.biomarker_type = 'genomic' AND T3.name = 'breast'
+SELECT T1.gene_symbol FROM biomarker AS T1 INNER JOIN biomarker_edrn AS T2 ON T1.id = T2.id INNER JOIN anatomical_entity AS T3 ON T2.uberon_anatomical_id = T3.id WHERE T2.biomarker_type = 'Genomic' AND T3.name = 'breast'
+SELECT DISTINCT d.name FROM disease AS d INNER JOIN cancer_tissue AS ct ON ct.doid = d.id INNER JOIN anatomical_entity AS ae ON ct.uberon_anatomical_id = ae.id WHERE ae.name LIKE '%liver%'
+SELECT d.name FROM disease dJOIN cancer_tissue ct ON d.id = ct.doidJOIN anatomical_entity ae ON ct.uberon_anatomical_id = ae.idWHERE ae.name = 'liver'
+SELECT DISTINCT T3.test_manufacturer FROM biomarker AS T1 INNER JOIN biomarker_fda AS T2 ON T1.id = T2.id INNER JOIN biomarker_fda_test AS T3 ON T2.id = T3.biomarker_origin WHERE T1.gene_symbol = 'BRAF'
+SELECT T3.test_manufacturer FROM biomarker AS T1 INNER JOIN biomarker_fda AS T2 ON T1.id = T2.id INNER JOIN biomarker_fda_test AS T3 ON T2.id = T3.test_submission WHERE T1.gene_symbol = 'BRAF'
+SELECT name AS anatomical_entity_name FROM anatomical_entityUNIONSELECT speciescommonname AS species_name FROM species; This version maintains the original intent while clarifying the output.
+SELECT DISTINCT he.uberon_anatomical_id FROM healthy_expression he JOIN xref_gene_ensembl xg ON he.ensembl_gene_id = xg.ensembl_gene_id WHERE xg.gene_symbol = 'A1BG';
+SELECT T1.gene_symbol, T1.biomarker_description FROM biomarker AS T1 INNER JOIN biomarker_edrn AS T2 ON T1.id = T2.id WHERE T2.biomarker_type = 'breast' AND T2.phase = 'one'
+SELECT T1.name, T2.expression_score FROM anatomical_entity AS T1 INNER JOIN healthy_expression AS T2 ON T1.id = T2.uberon_anatomical_id WHERE T2.ensembl_gene_id IN ('ENSMUSG00000000037', 'ENSMUSG00000000078')
+SELECT T2.ncit_biomarker FROM biomarker AS T1 INNER JOIN biomarker_fda_ncit_term AS T2 ON T1.id = T2.biomarker_fda_id WHERE T1.gene_symbol = 'ALDH4A1'
+SELECT * FROM disease_mutation WHERE doid IN (    SELECT doid     FROM cancer_tissue     WHERE uberon_anatomical_id = (        SELECT id         FROM anatomical_entity         WHERE name = 'liver'    ))
+SELECT T1.* FROM disease_mutation AS T1 INNER JOIN disease_mutation_tissue AS T3 ON T1.id = T3.disease_mutation_id INNER JOIN anatomical_entity AS T2 ON T3.uberon_anatomical_id = T2.id WHERE T2.name = 'liver'
+SELECT T1.gene_symbol FROM biomarker AS T1 INNER JOIN biomarker_fda AS T2 ON T1.id = T2.id INNER JOIN biomarker_fda_test AS T3 ON T2.id = T3.biomarker_origin WHERE T3.test_approval_status = 'PMP' This correction ensures that the JOIN between `biomarker_fda` and `biomarker_fda_test` is done using the correct foreign key relationship.
+SELECT B.biomarker_description FROM biomarker AS B INNER JOIN biomarker_edrn AS E ON B.id = E.id INNER JOIN cancer_tissue AS CT ON E.uberon_anatomical_id = CT.uberon_anatomical_id INNER JOIN disease AS D ON CT.doid = D.id WHERE D.name = 'breast cancer'
+SELECT     ae.name AS anatomical_entity_name,     COUNT(be.biomarker_id) AS biomarker_count FROM     anatomical_entity AS ae LEFT JOIN     biomarker_edrn AS be ON ae.id = be.uberon_anatomical_id LEFT JOIN     biomarker AS b ON be.biomarker_id = b.id GROUP BY     ae.id, ae.name
+SELECT * FROM disease_mutation WHERE ref_aa = 'F';
+SELECT * FROM disease WHERE name LIKE '%cancer%'
+SELECT DISTINCT T3.test_manufacturer FROM biomarker AS T1 INNER JOIN biomarker_fda AS T2 ON T1.id = T2.id INNER JOIN biomarker_fda_test AS T3 ON T2.id = T3.biomarker_fda_id WHERE T1.gene_symbol = 'BRAF'
+SELECT b.id AS biomarker_id, b.gene_symbol, b.biomarker_description, f.test_trade_nameFROM biomarker bJOIN biomarker_fda f ON b.id = f.idWHERE f.test_is_a_panel = '1';  -- Assuming '1' indicates that it is a panel
+SELECT T1.gene_symbol FROM biomarker AS T1 INNER JOIN biomarker_fda AS T2 ON T1.id = T2.id INNER JOIN biomarker_fda_test AS T3 ON T2.id = T3.biomarker_origin WHERE T3.test_manufacturer = '23andMe'
+SELECT DISTINCT T1.test_manufacturer FROM biomarker_fda_test AS T1 INNER JOIN biomarker_fda AS T2 ON T1.test_trade_name = T2.test_trade_name AND T1.test_submission = T2.test_submission INNER JOIN biomarker AS T3 ON T2.id = T3.id INNER JOIN biomarker_edrn AS T4 ON T3.id = T4.id INNER JOIN disease AS T5 ON T4.doid = T5.id WHERE T5.name = 'Breast Cancer'
+SELECT     B.biomarker_description,     B.id AS biomarker_id,     F.test_trade_name,     F.test_submission,     T.test_approval_status FROM     biomarker AS B INNER JOIN     biomarker_fda AS F ON B.id = F.id INNER JOIN     biomarker_fda_test AS T ON F.test_submission = T.test_submission AND F.test_trade_name = T.test_trade_nameWHERE     (B.biomarker_description LIKE '%breast%' OR B.gene_symbol LIKE '%breast%')     AND T.test_approval_status = 'approved'
+SELECT T1.id, T1.name, COUNT(T2.id) AS biomarker_countFROM anatomical_entity AS T1LEFT JOIN biomarker_edrn AS T2 ON T1.id = T2.uberon_anatomical_idGROUP BY T1.id, T1.nameORDER BY biomarker_count DESCLIMIT 1
+The query cannot be executed as is due to the absence of the `chromosome_id` column in the `disease_mutation` table. Please verify the column names and provide the correct one.
+SELECT d.name, COUNT(de.doid) AS entry_countFROM disease AS dINNER JOIN differential_expression AS de ON d.id = de.doidGROUP BY d.nameORDER BY entry_count DESCLIMIT 3
+SELECT B.* FROM biomarker AS B LEFT JOIN biomarker_fda AS F ON B.id = F.id WHERE F.id IS NULL
+SELECT * FROM biomarker_edrn WHERE id IN (SELECT id FROM biomarker_fda)
+SELECT chromosome_id, COUNT(*) AS mutation_count FROM disease_mutation GROUP BY chromosome_id ORDER BY mutation_count DESC;This query will return the count of mutations for each chromosome, sorted by the count in descending order, but it does not fulfill the requirement of identifying the cosmic data source. Since the schema does not provide a way to link to a cosmic data source, we cannot fully address the question as posed. Thus, the final SQL query remains as:SELECT chromosome_id, COUNT(*) AS mutation_count FROM disease_mutation GROUP BY chromosome_id ORDER BY mutation_count DESC;
+SELECT DISTINCT B.gene_symbol FROM biomarker AS BINNER JOIN biomarker_edrn AS BE ON B.id = BE.idINNER JOIN biomarker_fda AS BF ON B.id = BF.idINNER JOIN differential_expression AS DE ON BF.id = DE.doidINNER JOIN disease AS D ON DE.doid = D.idWHERE D.id = 1
+SELECT     B.id AS biomarker_id,    FDT.test_trade_name,    FDT.test_submission,    COUNT(*) AS test_countFROM     biomarker AS BINNER JOIN     biomarker_fda AS F ON B.id = F.idINNER JOIN     biomarker_fda_test AS FDT ON F.id = FDT.idINNER JOIN     biomarker_fda_test_use AS FDTU ON FDT.test_trade_name = FDTU.test_trade_name                                     AND FDT.test_submission = FDTU.test_submissionGROUP BY     B.id, FDT.test_trade_name, FDT.test_submission
+SELECT T2.test_trade_name FROM biomarker_fda AS T1 INNER JOIN biomarker_fda_test AS T2 ON T1.id = T2.biomarker_origin WHERE T2.test_approval_status = 'approved'
+SELECT DISTINCT bft.test_manufacturer FROM biomarker_fda_test AS bft INNER JOIN biomarker_fda AS bfd ON bft.test_submission = bfd.test_submission AND bft.test_trade_name = bfd.test_trade_name INNER JOIN biomarker_edrn AS be ON bfd.id = be.id WHERE bft.test_approval_status = 'approved' AND be.biomarker_type = 'lung cancer'
+SELECT DISTINCT D.name FROM disease AS D INNER JOIN biomarker AS B ON D.id = B.id INNER JOIN biomarker_edrn AS BE ON B.id = BE.id INNER JOIN anatomical_entity AS A ON BE.uberon_anatomical_id = A.id WHERE B.biomarker_description LIKE '%blood test%'
+SELECT     biomarker.id,     biomarker.gene_symbol,     biomarker.biomarker_description,     biomarker.biomarker_id,     biomarker.test_is_a_panel,     healthy_expression.ensembl_gene_id,     healthy_expression.uberon_anatomical_id,     healthy_expression.uberon_developmental_id,     healthy_expression.expression_level_gene_relative,     healthy_expression.expression_level_anatomical_relative,     healthy_expression.call_quality,     healthy_expression.expression_rank_score,     healthy_expression.expression_score FROM     biomarker INNER JOIN     xref_gene_ensembl ON biomarker.gene_symbol = xref_gene_ensembl.gene_symbol INNER JOIN     healthy_expression ON xref_gene_ensembl.ensembl_gene_id = healthy_expression.ensembl_gene_id
+None
+SELECT * FROM specobj WHERE class = 'star'
+SELECT T1.objid, T1.ra, T1.dec FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T2.bestobjid = T1.objid
+SELECT T1.objid, T1.ra, T1.dec FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid
+SELECT T1.objid, T1.run, T1.mjd, T2.class FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T2.bestobjid = T1.objid WHERE T2.class = 'Galaxy'
+SELECT T1.specobjid, T1.class, T1.subclass FROM specobj AS T1 INNER JOIN photoobj AS T2 ON T1.bestobjid = T2.objidWHERE T1.class = 'GALAXY'This query now correctly finds galaxies that are photometrically observable.
+SELECT T1.objid, T1.ra, T1.dec FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T2.bestobjid = T1.objid WHERE T1.type = 1If there is no specific value to filter for "photometrically observable Galaxy," then the original query is correct as is:Final_SQL: SELECT T1.objid, T1.ra, T1.dec FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T2.bestobjid = T1.objid Please confirm if there is a specific value for the type of galaxy to finalize the query.
+SELECT T1.objid, T1.ra, T1.dec FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid WHERE T1.type = 1
+SELECT objid, ra, dec FROM photoobj WHERE ra > 185 AND ra < 186 AND dec > 15 AND dec < 16
+SELECT objid, ra, dec FROM photoobj WHERE ra BETWEEN 185 AND 186 AND dec BETWEEN 15 AND 16
+SELECT objid, ra, dec FROM photoobj WHERE ra > 185 AND ra < 186 AND dec > 15 AND dec < 16
+SELECT objid, ra, dec FROM photoobj WHERE ra BETWEEN 185 AND 186 AND dec BETWEEN 15 AND 16
+SELECT T1.specobjid, T1.ra, T1.dec, T2.type FROM specobj AS T1 INNER JOIN photoobj AS T2 ON T1.bestobjid = T2.objid WHERE T1.specobjid IN (SELECT specobjid FROM spplines) AND T1.ra > 185 AND T1.ra < 186 AND T1.dec > 15 AND T1.dec < 16
+SELECT T1.objid, T1.ra, T1.dec, T2.z FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T2.bestobjid = T1.objid WHERE T1.ra > 185 AND T1.ra < 186 AND T1.dec > 15 AND T1.dec < 16
+SELECT T1.* FROM specobj AS T1 INNER JOIN galspecline AS T2 ON T1.specobjid = T2.specobjid INNER JOIN spplines AS T3 ON T1.specobjid = T3.specobjid WHERE T1.ra > 185 AND T1.ra < 186 AND T1.dec > 15 AND T1.dec < 16
+SELECT T1.objid, T1.ra, T1.dec, T2.z FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid WHERE T1.ra > 185 AND T1.ra < 186 AND T1.dec > 15 AND T1.dec < 16
+SELECT * FROM photoobj WHERE (g - u < 0.4) AND (r - g < 0.7) AND (r - i > 0.4) AND (i - z > 0.4)
+SELECT T1.*FROM photoobj AS T1INNER JOIN photo_type AS T2 ON T1.type = T2.valueWHERE (T1.u - T1.g < 0.4)   AND (T1.g - T1.r < 0.7)   AND (T1.r - T1.i > 0.4)   AND (T1.i - T1.z > 0.4)
+SELECT DISTINCT specobj.specobjidFROM specobjINNER JOIN galspecline ON specobj.specobjid = galspecline.specobjidINNER JOIN spplines ON specobj.specobjid = spplines.specobjidINNER JOIN photoobj ON specobj.bestobjid = photoobj.objidINNER JOIN neighbors ON photoobj.objid = neighbors.objidWHERE specobj.class = 'star'  AND neighbors.distance < 0.05  AND ABS(photoobj.u - photoobj.g) < 0.4  AND ABS(photoobj.g - photoobj.r) < 0.7  AND ABS(photoobj.r - photoobj.i) > 0.4  AND ABS(photoobj.i - photoobj.z) > 0.4
+SELECT T1.objid FROM photoobj AS T1 INNER JOIN neighbors AS T2 ON T1.objid = T2.objid WHERE T2.distance < 0.05 AND (T1.u - T1.g < 0.4) AND (T1.g - T1.r < 0.7) AND (T1.r - T1.i > 0.4) AND (T1.i - T1.z > 0.4)
+SELECT COUNT(*) FROM photoobj AS p INNER JOIN photo_type AS pt ON p.type = pt.value WHERE p.r < 17 AND p.extinction_r > 0.2 AND pt.name = 'GALAXY'
+SELECT COUNT(*) FROM photoobj WHERE r < 17 AND extinction_r > 0.2
+SELECT T1.objid, T1.gFROM photoobj AS T1INNER JOIN specobj AS T2 ON T2.bestobjid = T1.objidWHERE T2.class = 'GALAXY'   AND T1.g < 22  AND (T1.u - T1.g) BETWEEN -0.27 AND 0.71  AND (T1.g - T1.r) BETWEEN -0.24 AND 0.35  AND (T1.r - T1.i) BETWEEN -0.27 AND 0.57  AND (T1.i - T1.z) BETWEEN -0.35 AND 0.7ORDER BY T1.g DESC
+SELECT T1.*FROM photoobj AS T1INNER JOIN photo_type AS T2 ON T1.type = T2.valueWHERE T1.g < 22  AND T1.u - T1.g >= -0.27  AND T1.u - T1.g < 0.71  AND T1.g - T1.r >= -0.24  AND T1.g - T1.r < 0.35  AND T1.r - T1.i >= -0.27  AND T1.r - T1.i < 0.57  AND T1.i - T1.z >= -0.35  AND T1.i - T1.z < 0.7ORDER BY T1.g DESC
+SELECT objid, ra, dec FROM photoobj WHERE i < 19   AND i > 0   AND (g - r) > 2.26   AND (i - z) < 0.25   AND (u - g > 2.0 OR u > 22.3)
+SELECT *FROM photoobj AS pINNER JOIN photo_type AS pt ON p.type = pt.valueWHERE p.i < 19   AND p.i > 0   AND (p.g - p.r) > 2.26   AND (p.i - p.z) < 0.25   AND (p.u - p.g > 2.0 OR p.u > 22.3)
+SELECT objid, ra, dec FROM photoobj WHERE ra BETWEEN 140.9 AND 141.1 AND g < 18.0 AND (u - g) > 2.2
+SELECT objid, ra, dec FROM photoobj WHERE ra BETWEEN 140.9 AND 141.1 AND g < 18.0 AND (u - g) > 2.2
+SELECT T1.objid, T1.ra, T1.dec FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T2.bestobjid = T1.objid WHERE T2.class = 'Galaxy' AND T1.g BETWEEN 17 AND 18 AND T2.z < 0.05
+SELECT T1.objid, T1.ra, T1.dec FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid WHERE T1.g < 18.0 AND T1.g > 17 AND T2.z < 0.05 AND T2.class = 'Galaxy'
+SELECT objid, ra, dec FROM photoobj WHERE (u - g) < 0.5
+SELECT objid, ra, dec FROM photoobj WHERE (u - g) < 0.5
+SELECT u, g, r, i, z FROM photoobj WHERE ABS(u - g) < 0.5
+SELECT T1.u, T1.g, T1.r, T1.i, T1.z FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid WHERE T1.u - T1.g < 0.5 AND T2.class = 'Star'
+SELECT T1.objid, T1.ra, T1.dec FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T2.bestobjid = T1.objid WHERE T1.g > 17 AND T1.g < 18 AND T2.z < 0.05
+SELECT T1.objid, T1.ra, T1.dec FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid WHERE T2.class = 'Galaxy' AND T1.g BETWEEN 17 AND 18 AND T2.z < 0.05
+SELECT T1.u, T1.g, T1.r, T1.i, T1.z FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid WHERE T2.class = 'GALAXY' AND T1.g BETWEEN 17 AND 18 AND T2.z < 0.05
+SELECT     T1.u,     T1.g,     T1.r,     T1.i,     T1.z FROM     photoobj AS T1 INNER JOIN     photo_type AS T2 ON T1.type = T2.value INNER JOIN     specobj AS T3 ON T3.bestobjid = T1.objid INNER JOIN     galspecline AS T4 ON T3.specobjid = T4.specobjid INNER JOIN     spplines AS T5 ON T3.specobjid = T5.specobjid WHERE     T1.g > 17     AND T1.g < 18     AND T3.z < 0.05
+SELECT     P.objid AS photometric_object_id,     N.neighborobjid AS nearest_neighbor_id,     N.distance AS distance_to_neighbor,     P.type AS center_type FROM     photoobj AS P INNER JOIN     neighbors AS N ON     P.objid = N.objid
+SELECT     T1.objid AS object_id,     T2.neighborobjid AS nearest_neighbor_id,     T2.distance AS distance_to_neighbors,     T1.type AS center_type FROM     photoobj AS T1 INNER JOIN     neighbors AS T2 ON     T1.objid = T2.objid
+SELECT DISTINCT T2.name FROM photoobj AS T1 INNER JOIN photo_type AS T2 ON T1.type = T2.value WHERE T1.ra > 100 AND T1.dec < 100
+SELECT DISTINCT specobj.class FROM photoobj INNER JOIN specobj ON photoobj.objid = specobj.bestobjid WHERE photoobj.ra > 100 AND photoobj.dec < 100
+SELECT COUNT(*) FROM specobj WHERE class = 'STAR' AND scienceprimary = 1
+SELECT COUNT(*) FROM specobj WHERE class = 'STAR' AND scienceprimary = 1
+SELECT DISTINCT T1.type, T2.name FROM photoobj AS T1 INNER JOIN photo_type AS T2 ON T1.type = T2.value
+SELECT DISTINCT T1.value, T1.name, T1.description FROM photo_type AS T1 INNER JOIN photoobj AS T2 ON T1.value = T2.type
+SELECT photoobj.*, specobj.*FROM photoobjINNER JOIN photo_type ON photoobj.type = photo_type.valueINNER JOIN specobj ON specobj.bestobjid = photoobj.objidINNER JOIN galspecline ON galspecline.specobjid = specobj.specobjidINNER JOIN spplines ON spplines.specobjid = specobj.specobjidWHERE photo_type.name = 'Galaxy' AND photoobj.clean = 1
+SELECT photoobj.*, specobj.class, photo_type.name, photo_type.description FROM photoobj INNER JOIN photo_type ON photoobj.type = photo_type.value INNER JOIN specobj ON specobj.bestobjid = photoobj.objid INNER JOIN galspecline ON specobj.specobjid = galspecline.specobjid INNER JOIN spplines ON specobj.specobjid = spplines.specobjid WHERE specobj.class = 'Galaxy'
+SELECT T1.objid, T1.ra, T1.dec, T2.name FROM photoobj AS T1 INNER JOIN photo_type AS T2 ON T1.type = T2.value WHERE T2.name = 'Star'
+SELECT T1.ra, T1.dec, T2.name FROM photoobj AS T1 INNER JOIN photo_type AS T2 ON T1.type = T2.value
+SELECT photoobj.objid, specobj.specobjid FROM photoobj INNER JOIN specobj ON photoobj.objid = specobj.bestobjid WHERE specobj.class = 'GALAXY' AND (photoobj.u - photoobj.r) > 2.22 AND (photoobj.g - photoobj.i) > 1
+SELECT photoobj.objid, specobj.specobjid FROM photoobj JOIN specobj ON photoobj.objid = specobj.bestobjid JOIN galspecline ON specobj.specobjid = galspecline.specobjid JOIN spplines ON specobj.specobjid = spplines.specobjid WHERE (u - r) > 2.22 AND (g - i) > 1
+SELECT T1.objid, T1.mjd FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid WHERE T2.class = 'K'
+SELECT T1.objid, T1.mjd FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid WHERE T2.class = 'Star' AND T2.subclass = 'K'
+SELECT T1.z, T1.ra, T1.dec FROM specobj AS T1 INNER JOIN galspecline AS T2 ON T1.specobjid = T2.specobjid INNER JOIN spplines AS T3 ON T1.specobjid = T3.specobjid WHERE T1.class = 'Starforming Galaxy' OR T1.subclass = 'Starforming Galaxy'
+SELECT specobj.z, specobj.ra, specobj.dec FROM specobj INNER JOIN galspecline ON specobj.specobjid = galspecline.specobjid INNER JOIN spplines ON specobj.specobjid = spplines.specobjid INNER JOIN photoobj ON specobj.bestobjid = photoobj.objid WHERE specobj.class = 'STARFORMING GALAXY'
+SELECT run, MIN(extinction_r) AS minimum_extinction_r FROM photoobj GROUP BY run
+SELECT run, MIN(extinction_r) AS min_extinction_r FROM photoobj GROUP BY run;
+SELECT T1.ra, T1.dec FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid INNER JOIN galspecline AS T3 ON T2.specobjid = T3.specobjid WHERE T2.class = 'QSO'
+SELECT T1.ra AS galactic_longitude, T1.dec AS galactic_latitude FROM specobj AS T1 INNER JOIN galspecline AS T2 ON T1.specobjid = T2.specobjid WHERE T1.class = 'QSO'
+SELECT COUNT(*) FROM neighbors AS N INNER JOIN photoobj AS P ON N.objid = P.objid WHERE N.distance < 0.05   AND ABS(P.u - P.g) < 0.4   AND ABS(P.g - P.r) < 0.7   AND ABS(P.r - P.i) > 0.4   AND ABS(P.i - P.z) > 0.4   AND P.type = <Binary Star Type Value>
+SELECT COUNT(*) FROM photoobj AS p INNER JOIN neighbors AS n ON p.objid = n.objid WHERE p.type = 2  -- Assuming '2' is the type value for Binary Star systemsAND n.distance < 0.05 AND (p.u - p.g) < 0.4 AND (p.g - p.r) < 0.7 AND (p.r - p.i) > 0.4 AND (p.i - p.z) > 0.4
+SELECT COUNT(*) FROM neighbors AS N INNER JOIN photoobj AS P ON N.objid = P.objid WHERE N.distance < 0.05   AND ABS(P.u - P.g) < 0.4   AND ABS(P.g - P.r) < 0.7   AND ABS(P.r - P.i) > 0.4   AND ABS(P.i - P.z) > 0.4
+SELECT COUNT(*) FROM photoobj AS P INNER JOIN neighbors AS N ON P.objid = N.objid WHERE P.type = <BINARY_STAR_TYPE> AND N.distance < 0.05 AND ABS(P.u - P.g) < 0.4 AND ABS(P.g - P.r) < 0.7 AND (P.r - P.i) > 0.4 AND (P.i - P.z) > 0.4 Replace `<BINARY_STAR_TYPE>` with the actual value for the Binary Star type.
+SELECT DISTINCT T1.specobjid FROM specobj AS T1 INNER JOIN galspecline AS T2 ON T1.specobjid = T2.specobjid INNER JOIN spplines AS T3 ON T1.specobjid = T3.specobjid WHERE T1.subclass = 'Carbon'
+SELECT P.*FROM photoobj AS PJOIN specobj AS S ON P.objid = S.bestobjidJOIN galspecline AS G ON S.specobjid = G.specobjidJOIN spplines AS SP ON S.specobjid = SP.specobjidWHERE S.subclass = 'Carbon' AND P.type = (SELECT value FROM photo_type WHERE name = 'Star')
+SELECT COUNT(DISTINCT T1.objid) FROM photoobj AS T1 INNER JOIN specobj AS T2 ON T1.objid = T2.bestobjid WHERE T2.class = 'Galaxy'
+SELECT COUNT(*) FROM photoobj AS po INNER JOIN photo_type AS pt ON po.type = pt.value WHERE pt.name = 'Galaxy'
+SELECT     specobj.specobjid,     specobj.class,     specobj.subclass FROM     specobj JOIN     galspecline ON galspecline.specobjid = specobj.specobjid JOIN     spplines ON spplines.specobjid = specobj.specobjid WHERE     specobj.class = 'Galaxy'     AND specobj.subclass LIKE '%AGN%'
+SELECT T1.specobjid, T1.class, T1.subclass FROM specobj AS T1 INNER JOIN galspecline AS T2 ON T1.specobjid = T2.specobjid INNER JOIN spplines AS T3 ON T1.specobjid = T3.specobjid WHERE T1.class = 'Galaxy' AND T1.subclass LIKE '%AGN%'
+SELECT MIN(T1.distance) FROM neighbors AS T1 INNER JOIN photoobj AS T2 ON T1.objid = T2.objid WHERE T2.type = 1If the actual value is known, it should be substituted in place of `1`. If not, the query cannot be executed as is.
+SELECT MIN(distance) FROM neighbors WHERE neighbortype = 1If there is no specific type to filter by, the original query would be acceptable as it stands, but it may not accurately answer the question as intended.
+SELECT MAX(neighbors.distance) FROM neighbors INNER JOIN photoobj ON neighbors.objid = photoobj.objid WHERE neighbors.type = 1
+SELECT MAX(T1.distance) FROM neighbors AS T1 INNER JOIN photoobj AS T2 ON T1.objid = T2.objid
+SELECT T1.ra, T1.dec, T2.distanceFROM photoobj AS T1INNER JOIN neighbors AS T2 ON T1.objid = T2.objidWHERE T2.distance = (SELECT MIN(distance) FROM neighbors)
+SELECT MIN(T1.distance) AS least_distance, T2.b AS galactic_latitude, T2.l AS galactic_longitudeFROM neighbors AS T1INNER JOIN photoobj AS T2 ON T1.objid = T2.objidLIMIT 1
+SELECT T1.ra, T1.dec, T2.distance FROM photoobj AS T1 INNER JOIN neighbors AS T2 ON T1.objid = T2.objid WHERE T2.distance = (SELECT MIN(distance) FROM neighbors)
+SELECT T1.ra, T1.dec, T2.distance FROM photoobj AS T1 INNER JOIN neighbors AS T2 ON T1.objid = T2.objid ORDER BY T2.distance LIMIT 1
+SELECT specobj.z FROM photoobj JOIN neighbors ON photoobj.objid = neighbors.objid JOIN specobj ON specobj.bestobjid = photoobj.objid WHERE neighbors.distance = (SELECT MIN(distance) FROM neighbors)
+SELECT specobj.z FROM specobj JOIN galspecline ON specobj.specobjid = galspecline.specobjid JOIN photoobj ON specobj.bestobjid = photoobj.objid WHERE photoobj.objid = (SELECT objid FROM neighbors ORDER BY distance ASC LIMIT 1)
+SELECT s.zFROM specobj AS sJOIN photoobj AS p ON s.bestobjid = p.objidWHERE p.objid = (    SELECT objid    FROM (        SELECT objid, MIN(distance) AS min_distance        FROM neighbors        GROUP BY objid    ) AS min_distances    ORDER BY min_distance    LIMIT 1)
+SELECT s.z    FROM specobj AS s    INNER JOIN galspecline AS g ON s.specobjid = g.specobjid    INNER JOIN photoobj AS p ON s.bestobjid = p.objid    WHERE p.objid = (SELECT n.objid FROM neighbors AS n ORDER BY n.distance ASC LIMIT 1)
+SELECT DISTINCT run FROM photoobj
+SELECT DISTINCT run FROM photoobj
+SELECT COUNT(DISTINCT run) FROM photoobj
+SELECT COUNT(DISTINCT run) FROM photoobj
+SELECT photo_type.name, COUNT(photoobj.objid) FROM photoobj INNER JOIN photo_type ON photoobj.type = photo_type.value GROUP BY photo_type.name
+SELECT T2.name, COUNT(T1.objid) AS object_countFROM photoobj AS T1INNER JOIN photo_type AS T2 ON T1.type = T2.valueGROUP BY T2.name
+SELECT     P.ra,     P.dec,     S.class FROM     specobj AS S INNER JOIN     photoobj AS P ON S.bestobjid = P.objid INNER JOIN     galspecline AS G ON S.specobjid = G.specobjid INNER JOIN     spplines AS SP ON S.specobjid = SP.specobjidWHERE     S.class = 'galactic'  -- Assuming 'galactic' is the class for galactic stars
+SELECT T1.ra, T1.dec FROM specobj AS T1 INNER JOIN galspecline AS T2 ON T1.specobjid = T2.specobjidWHERE T2.equivalent_width = 'galactic-stars'
+SELECT T1.objid, T2.name FROM photoobj AS T1 INNER JOIN photo_type AS T2 ON T1.type = T2.value WHERE T1.ra > 100 AND T1.dec < 100
+SELECT T1.objid, T2.name FROM photoobj AS T1 INNER JOIN photo_type AS T2 ON T1.type = T2.value WHERE T1.ra > 100 AND T1.dec < 100
+SELECT P.objid, P.ra, P.dec FROM photoobj AS P INNER JOIN specobj AS S ON S.bestobjid = P.objid
+SELECT T1.bestobjid, T2.ra, T2.dec FROM specobj AS T1 INNER JOIN photoobj AS T2 ON T1.bestobjid = T2.objid WHERE T1.class = 'emission line'  -- Assuming 'emission line' is the value indicating emission line estimatesPlease adjust the condition in the WHERE clause based on the actual value that indicates emission line estimates in your database schema.
+SELECT specobjid FROM specobj WHERE class = 'galactic-stars' AND subclass IS NOT NULL
+SELECT equivalent_width FROM specobj WHERE class = 'galactic-stars'If there is no such column, then the query cannot be corrected without additional information about where to find the equivalent width estimates. If the column does not exist, the query would need to be revised based on the actual schema.
+SELECT COUNT(*) FROM specobj WHERE class = 'galactic-stars'
+SELECT COUNT(*) FROM specobj JOIN galspecline ON galspecline.specobjid = specobj.specobjid WHERE specobj.class = 'galactic-stars'
+SELECT *FROM specobj AS sINNER JOIN galspecline AS g ON s.specobjid = g.specobjidINNER JOIN spplines AS sp ON s.specobjid = sp.specobjid This query now correctly retrieves all information about spectroscopic objects and their associated emission line estimates from both the `galspecline` and `spplines` tables.
+SELECT T1.* FROM specobj AS T1 INNER JOIN spplines AS T2 ON T1.specobjid = T2.specobjid WHERE T1.class LIKE '%galaxy%' OR T1.subclass LIKE '%galaxy%'
